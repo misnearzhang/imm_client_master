@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/parent_layout"
+    android:background="@color/grayrare">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/name"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="昵称"
+            android:textColor="#ff0000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_weight="5"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/namedescribe"
+            android:textColor="#ff0000"
+            android:id="@+id/Tname"
+            />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/name"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/gender">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/m"
+            >
+
+            <RadioButton
+                android:id="@+id/m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="男"
+                android:textColorHint="#ff0000"
+                />
+            <RadioButton
+                android:id="@+id/wm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="女"
+                android:textColorHint="#ff0000"
+                />
+            </RadioGroup>
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_below="@+id/gender"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/realName">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="@string/realName"
+                android:textColor="#ff0000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_weight="5"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/realNamedescribe"
+
+                />
+            </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/realName"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/Password">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/password"
+            android:textSize="20sp"
+            android:textColor="#ff0000"
+            android:textStyle="bold" />
+        <EditText
+            android:inputType="textPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_weight="5"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/pwddescribe"
+
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/Password"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/birthday">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/birthday"
+            android:textSize="20sp"
+            android:textColor="#ff0000"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/datePickerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择日期"
+            android:background="#aaaa0a"
+            android:onClick="showDatePickerDialog"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_below="@+id/birthday"
+    android:layout_height="40dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:id="@+id/phoneNumber">
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:text="@string/phoneNumber"
+        android:textSize="20sp"
+        android:textColor="#ff0000"
+        android:textStyle="bold" />
+    <EditText
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_weight="5"
+        android:layout_marginLeft="10dp"
+        android:hint="@string/phoneNumberdescribe"
+
+        />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/school">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/school"
+            android:textSize="20sp"
+            android:textColor="#ff0000"
+            android:textStyle="bold" />
+        <EditText
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_weight="6"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/school"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+
+        android:id="@+id/button">
+
+        <Button
+            android:id="@+id/btnpost"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:text="提交"
+            android:textSize="20sp"
+            android:textColor="#ff0000"
+            android:background="@drawable/shape"
+            android:gravity="center"
+            />
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginRight="30dp"
+            android:text="取消"
+            android:textSize="20sp"
+            android:textColor="#ff0000"
+            android:background="@drawable/shape"
+            android:gravity="center"/>
+        </LinearLayout>
+    </RelativeLayout>

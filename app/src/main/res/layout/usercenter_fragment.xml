@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_below="@+id/topbar"
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="200dp"
+        android:layout_margin="50dp"
+        android:id="@+id/button4"
+        android:text="个人中心里面的按钮"
+        />
+</LinearLayout>

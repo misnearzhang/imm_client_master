@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_frame"
+
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    tools:context="${packageName}.${activityClass}" >
+
+    <RelativeLayout
+        android:id="@+id/topbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#36A8DE"
+        >
+        <ImageButton
+            android:layout_marginLeft="5dip"
+            android:layout_centerVertical="true"
+            android:id="@+id/topbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/topbutton"/>
+        <TextView
+            android:layout_toRightOf="@id/topbutton"
+            android:id="@+id/tv_top_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dip"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+
+            />
+    </RelativeLayout>
+</FrameLayout>
