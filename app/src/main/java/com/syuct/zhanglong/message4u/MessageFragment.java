@@ -11,9 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.syuct.zhanglong.Utils.GlobalData;
 
 public class MessageFragment extends Fragment {
 
@@ -44,12 +42,11 @@ public class MessageFragment extends Fragment {
         webView.setNetworkAvailable(true);
         webView.setAlwaysDrawnWithCacheEnabled(true);
 
-        webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
 
         webView.setWebChromeClient(new mychromeClient());
         webView.setWebViewClient(new myWebview());
-        webView.loadUrl("http://192.168.1.132:8080/WebRoot/");
+        webView.loadUrl("http://"+GlobalData.getIPaddress()+":8080/WebRoot/");
 	}
     private class mychromeClient extends WebChromeClient {
 
