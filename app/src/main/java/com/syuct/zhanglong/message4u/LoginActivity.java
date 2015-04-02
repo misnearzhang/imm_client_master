@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -20,7 +19,7 @@ import com.syuct.zhanglong.Utils.GlobalData;
 import com.syuct.zhanglong.http.HttpRequest;
 import com.syuct.zhanglong.service.testService;
 
-public class login_activity extends Activity {
+public class LoginActivity extends Activity {
     static long back_pressed;
     HttpRequest httpRequest = new HttpRequest();
     boolean bRemPass = false;
@@ -33,7 +32,7 @@ public class login_activity extends Activity {
                     bRemPass = !bRemPass;
                     if (bRemPass) {
                         imgRemPass.setImageResource(R.drawable.checked);
-                        GlobalData.SetPassFlag(login_activity.this,bRemPass);
+                        GlobalData.SetPassFlag(LoginActivity.this,bRemPass);
                     }
                     else
                         imgRemPass.setImageResource(R.drawable.unchecked);
@@ -41,7 +40,7 @@ public class login_activity extends Activity {
                 case R.id.lblDisPass:
                     break;
                 case R.id.btnRegister:
-                    Intent intentRegister = new Intent(login_activity.this, register_activity.class);
+                    Intent intentRegister = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivityForResult(intentRegister, 0);
                     overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom);
 //                    startActivity(intentRegister);
@@ -51,28 +50,28 @@ public class login_activity extends Activity {
                     String UserAccountOrPhoneNumber = txtUserName.getText().toString();
                     String connection=txtConnect.getText().toString();
                     if (connection.length() == 0) {
-                        GlobalData.showToast(login_activity.this, getString(R.string.disconnect));
+                        GlobalData.showToast(LoginActivity.this, getString(R.string.disconnect));
                         return;
                     }else{
                         GlobalData.setIPaddress(connection);
                     }
                     if (UserAccountOrPhoneNumber.length() == 0) {
-                        GlobalData.showToast(login_activity.this, getString(R.string.inputusername));
+                        GlobalData.showToast(LoginActivity.this, getString(R.string.inputusername));
                         return;
                     }
                     String Password = txtPass.getText().toString();
                     if (Password.length() == 0) {
-                        GlobalData.showToast(login_activity.this, getString(R.string.inputpassword));
+                        GlobalData.showToast(LoginActivity.this, getString(R.string.inputpassword));
                         return;
                     }
 
-                    if (GlobalData.isOnline(login_activity.this) == true) {
+                    if (GlobalData.isOnline(LoginActivity.this) == true) {
 
                         httpRequest.login(UserAccountOrPhoneNumber, Password);
 
                         if (httpRequest.login(UserAccountOrPhoneNumber, Password) == true) {
 
-                            Intent intentLogin = new Intent(login_activity.this, IndexActivity.class);
+                            Intent intentLogin = new Intent(LoginActivity.this, IndexActivity.class);
                             intentLogin.putExtra("name", new String("根据世界军力排名网“全球火力”(Global Firepower)" +
                                     "公布的世界最新军事力量排名，俄罗斯军队在世界最强军队排名榜上仅次于美国，位居第二位。" +
                                     "美军仍位居世界上最强军队榜首，而中国位居第三位，之后依次是印度、英国、法国、德国、" +
@@ -82,10 +81,10 @@ public class login_activity extends Activity {
                             finish();
 
                         } else {
-                            GlobalData.showToast(login_activity.this, "账号或密码错误!");
+                            GlobalData.showToast(LoginActivity.this, "账号或密码错误!");
                         }
                     } else {
-                        GlobalData.showToast(login_activity.this, "断网了!");
+                        GlobalData.showToast(LoginActivity.this, "断网了!");
                     }
                     break;
             }
@@ -121,7 +120,7 @@ public class login_activity extends Activity {
     }
 
     private void initControl() {
-        bRemPass = GlobalData.GetPassFlag(login_activity.this);
+        bRemPass = GlobalData.GetPassFlag(LoginActivity.this);
         imgRemPass = (ImageView) findViewById(R.id.imgRemPass);
         if (bRemPass)
             imgRemPass.setImageResource(R.drawable.checked);
@@ -136,9 +135,9 @@ public class login_activity extends Activity {
         txtUserName = (EditText) findViewById(R.id.txtUserID);
         txtPass = (EditText) findViewById(R.id.txtPassword);
         txtConnect=(EditText)findViewById(R.id.connect);
-        if (GlobalData.GetPassFlag(login_activity.this)) {
-            txtUserName.setText(GlobalData.GetUserName(login_activity.this));
-            txtPass.setText(GlobalData.GetPass(login_activity.this));
+        if (GlobalData.GetPassFlag(LoginActivity.this)) {
+            txtUserName.setText(GlobalData.GetUserName(LoginActivity.this));
+            txtPass.setText(GlobalData.GetPass(LoginActivity.this));
         } else {
             txtUserName.setText("");
             txtPass.setText("");
@@ -175,7 +174,7 @@ public class login_activity extends Activity {
         if (back_pressed + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
         } else {
-            GlobalData.showToast(login_activity.this, getString(R.string.exitapp));
+            GlobalData.showToast(LoginActivity.this, getString(R.string.exitapp));
             back_pressed = System.currentTimeMillis();
         }
     }

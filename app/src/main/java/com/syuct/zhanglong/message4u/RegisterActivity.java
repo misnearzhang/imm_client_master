@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * Created by xcnana on 2015/1/3.
  */
-public class register_activity extends Activity {
+public class RegisterActivity extends Activity {
     private EditText name;
     private EditText realName;
     private EditText password;
@@ -34,12 +34,12 @@ public class register_activity extends Activity {
         public void onClick(View v){
             switch (v.getId()){
                 case R.id.btnpost:
-                    Intent intentpost = new Intent(register_activity.this, register_activity.class);
+                    Intent intentpost = new Intent(RegisterActivity.this, RegisterActivity.class);
                     startActivity(intentpost);
-                    GlobalData.showToast(register_activity.this, "登陆成功!!");
+                    GlobalData.showToast(RegisterActivity.this, "登陆成功!!");
                     break;
                 case R.id.btnCancel:
-                    Intent cancelIntent = new Intent(register_activity.this, login_activity.class);
+                    Intent cancelIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(cancelIntent);
                     overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
                     break;
@@ -61,13 +61,13 @@ public class register_activity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == true) {
-                    Toast.makeText(register_activity.this, "much", Toast.LENGTH_SHORT);
+                    Toast.makeText(RegisterActivity.this, "much", Toast.LENGTH_SHORT);
                 }
 
             }
         });
         if(name.getText().equals("zhanglong")){
-            Toast.makeText(register_activity.this, "", Toast.LENGTH_SHORT);
+            Toast.makeText(RegisterActivity.this, "", Toast.LENGTH_SHORT);
         }
     }
 

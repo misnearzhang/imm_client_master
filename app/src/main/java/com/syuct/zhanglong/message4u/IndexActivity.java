@@ -157,7 +157,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
             super.onResume();
         }else{
             super.onResume();
-            Intent back2login=new Intent(this,login_activity.class);
+            Intent back2login=new Intent(this,LoginActivity.class);
             startActivity(back2login);
             GlobalData.setUUID("1");
 

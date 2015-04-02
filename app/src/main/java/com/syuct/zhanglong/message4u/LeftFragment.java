@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 //import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class LeftFragment extends Fragment {
         bitmap=small(bitmap,0.2f);
         headImage=(ImageView)rootView.findViewById(R.id.myHead);
         headImage.setImageDrawable(new CircleImageDrawable(bitmap));
-        final Intent IntentUserDetail = new Intent(getActivity(), login_activity.class);
+        final Intent IntentUserDetail = new Intent(getActivity(), LoginActivity.class);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

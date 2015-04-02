@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     }
 
     private void skip() {
-        startActivity(new Intent(this, login_activity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }
