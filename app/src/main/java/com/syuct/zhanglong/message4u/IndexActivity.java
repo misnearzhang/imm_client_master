@@ -1,10 +1,13 @@
 package com.syuct.zhanglong.message4u;
 
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,9 +62,9 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
             contentFragment = new FriendlistFragment();
         } else {
             //取出之前保存的contentFragment
-            contentFragment = this.getSupportFragmentManager().getFragment(savedInstanceState, "contentFragment");
+            contentFragment = this.getFragmentManager().getFragment(savedInstanceState, "contentFragment");
         }
-        this.getSupportFragmentManager()
+        this.getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_frame, contentFragment)
                 .commit();
@@ -79,12 +82,10 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         sm.setShadowWidthRes(R.dimen.shadow_width);// 设置阴影部分的宽度
         sm.setBehindOffsetRes(R.dimen.main_width);//设置主界面的宽度
 
-        //这句代码可以不用写
-//		sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);// 使SlidingMenu附加到Activity上
 
         leftFragment = new LeftFragment();//SlidingMenu需要显示的Fragment的实例
 
-        this.getSupportFragmentManager()//拿到Fragment的管理器
+        this.getFragmentManager()//拿到Fragment的管理器
                 //通过Fragment的管理器就可以切换Fragment
                 .beginTransaction()//fragment的事物管理
                 .replace(R.id.menu_frame, leftFragment)//参数1：layout的id，参数2：要显示的Fragment实例
@@ -99,19 +100,21 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         //1.bundle
         //2.存放的ID
         //3.当前要保存的fragment的实例
-        this.getSupportFragmentManager().putFragment(outState, "contentFragment", contentFragment);
+        this.getFragmentManager().putFragment(outState, "contentFragment", contentFragment);
     }
 
 
 
     public void switchFragment(Fragment to) {
         if (contentFragment != to) {
-            FragmentTransaction transaction = getSupportFragmentManager()
+            FragmentTransaction transaction = getFragmentManager()
                     .beginTransaction();
             if (!to.isAdded()) { // 先判断是否被add过
-                transaction.hide(contentFragment).add(R.id.main_frame, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(contentFragment).add(R.id.main_frame, to); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.commit();
             } else {
-                transaction.hide(contentFragment).show(to).commit(); // 隐藏当前的fragment，显示下一个
+                transaction.hide(contentFragment).show(to); // 隐藏当前的fragment，显示下一个
+                transaction.commit();
             }
             contentFragment = to;
         }
@@ -119,9 +122,15 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     }
 
 
+/*
+    public void switchFragment2(Fragment f) {
 
-    /*public void switchFragment(Fragment f) {
         contentFragment = f;
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction tx = fm.beginTransaction();
+        tx.hide(this);
+        tx.add(R.id.main_frame , f, "f");
 
         getSupportFragmentManager()
                 .beginTransaction()

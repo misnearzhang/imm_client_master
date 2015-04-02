@@ -31,8 +31,10 @@ public class login_activity extends Activity {
                 case R.id.imgRemPass:
                 case R.id.lblRemPass:
                     bRemPass = !bRemPass;
-                    if (bRemPass)
+                    if (bRemPass) {
                         imgRemPass.setImageResource(R.drawable.checked);
+                        GlobalData.SetPassFlag(login_activity.this,bRemPass);
+                    }
                     else
                         imgRemPass.setImageResource(R.drawable.unchecked);
                     break;
@@ -45,7 +47,15 @@ public class login_activity extends Activity {
 //                    startActivity(intentRegister);
                     break;
                 case R.id.btnLogin:
+
                     String UserAccountOrPhoneNumber = txtUserName.getText().toString();
+                    String connection=txtConnect.getText().toString();
+                    if (connection.length() == 0) {
+                        GlobalData.showToast(login_activity.this, getString(R.string.disconnect));
+                        return;
+                    }else{
+                        GlobalData.setIPaddress(connection);
+                    }
                     if (UserAccountOrPhoneNumber.length() == 0) {
                         GlobalData.showToast(login_activity.this, getString(R.string.inputusername));
                         return;
@@ -69,6 +79,7 @@ public class login_activity extends Activity {
                                     "土耳其、韩国。日本位居第10位。"));
                             startActivityForResult(intentLogin, 0);
                             overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_fade_out);
+                            finish();
 
                         } else {
                             GlobalData.showToast(login_activity.this, "账号或密码错误!");
@@ -84,6 +95,7 @@ public class login_activity extends Activity {
     TextView lblRemPass = null;
     EditText txtUserName = null;
     EditText txtPass = null;
+    EditText txtConnect=null;
     TextView lblForgetPass = null;
     Button btnRegister = null;
     Button btnLogin = null;
@@ -123,6 +135,7 @@ public class login_activity extends Activity {
 
         txtUserName = (EditText) findViewById(R.id.txtUserID);
         txtPass = (EditText) findViewById(R.id.txtPassword);
+        txtConnect=(EditText)findViewById(R.id.connect);
         if (GlobalData.GetPassFlag(login_activity.this)) {
             txtUserName.setText(GlobalData.GetUserName(login_activity.this));
             txtPass.setText(GlobalData.GetPass(login_activity.this));
@@ -167,11 +180,6 @@ public class login_activity extends Activity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        this.finish();
-    }
 
     }
 

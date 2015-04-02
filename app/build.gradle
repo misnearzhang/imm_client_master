@@ -22,7 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
-    compile files('src/main/java/com/syuct/zhanglong/lib/android-async-http-1.4.3.jar')
     compile project(':library')
     compile 'com.google.code.gson:gson:2.2.4'
 }

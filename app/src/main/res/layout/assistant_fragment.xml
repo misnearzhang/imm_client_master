@@ -9,12 +9,45 @@
         android:layout_height="50dp">
 
     </LinearLayout>
-    <Button
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="200dp"
-        android:layout_margin="50dp"
-        android:id="@+id/button3"
-        android:text="生活助手里面的按钮"
-        />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_tel"
+            android:layout_height="50dp"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/telephone"
+            android:layout_weight="1"
+            android:background="@drawable/roundbluewhite"
+            />
+        <Button
+            android:id="@+id/search_tel"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/roundblueblue"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:textSize="15sp"
+            android:text="点击查看归属地"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/search_result"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
+        </LinearLayout>
+
 </LinearLayout>

@@ -26,6 +26,7 @@ public class GlobalData
 	      );
 
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^[+]?[0-9]{10,13}$");
+
 	
 	private static Toast g_Toast = null;
 	public static void showToast(Context context, String toastStr)
@@ -72,11 +73,12 @@ public class GlobalData
             return "0" + String.valueOf(c);
     }
 
-    public static String g_strPrefName = "DingShengHui";
+    public static String g_strPrefName = "Message4U";
     public static String g_strPassFlag = "PassFlag";
     public static String g_strUserID = "UserID";
     public static String g_strUserName = "UserName";
     public static String g_strPass = "Password";
+    public static String IPaddress="localhost";
 
     public static boolean GetPassFlag(Context context)
     {
@@ -208,5 +210,13 @@ public class GlobalData
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+    }
+
+    public static String getIPaddress() {
+        return IPaddress;
+    }
+
+    public static void setIPaddress(String IPaddress) {
+        GlobalData.IPaddress = IPaddress;
     }
 }

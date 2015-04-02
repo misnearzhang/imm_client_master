@@ -21,4 +21,7 @@
     <string name="phoneNumber">电话号码</string>
     <string name="phoneNumberdescribe">请填写真实电话号码</string>
     <string name="school">所在学校</string>
+    <string name="connect">选择接入点(IP地址)</string>
+    <string name="disconnect">请选择接入点(IP地址)</string>
+    <string name="telephone">请输入电话号码</string>
     </resources>

@@ -6,8 +6,8 @@
     android:background="@color/grayrare">
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/imgMainIcon"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
@@ -19,9 +19,43 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:id="@+id/connection"
+        android:layout_below="@+id/imgMainIcon">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageconnect"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="25px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/server"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/connect"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imgUserIcon"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/graylight"
+            android:textSize="15sp"
+            android:hint="@string/connect"
+            android:paddingRight="20dp"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:background="@drawable/roundgraywhite"
         android:id="@+id/linearlayout"
-        android:layout_below="@+id/imgMainIcon">
+        android:layout_below="@+id/connection">
         <ImageView
             android:layout_width="40dp"
             android:layout_height="50dp"

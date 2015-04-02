@@ -1,11 +1,12 @@
 package com.syuct.zhanglong.message4u;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ListFragment;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
