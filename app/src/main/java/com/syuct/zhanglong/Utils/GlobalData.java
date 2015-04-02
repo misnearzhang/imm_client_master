@@ -78,7 +78,9 @@ public class GlobalData
     public static String g_strUserID = "UserID";
     public static String g_strUserName = "UserName";
     public static String g_strPass = "Password";
-    public static String IPaddress="localhost";
+    public static String IPaddress="localhost";//ip地址
+
+    public static String UUID="1";
 
     public static boolean GetPassFlag(Context context)
     {
@@ -218,5 +220,13 @@ public class GlobalData
 
     public static void setIPaddress(String IPaddress) {
         GlobalData.IPaddress = IPaddress;
+    }
+
+    public static String getUUID() {
+        return UUID;
+    }
+
+    public static void setUUID(String UUID) {
+        GlobalData.UUID = UUID;
     }
 }

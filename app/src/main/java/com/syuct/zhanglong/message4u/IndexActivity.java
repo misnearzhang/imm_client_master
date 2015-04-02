@@ -2,16 +2,11 @@ package com.syuct.zhanglong.message4u;
 
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
-//import android.support.v4.app.Fragment;
-//import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageButton;
@@ -20,6 +15,7 @@ import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.syuct.zhanglong.Utils.GlobalData;
 
 /**
  * 登录后的第一页莫非页面
@@ -143,6 +139,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     @Override
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()){
+            GlobalData.setUUID("2");
             super.onBackPressed();
         }
         else{
@@ -152,5 +149,20 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         }
     }
 
+    @Override
+    protected void onResume() {
+
+        Log.v("重新回到首页", "back to iindex");
+        if("1".equals(GlobalData.getUUID())){
+            super.onResume();
+        }else{
+            super.onResume();
+            Intent back2login=new Intent(this,login_activity.class);
+            startActivity(back2login);
+            GlobalData.setUUID("1");
+
+        }
+
+    }
 }
 

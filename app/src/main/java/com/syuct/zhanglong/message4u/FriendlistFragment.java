@@ -2,30 +2,20 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListFragment;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class FriendlistFragment extends Fragment {
 
