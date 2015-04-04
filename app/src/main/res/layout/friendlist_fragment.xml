@@ -1,4 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:listViewAttr="http://schemas.android.com/syuct/zhanglong/message4u"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -11,7 +13,7 @@
         android:layout_height="50dp">
     </LinearLayout>
 
-    <ListView
+    <cn.trinea.android.common.view.DropDownListView
         android:alwaysDrawnWithCache="true"
         android:longClickable="true"
         android:id="@+id/friendlist"
@@ -19,6 +21,11 @@
         android:dividerHeight="2dp"
         android:divider="#ffaaa3bf"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </ListView>
+        android:layout_height="fill_parent"
+        listViewAttr:isDropDownStyle="true"
+        listViewAttr:isOnBottomStyle="true"
+        listViewAttr:isAutoLoadOnBottom="true"
+
+        >
+        </cn.trinea.android.common.view.DropDownListView>
 </LinearLayout>

@@ -2,28 +2,38 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.trinea.android.common.view.DropDownListView;
+
 public class FriendlistFragment extends Fragment {
 
-    private ListView friendlist;
+    private DropDownListView friendlist;
     private View friendView;
+    private SimpleAdapter adapter;
+    private List<Map<String,Object>> list2=new ArrayList<Map<String,Object>>();
+
+    Map<String,Object> map2=new HashMap<String, Object>(){
+        {put("name","小南");put("status","不在线");put("img",R.drawable.headimg);}
+    };
+    List<Map<String,Object>> add=new ArrayList<Map<String, Object>>(){{add(map2);}};
 
     @Override
-
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -48,12 +58,12 @@ public class FriendlistFragment extends Fragment {
 
     private void initAdapter() {
 
-        SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), getData(), R.layout.friend_content_layout,
+        adapter = new SimpleAdapter(getActivity().getApplicationContext(), list2, R.layout.friend_content_layout,
                 new String[]{"name", "status", "img"},
                 new int[]{R.id.friend_name, R.id.friend_status, R.id.friend_headimg});
 
-        friendlist = (ListView) friendView.findViewById(R.id.friendlist);
-        friendlist.setAdapter(adapter);
+        friendlist = (DropDownListView) friendView.findViewById(R.id.friendlist);
+
         friendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,14 +71,39 @@ public class FriendlistFragment extends Fragment {
                 t.show();
             }
         });
+        friendlist.setDropDownStyle(true);
+        friendlist.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
+            @Override
+            public void onDropDown() {
+                new GetDataTask(true).execute();
+            }
+        });
+
+
+       /*friendlist.setOnBottomListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new GetDataTask(false).execute();
+            }
+        });*/
+
+        friendlist.setAdapter(adapter);
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private List<Map<String, Object>> setData() {
+        //List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", "张龙");
+        map.put("name", "xcnana");
         map.put("status", "在线");
         map.put("img", R.drawable.headimg);
+
+        list2.add(map);
+        return list2;
+       /* map.put("name", "张龙");
+        map.put("status", "在线");
+        map.put("img", R.drawable.headimg);
+        list.add(map);
+
         list.add(map);
         map.put("name", "张龙");
         map.put("status", "在线");
@@ -189,12 +224,8 @@ public class FriendlistFragment extends Fragment {
         map.put("name", "张龙");
         map.put("status", "在线");
         map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        return list;
+        list.add(map);*/
+
     }
 
     @Override
@@ -218,6 +249,48 @@ public class FriendlistFragment extends Fragment {
             //相当于Fragment的onResume
         } else {
             //相当于Fragment的onPause
+        }
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, List<Map<String,Object>>> {
+
+        private boolean isDropDown;
+
+        public GetDataTask(boolean isDropDown){
+            this.isDropDown = isDropDown;
+        }
+
+        @Override
+        protected List<Map<String,Object>> doInBackground(Void... params) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                ;
+            }
+
+
+            return add;
+        }
+
+        @Override
+        protected void onPostExecute(List<Map<String,Object>> result) {
+
+            if (isDropDown) {
+                setData();
+                adapter.notifyDataSetChanged();
+
+                // should call onDropDownComplete function of DropDownListView at end of drop down complete.
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
+                friendlist.onDropDownComplete(getString(R.string.update_at)
+                        + dateFormat.format(new Date()));
+            } else {
+                adapter.notifyDataSetChanged();
+
+
+                friendlist.onBottomComplete();
+            }
+
+            super.onPostExecute(add);
         }
     }
 }
