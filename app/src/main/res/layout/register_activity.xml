@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:id="@+id/parent_layout"
     android:background="@color/grayrare">
 
@@ -9,7 +10,16 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+
         android:id="@+id/name"
         android:orientation="horizontal"
         >
@@ -224,4 +234,4 @@
             android:background="@drawable/shape"
             android:gravity="center"/>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>

@@ -2,6 +2,7 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,7 +42,6 @@ public class LeftFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		rootView = inflater.inflate(R.layout.left_menu_layout, null);
 		return rootView;
 	}
