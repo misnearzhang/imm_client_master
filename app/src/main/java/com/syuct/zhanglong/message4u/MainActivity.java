@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
 
     private void skip() {
         startActivity(new Intent(this, LoginActivity.class));
+        //overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_fade_out);
+        overridePendingTransition(R.anim.abc_fade_in,R.anim.abc_fade_out);
         finish();
     }
 }

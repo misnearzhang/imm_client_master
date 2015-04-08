@@ -6,14 +6,18 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.syuct.zhanglong.Utils.GlobalData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,9 +28,17 @@ public class RegisterActivity extends Activity {
     private EditText name;
     private EditText realName;
     private EditText password;
-    private static Date birthday;
+    private Date birthday;
+    private String birthday2=null;
+    private TextView datetext;
     private Button btnpost;
     private Button btncancel;
+    private DatePickerDialog datePickerDialog;
+    private Button buttondate;
+
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
 
     View.OnClickListener onClickListener = new View.OnClickListener(){
@@ -52,6 +64,52 @@ public class RegisterActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
+
+        Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        buttondate=(Button)findViewById(R.id.datepicker);
+        datetext=(TextView)findViewById(R.id.datetext);
+
+        buttondate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener()
+                {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth)
+                    {
+                        datetext.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    }
+                }, mYear, mMonth, mDay);
+
+                datePickerDialog.show();
+                birthday2=datetext.getText().toString();
+
+            }
+        });
+
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String date="2015-05-12";
+        try {
+            Log.v("Before",date);
+            if(birthday2!=null){
+                birthday = sdf.parse(birthday2);
+            }else{
+                birthday = sdf.parse(date);
+            }
+
+
+            Log.v("After",birthday.toString());
+
+        } catch (ParseException e) {
+            datetext.setText("日期格式错误");
+            e.printStackTrace();
+        }
+
         btnpost=(Button)this.findViewById(R.id.btnpost);
         btnpost.setOnClickListener(onClickListener);
         btncancel=(Button)this.findViewById(R.id.btnCancel);
@@ -63,7 +121,6 @@ public class RegisterActivity extends Activity {
                 if (hasFocus == true) {
                     Toast.makeText(RegisterActivity.this, "much", Toast.LENGTH_SHORT);
                 }
-
             }
         });
         if(name.getText().equals("zhanglong")){
@@ -76,37 +133,10 @@ public class RegisterActivity extends Activity {
         super.onBackPressed();
     }
 
-
-    public void showDatePickerDialog(View view){
-        DatePickerFragment datePicker = new DatePickerFragment();
-        datePicker.show(getFragmentManager(), "datePicker");
-    }
-
-public static class DatePickerFragment extends DialogFragment implements
-        DatePickerDialog.OnDateSetListener {
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(), this, year, month, day);
-    }
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                setShowsDialog(true);
-            }
-        });
-    }
-}
-
     @Override
     protected void onPause() {
         super.onPause();
         this.finish();
     }
+
 }

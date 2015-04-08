@@ -8,18 +8,25 @@
 
 
     <LinearLayout
+        android:id="@+id/topblack"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         >
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:text="用户注册"
+            android:textSize="30sp"
+            android:textColor="#000"
+            android:background="@drawable/shape"/>
+
         </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
 
+        android:layout_marginTop="20dp"
         android:id="@+id/name"
         android:orientation="horizontal"
         >
@@ -42,63 +49,9 @@
             android:id="@+id/Tname"
             />
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/name"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:id="@+id/gender">
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:checkedButton="@+id/m"
-            >
 
-            <RadioButton
-                android:id="@+id/m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="男"
-                android:textColorHint="#ff0000"
-                />
-            <RadioButton
-                android:id="@+id/wm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="女"
-                android:textColorHint="#ff0000"
-                />
-            </RadioGroup>
 
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_below="@+id/gender"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:id="@+id/realName">
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="@string/realName"
-                android:textColor="#ff0000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_weight="5"
-                android:layout_marginLeft="10dp"
-                android:hint="@string/realNamedescribe"
-
-                />
-            </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_below="@+id/realName"
@@ -142,13 +95,27 @@
             android:textSize="20sp"
             android:textColor="#ff0000"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/datetext"
+            android:layout_width="180dp"
+            android:layout_height="fill_parent"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:hint="@string/datepicker"/>
         <Button
+            android:id="@+id/datepicker"
+            android:text="点击选择时间"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@drawable/shape"
+            />
+        <!--<Button
             android:id="@+id/datePickerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="选择日期"
             android:background="#aaaa0a"
-            android:onClick="showDatePickerDialog"/>
+            android:onClick="showDatePickerDialog"/>-->
     </LinearLayout>
 
     <LinearLayout
@@ -160,46 +127,24 @@
     android:id="@+id/phoneNumber">
 
     <TextView
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_weight="1"
+
         android:text="@string/phoneNumber"
         android:textSize="20sp"
         android:textColor="#ff0000"
         android:textStyle="bold" />
     <EditText
-        android:layout_width="60dp"
+        android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_weight="5"
+
         android:layout_marginLeft="10dp"
         android:hint="@string/phoneNumberdescribe"
 
         />
 </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/phoneNumber"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:id="@+id/school">
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="@string/school"
-            android:textSize="20sp"
-            android:textColor="#ff0000"
-            android:textStyle="bold" />
-        <EditText
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_weight="6"
-            android:layout_marginLeft="10dp"
-            />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_below="@+id/school"

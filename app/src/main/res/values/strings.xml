@@ -25,4 +25,5 @@
     <string name="disconnect">请选择接入点(IP地址)</string>
     <string name="telephone">请输入电话号码</string>
     <string name="update_at">更新</string>
+    <string name="datepicker">请选择时间</string>
     </resources>

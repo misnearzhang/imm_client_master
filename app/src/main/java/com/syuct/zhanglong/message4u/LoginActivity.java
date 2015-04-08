@@ -79,7 +79,7 @@ public class LoginActivity extends SuperActivity {
                                     "美军仍位居世界上最强军队榜首，而中国位居第三位，之后依次是印度、英国、法国、德国、" +
                                     "土耳其、韩国。日本位居第10位。"));
 
-                            startActivityForResult(intentLogin, 0);
+                            startActivity(intentLogin);
                             overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_fade_out);
                             finish();
 
@@ -101,27 +101,12 @@ public class LoginActivity extends SuperActivity {
     TextView lblForgetPass = null;
     Button btnRegister = null;
     Button btnLogin = null;
-    private ServiceConnection serviceconnection = null;
-    private testService testservice = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        dialog=new ProgressDialog(LoginActivity.this);
-        dialog.setTitle("提示");
-        dialog.setMessage("登录中.....");
-        serviceconnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Log.i("", "启动服务");
-            }
 
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-        };
         initControl();
     }
 
