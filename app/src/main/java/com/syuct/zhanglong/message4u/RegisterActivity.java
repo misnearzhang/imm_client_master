@@ -124,7 +124,7 @@ public class RegisterActivity extends Activity {
             }
         });
         if(name.getText().equals("zhanglong")){
-            Toast.makeText(RegisterActivity.this, "", Toast.LENGTH_SHORT);
+            Toast.makeText(RegisterActivity.this, "此名字忌讳", Toast.LENGTH_SHORT).show();
         }
     }
 

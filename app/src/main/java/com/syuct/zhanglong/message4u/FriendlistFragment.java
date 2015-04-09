@@ -12,8 +12,9 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 
+import com.syuct.zhanglong.Utils.ConstData;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +27,6 @@ public class FriendlistFragment extends Fragment {
     private DropDownListView friendlist;
     private View friendView;
     private SimpleAdapter adapter;
-    private List<Map<String,Object>> list2=new ArrayList<Map<String,Object>>();
-
-    Map<String,Object> map2=new HashMap<String, Object>(){
-        {put("name","小南");put("status","不在线");put("img",R.drawable.headimg);}
-    };
-    List<Map<String,Object>> add=new ArrayList<Map<String, Object>>(){{add(map2);}};
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -58,7 +52,7 @@ public class FriendlistFragment extends Fragment {
 
     private void initAdapter() {
 
-        adapter = new SimpleAdapter(getActivity().getApplicationContext(), list2, R.layout.friend_content_layout,
+        adapter = new SimpleAdapter(getActivity().getApplicationContext(), ConstData.getList(), R.layout.friend_content_layout,
                 new String[]{"name", "status", "img"},
                 new int[]{R.id.friend_name, R.id.friend_status, R.id.friend_headimg});
 
@@ -79,14 +73,6 @@ public class FriendlistFragment extends Fragment {
             }
         });
 
-
-       /*friendlist.setOnBottomListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GetDataTask(false).execute();
-            }
-        });*/
-
         friendlist.setAdapter(adapter);
     }
 
@@ -97,135 +83,9 @@ public class FriendlistFragment extends Fragment {
         map.put("status", "在线");
         map.put("img", R.drawable.headimg);
 
-        list2.add(map);
-        return list2;
-       /* map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
+        ConstData.addList(map);
 
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);
-        map.put("name", "张龙");
-        map.put("status", "在线");
-        map.put("img", R.drawable.headimg);
-        list.add(map);*/
-
+        return ConstData.getList();
     }
 
     @Override
@@ -269,7 +129,7 @@ public class FriendlistFragment extends Fragment {
             }
 
 
-            return add;
+            return ConstData.getList();
         }
 
         @Override
@@ -290,7 +150,7 @@ public class FriendlistFragment extends Fragment {
                 friendlist.onBottomComplete();
             }
 
-            super.onPostExecute(add);
+            super.onPostExecute(ConstData.getList());
         }
     }
 }

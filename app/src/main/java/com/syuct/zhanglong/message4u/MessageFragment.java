@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.syuct.zhanglong.Utils.GlobalData;
 
+
 public class MessageFragment extends Fragment {
 
     private WebView webView;

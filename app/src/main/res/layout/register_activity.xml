@@ -10,42 +10,50 @@
     <LinearLayout
         android:id="@+id/topblack"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
         >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="用户注册"
-            android:textSize="30sp"
-            android:textColor="#000"
+            android:textSize="40sp"
+            android:textColor="#aaa"
             android:background="@drawable/shape"/>
 
         </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/roundgraywhite"
+        android:layout_weight="1"
         android:layout_marginTop="20dp"
         android:id="@+id/name"
         android:orientation="horizontal"
         >
         <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:text="昵称"
-            android:textColor="#ff0000"
+            android:paddingTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="#ff74654a"
             android:textSize="20sp"
             android:textStyle="bold"
             />
         <EditText
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="fill_parent"
+            android:paddingLeft="20dp"
             android:layout_weight="5"
+            android:textSize="20sp"
+            android:background="@drawable/roundgraywhite"
             android:layout_marginLeft="10dp"
             android:hint="@string/namedescribe"
-            android:textColor="#ff0000"
+            android:textColor="#ff74654a"
             android:id="@+id/Tname"
             />
         </LinearLayout>
@@ -53,26 +61,34 @@
 
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/roundgraywhite"
         android:layout_below="@+id/realName"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:id="@+id/Password">
 
         <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:text="@string/password"
+            android:paddingTop="10dp"
+            android:layout_gravity="center"
             android:textSize="20sp"
-            android:textColor="#ff0000"
+            android:textColor="#ff74654a"
             android:textStyle="bold" />
         <EditText
             android:inputType="textPassword"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="fill_parent"
+            android:paddingLeft="20dp"
+            android:background="@drawable/roundgraywhite"
             android:layout_weight="5"
+            android:textSize="20sp"
             android:layout_marginLeft="10dp"
             android:hint="@string/pwddescribe"
 
@@ -80,31 +96,44 @@
 
     </LinearLayout>
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_below="@+id/Password"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/roundgraywhite"
         android:orientation="horizontal"
         android:id="@+id/birthday">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="fill_parent"
             android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:layout_weight="0"
             android:text="@string/birthday"
             android:textSize="20sp"
-            android:textColor="#ff0000"
+            android:textColor="#ff74654a"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/datetext"
             android:layout_width="180dp"
+            android:paddingTop="10dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:textSize="20sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/roundblueblue_disable"
             android:textAlignment="center"
             android:hint="@string/datepicker"/>
         <Button
             android:id="@+id/datepicker"
-            android:text="点击选择时间"
+            android:layout_weight="0"
+            android:text="选择时间"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:background="@drawable/shape"
@@ -119,25 +148,33 @@
     </LinearLayout>
 
     <LinearLayout
+    android:layout_weight="1"
     android:layout_width="fill_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:layout_below="@+id/birthday"
-    android:layout_height="40dp"
+    android:layout_height="60dp"
+    android:background="@drawable/roundgraywhite"
     android:layout_marginTop="10dp"
     android:orientation="horizontal"
     android:id="@+id/phoneNumber">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        android:layout_weight="0"
         android:text="@string/phoneNumber"
         android:textSize="20sp"
-        android:textColor="#ff0000"
+        android:textColor="#ff74654a"
         android:textStyle="bold" />
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-
+        android:layout_height="fill_parent"
+        android:textSize="20sp"
+        android:layout_weight="0"
+        android:paddingLeft="20dp"
+        android:background="@drawable/roundgraywhite"
         android:layout_marginLeft="10dp"
         android:hint="@string/phoneNumberdescribe"
 
@@ -146,10 +183,14 @@
 
 
     <LinearLayout
+        android:layout_weight="0"
         android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_below="@+id/school"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="130dp"
         android:orientation="horizontal"
 
         android:id="@+id/button">
@@ -157,25 +198,25 @@
         <Button
             android:id="@+id/btnpost"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="40dp"
             android:text="提交"
-            android:textSize="20sp"
-            android:textColor="#ff0000"
+            android:textSize="25sp"
+            android:textColor="#ffc462c3"
             android:background="@drawable/shape"
             android:gravity="center"
             />
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
             android:text="取消"
             android:textSize="20sp"
-            android:textColor="#ff0000"
+            android:textColor="#ff74654a"
             android:background="@drawable/shape"
             android:gravity="center"/>
         </LinearLayout>

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class GlobalData
@@ -27,8 +30,7 @@ public class GlobalData
 
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^[+]?[0-9]{10,13}$");
 
-	
-	private static Toast g_Toast = null;
+    private static Toast g_Toast = null;
 	public static void showToast(Context context, String toastStr)
 	{
 		if ((g_Toast == null) || (g_Toast.getView().getWindowVisibility() != View.VISIBLE))
@@ -36,20 +38,16 @@ public class GlobalData
 			g_Toast = Toast.makeText(context, toastStr, Toast.LENGTH_SHORT);
 			g_Toast.show();
 		}
-
 		return;
 	}
-
 	public static boolean isValidEmail(String strEmail)
 	{
 		return EMAIL_ADDRESS_PATTERN.matcher(strEmail).matches();
 	}
-
     public static boolean isValidPhone(String strPhone)
     {
         return PHONE_NUMBER_PATTERN.matcher(strPhone).matches();
     }
-
     public static boolean isOnline(Context ctx)
     {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -59,20 +57,17 @@ public class GlobalData
         }
         return false;
     }
-
     public static String getIMEI(Context context)
     {
         TelephonyManager tm = (TelephonyManager)context.getSystemService(context.TELEPHONY_SERVICE);
         return tm.getDeviceId();
     }
-
     public static String toDoubleNum(int c) {
         if (c >= 10)
             return String.valueOf(c);
         else
             return "0" + String.valueOf(c);
     }
-
     public static String g_strPrefName = "Message4U";
     public static String g_strPassFlag = "PassFlag";
     public static String g_strUserID = "UserID";
@@ -229,4 +224,5 @@ public class GlobalData
     public static void setUUID(String UUID) {
         GlobalData.UUID = UUID;
     }
+
 }

@@ -15,7 +15,7 @@
     <string name="realName">真名</string>
     <string name="password">密碼</string>
     <string name="pwddescribe">请输入至少6位密码</string>
-    <string name="namedescribe">请输入一个你认为好听的名字</string>
+    <string name="namedescribe">请输入一个你的名字</string>
     <string name="realNamedescribe">请输入你的真实姓名</string>
     <string name="birthday">出生日期</string>
     <string name="phoneNumber">电话号码</string>

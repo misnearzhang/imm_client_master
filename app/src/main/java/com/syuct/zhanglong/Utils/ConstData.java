@@ -1,26 +1,61 @@
 package com.syuct.zhanglong.Utils;
 
+
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by RiKS on 2014/10/16.
  */
 public class ConstData {
-    public static int ERR_SUCCESS = 0;
-    public static int ERR_SERVERINTERNALERROR = -1;
-    public static int ERR_TRIALVERSION = -2;
-    public static int ERR_NOTEXISTUSER = -3;
-    public static int ERR_NOTEXISTPHONE = -4;
-    public static int ERR_EXISTEDUSER = -5;
-    public static int ERR_EXISTEDPHONE = -6;
-    public static int ERR_VERIFYEXPIRE = -7;
-    public static int ERR_VERIFYOVER = -8;
-    public static int ERR_INVALIDPARAM = -9;
+    private static List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 
-    public static int PASSWORD_LENGTH = 5;
-    public static int PHONENUM_LENGTH = 11;
-    public static int VERIFYKEY_LENGTH = 6;
-    public final static int GOODITEM_COUNT = 10;
+    private static FriendListCache cache=new FriendListCache(list);
+    public static List<Map<String,Object>> getList(){
+        if(list.size()==0){
+            restore();
+        }
+        return list;
+    }
+    public static void addList(Map<String, Object> map){
+        list.add(map);
+        cache.refresh(list);
+        save(cache);
+    }
 
-    public final static int KIND_CAR_ID = 4;
-    public final static int NOTEVALUTE_MODE = 0;
-    public final static int EVALUTED_MODE = 1;
+
+    public static void save(FriendListCache cache){
+        try {
+            FileOutputStream fos = new FileOutputStream("sdcard/list");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+
+            oos.writeObject(cache);
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void restore() {
+        try {
+            FileInputStream fis = new FileInputStream("sdcard/list");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            cache = (FriendListCache)ois.readObject();
+
+            list=cache.getList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+

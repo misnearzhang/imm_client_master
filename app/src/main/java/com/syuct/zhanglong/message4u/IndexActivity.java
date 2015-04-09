@@ -152,7 +152,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     @Override
     protected void onResume() {
 
-        Log.v("重新回到首页", "back to iindex");
+       /* Log.v("重新回到首页", "back to iindex");
         if("1".equals(GlobalData.getUUID())){
             super.onResume();
         }else{
@@ -161,8 +161,8 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
             startActivity(back2login);
             GlobalData.setUUID("1");
 
-        }
-
+        }*/
+        super.onResume();
     }
 }
 
