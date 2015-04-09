@@ -38,5 +38,8 @@
     <dimen name="introduction_font_size">18sp</dimen>
 
     <dimen name = "copy_right_width">100dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 </resources>

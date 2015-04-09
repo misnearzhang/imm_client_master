@@ -26,4 +26,5 @@
     <string name="telephone">请输入电话号码</string>
     <string name="update_at">更新</string>
     <string name="datepicker">请选择时间</string>
+    <string name="title_activity_send_message">SendMessage</string>
     </resources>

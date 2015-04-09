@@ -2,6 +2,7 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,8 +62,10 @@ public class FriendlistFragment extends Fragment {
         friendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast t = Toast.makeText(getActivity().getApplicationContext(), "点击" + position + " 名字叫" + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT);
-                t.show();
+                Intent SendMessage2=new Intent(getActivity().getApplicationContext(),SendMessageActivity.class);
+
+                startActivity(SendMessage2);
+                getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom,R.anim.abc_slide_out_top);
             }
         });
         friendlist.setDropDownStyle(true);
