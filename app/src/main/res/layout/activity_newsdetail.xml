@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/topbarN"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#36A8DE"
+        >
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="90dp"
+            android:layout_height="fill_parent"
+            android:text="关闭"
+            android:textSize="30sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:background="#00FFFFFF"
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        >
+        <LinearLayout
+            android:id="@+id/news"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

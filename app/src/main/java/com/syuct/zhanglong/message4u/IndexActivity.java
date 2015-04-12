@@ -37,11 +37,17 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         super.onCreate(savedInstanceState);
         Bundle data=getIntent().getExtras();
         name=data.getString("name");
-
         setContentView(R.layout.activity_index);
-
         title=(TextView)findViewById(R.id.tv_top_center);
         title.setText(name);
+        final Intent NewsDetail = new Intent(this,NewsDetailActivity.class);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(NewsDetail);
+                overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_fade_out);
+            }
+        });
 
 
         setBehindContentView(R.layout.menu);//设置SlidingMenu的layout

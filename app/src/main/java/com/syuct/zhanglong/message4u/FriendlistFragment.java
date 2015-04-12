@@ -63,11 +63,21 @@ public class FriendlistFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent SendMessage2=new Intent(getActivity().getApplicationContext(),SendMessageActivity.class);
-
+                Map<String,Object> friendMap=(Map)parent.getItemAtPosition(position);
+                String friendAccount=friendMap.get("name").toString()   ;
+                SendMessage2.putExtra("friendAccount",friendAccount);
                 startActivity(SendMessage2);
                 getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom,R.anim.abc_slide_out_top);
             }
         });
+        friendlist.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                
+                return false;
+            }
+        });
+
         friendlist.setDropDownStyle(true);
         friendlist.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
             @Override
