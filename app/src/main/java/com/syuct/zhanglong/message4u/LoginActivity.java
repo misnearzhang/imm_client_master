@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,12 +18,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.syuct.zhanglong.Utils.GlobalData;
-import com.syuct.zhanglong.http.HttpRequest;
+import com.syuct.zhanglong.bean.Paremeter;
+import com.syuct.zhanglong.bean.User;
+import com.syuct.zhanglong.http.HttpUtils;
+import com.syuct.zhanglong.http.Url;
 import com.syuct.zhanglong.service.testService;
+
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends SuperActivity {
     static long back_pressed;
-    HttpRequest httpRequest = new HttpRequest();
+    HttpUtils httpRequest = new HttpUtils();
     boolean bRemPass = false;
     private ProgressDialog dialog;
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -34,9 +44,8 @@ public class LoginActivity extends SuperActivity {
                     bRemPass = !bRemPass;
                     if (bRemPass) {
                         imgRemPass.setImageResource(R.drawable.checked);
-                        GlobalData.SetPassFlag(LoginActivity.this,bRemPass);
-                    }
-                    else
+                        GlobalData.SetPassFlag(LoginActivity.this, bRemPass);
+                    } else
                         imgRemPass.setImageResource(R.drawable.unchecked);
                     break;
                 case R.id.lblDisPass:
@@ -50,28 +59,39 @@ public class LoginActivity extends SuperActivity {
                 case R.id.btnLogin:
 
                     String UserAccountOrPhoneNumber = txtUserName.getText().toString();
-                    String connection=txtConnect.getText().toString();
+                    String connection = txtConnect.getText().toString();
                     if (connection.length() == 0) {
-                        GlobalData.showToast(LoginActivity.this, getString(R.string.disconnect));
+                        GlobalData.showToast(LoginActivity.this,
+                                             getString(R.string.disconnect));
                         return;
-                    }else{
+                    } else {
                         GlobalData.setIPaddress(connection);
                     }
                     if (UserAccountOrPhoneNumber.length() == 0) {
-                        GlobalData.showToast(LoginActivity.this, getString(R.string.inputusername));
+                        GlobalData.showToast(LoginActivity.this,
+                                             getString(R.string.inputusername));
                         return;
                     }
                     String Password = txtPass.getText().toString();
                     if (Password.length() == 0) {
-                        GlobalData.showToast(LoginActivity.this, getString(R.string.inputpassword));
+                        GlobalData.showToast(LoginActivity.this,
+                                             getString(R.string.inputpassword));
                         return;
                     }
 
                     if (GlobalData.isOnline(LoginActivity.this) == true) {
+                        Url url=new Url();
+                        url.setPackege("user");
+                        url.setRequestMethod("Login");
 
-                        httpRequest.login(UserAccountOrPhoneNumber, Password);
+                        HttpParams hb=new BasicHttpParams();
+                        url.setRequestMethod("getUserAccount");
+                        String result=httpRequest.Login(url,hb);
 
-                        if (httpRequest.login(UserAccountOrPhoneNumber, Password) == true) {
+
+                        //httpRequest.login(UserAccountOrPhoneNumber, Password);
+
+                        if (true) {
 
                             Intent intentLogin = new Intent(LoginActivity.this, IndexActivity.class);
                             intentLogin.putExtra("name", new String("根据世界军力排名网“全球火力”(Global Firepower)" +
@@ -97,7 +117,7 @@ public class LoginActivity extends SuperActivity {
     TextView lblRemPass = null;
     EditText txtUserName = null;
     EditText txtPass = null;
-    EditText txtConnect=null;
+    EditText txtConnect = null;
     TextView lblForgetPass = null;
     Button btnRegister = null;
     Button btnLogin = null;
@@ -125,7 +145,7 @@ public class LoginActivity extends SuperActivity {
 
         txtUserName = (EditText) findViewById(R.id.txtUserID);
         txtPass = (EditText) findViewById(R.id.txtPassword);
-        txtConnect=(EditText)findViewById(R.id.connect);
+        txtConnect = (EditText) findViewById(R.id.connect);
         if (GlobalData.GetPassFlag(LoginActivity.this)) {
             txtUserName.setText(GlobalData.GetUserName(LoginActivity.this));
             txtPass.setText(GlobalData.GetPass(LoginActivity.this));
@@ -170,6 +190,33 @@ public class LoginActivity extends SuperActivity {
         }
     }
 
+    class LoginAsy extends AsyncTask<String,Void,User>{
+        @Override
+        protected User doInBackground(String... params) {
+            Url url=new Url();
+            Paremeter paremeter=new Paremeter();
+            List<Paremeter> paremeters=new ArrayList<Paremeter>();
+            url.setPackege("user");
+            url.setRequestMethod("findFriendByAccount");
+            url.setParameter(paremeters);
+            return null;
+        }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
+
+}
 

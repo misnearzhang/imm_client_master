@@ -30,13 +30,15 @@ public class FriendlistFragment extends Fragment {
     private SimpleAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            final LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState)
+    {
 
         friendView = inflater.inflate(R.layout.friendlist_fragment, null);
         return friendView;
@@ -45,7 +47,6 @@ public class FriendlistFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initAdapter();
 
     }
@@ -53,27 +54,39 @@ public class FriendlistFragment extends Fragment {
 
     private void initAdapter() {
 
-        adapter = new SimpleAdapter(getActivity().getApplicationContext(), ConstData.getList(), R.layout.friend_content_layout,
-                new String[]{"name", "status", "img"},
-                new int[]{R.id.friend_name, R.id.friend_status, R.id.friend_headimg});
+        adapter = new SimpleAdapter(getActivity().getApplicationContext(),
+                                    ConstData.getList(),
+                                    R.layout.friend_content_layout,
+                                    new String[]{"name", "status", "img"},
+                                    new int[]{R.id.friend_name,
+                                              R.id.friend_status,
+                                              R .id.friend_headimg
+                                              }
+                                    );
 
-        friendlist = (DropDownListView) friendView.findViewById(R.id.friendlist);
-
+        friendlist = (DropDownListView)friendView.findViewById(R.id.friendlist);
         friendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent SendMessage2=new Intent(getActivity().getApplicationContext(),SendMessageActivity.class);
-                Map<String,Object> friendMap=(Map)parent.getItemAtPosition(position);
-                String friendAccount=friendMap.get("name").toString()   ;
-                SendMessage2.putExtra("friendAccount",friendAccount);
+            public void onItemClick(AdapterView<?> parent,
+                                    View view,
+                                    int position,
+                                    long id)
+            {
+                Intent SendMessage2 = new Intent(getActivity().getApplicationContext(), SendMessageActivity.class);
+
+                Map<String,Object> friendMap = (Map)parent.getItemAtPosition(position);
+                String friendAccount = friendMap.get("name").toString()   ;
+                SendMessage2.putExtra("friendAccount", friendAccount);
                 startActivity(SendMessage2);
-                getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom,R.anim.abc_slide_out_top);
+
+                getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
             }
         });
+
+
         friendlist.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                
                 return false;
             }
         });
@@ -114,16 +127,6 @@ public class FriendlistFragment extends Fragment {
 
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            initAdapter();
-            //相当于Fragment的onResume
-        } else {
-            //相当于Fragment的onPause
-        }
-    }
 
     private class GetDataTask extends AsyncTask<Void, Void, List<Map<String,Object>>> {
 
@@ -141,9 +144,9 @@ public class FriendlistFragment extends Fragment {
                 ;
             }
 
-
             return ConstData.getList();
         }
+
 
         @Override
         protected void onPostExecute(List<Map<String,Object>> result) {
@@ -151,14 +154,11 @@ public class FriendlistFragment extends Fragment {
             if (isDropDown) {
                 setData();
                 adapter.notifyDataSetChanged();
-
-                // should call onDropDownComplete function of DropDownListView at end of drop down complete.
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
                 friendlist.onDropDownComplete(getString(R.string.update_at)
                         + dateFormat.format(new Date()));
             } else {
                 adapter.notifyDataSetChanged();
-
 
                 friendlist.onBottomComplete();
             }

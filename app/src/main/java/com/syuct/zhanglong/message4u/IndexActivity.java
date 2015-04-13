@@ -35,6 +35,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     @Override
     public void onCreate(Bundle savedInstanceState) {//将protected变成public
         super.onCreate(savedInstanceState);
+
         Bundle data=getIntent().getExtras();
         name=data.getString("name");
         setContentView(R.layout.activity_index);
@@ -59,6 +60,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
                 toggle();
             }
         });
+
         //设置默认的Fragment
         if (savedInstanceState == null) {
             contentFragment = new FriendlistFragment();
@@ -102,15 +104,16 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         //1.bundle
         //2.存放的ID
         //3.当前要保存的fragment的实例
-        this.getFragmentManager().putFragment(outState, "contentFragment", contentFragment);
+        this.getFragmentManager().putFragment(outState,
+                                              "contentFragment",
+                                              contentFragment);
     }
 
 
 
     public void switchFragment(Fragment to) {
         if (contentFragment != to) {
-            FragmentTransaction transaction = getFragmentManager()
-                    .beginTransaction();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
             if (!to.isAdded()) { // 先判断是否被add过
                 transaction.hide(contentFragment).add(R.id.main_frame, to); // 隐藏当前的fragment，add下一个到Activity中
                 transaction.commit();
@@ -144,12 +147,14 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
 
     @Override
     public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis()){
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
             GlobalData.setUUID("2");
             super.onBackPressed();
         }
-        else{
-            Toast toast=Toast.makeText(IndexActivity.this, "再按一下退出",Toast.LENGTH_SHORT);
+        else {
+            Toast toast = Toast.makeText(IndexActivity.this,
+                                       "再按一下退出",
+                                        Toast.LENGTH_SHORT);
             toast.show();
             back_pressed = System.currentTimeMillis();
         }
