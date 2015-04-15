@@ -3,7 +3,9 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Entity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,6 +18,16 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.syuct.zhanglong.Utils.GlobalData;
+import com.syuct.zhanglong.bean.User;
+import com.syuct.zhanglong.http.HttpUtils;
+import com.syuct.zhanglong.http.Url;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 /**
  * 登录后的第一页莫非页面
@@ -32,12 +44,20 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     private Fragment mContent;
     private ImageButton topbutton;
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {//将protected变成public
         super.onCreate(savedInstanceState);
 
+
+
         Bundle data=getIntent().getExtras();
         name=data.getString("name");
+        //GetNews s=new GetNews();
+        //s.execute();
+
         setContentView(R.layout.activity_index);
         title=(TextView)findViewById(R.id.tv_top_center);
         title.setText(name);
@@ -63,7 +83,7 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
 
         //设置默认的Fragment
         if (savedInstanceState == null) {
-            contentFragment = new FriendlistFragment();
+            contentFragment = GlobalData.friend;
         } else {
             //取出之前保存的contentFragment
             contentFragment = this.getFragmentManager().getFragment(savedInstanceState, "contentFragment");
@@ -162,18 +182,46 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
 
     @Override
     protected void onResume() {
-
-       /* Log.v("重新回到首页", "back to iindex");
-        if("1".equals(GlobalData.getUUID())){
-            super.onResume();
-        }else{
-            super.onResume();
-            Intent back2login=new Intent(this,LoginActivity.class);
-            startActivity(back2login);
-            GlobalData.setUUID("1");
-
-        }*/
         super.onResume();
+    }
+
+    public class GetNews extends AsyncTask<Void,Void,String>{
+        @Override
+        protected String doInBackground(Void... params) {
+            String result="";
+            Url url=new Url();
+            url.setPackege("system");
+            url.setRequestMethod("getAd");
+
+            HttpClient httpClient=new DefaultHttpClient();
+            HttpGet httpGet=new HttpGet(url.getFinUrl());
+            try{
+                HttpResponse response=httpClient.execute(httpGet);
+                if(response.getStatusLine().getStatusCode()==200){
+                    result= EntityUtils.toString(response.getEntity());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            name=s;
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by zhanglong on 4/12/15.
  */
 public class Url extends UrlBase{
-    String requestUrl=Url+"8080/message4U/api/";
+    String requestUrl=Url+"8080/WebRoot/api/";
     String finUrl="";
 
     public void setPackege(String packege){
@@ -27,6 +27,9 @@ public class Url extends UrlBase{
             sb.append("&");
         }
         finUrl=sb.toString();
+        return finUrl;
+    }
+    public String getFinUrl(){
         return finUrl;
     }
 

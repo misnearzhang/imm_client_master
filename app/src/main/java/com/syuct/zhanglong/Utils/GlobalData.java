@@ -10,6 +10,12 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
+import com.syuct.zhanglong.message4u.AssistantFragment;
+import com.syuct.zhanglong.message4u.FriendlistFragment;
+import com.syuct.zhanglong.message4u.MessageFragment;
+import com.syuct.zhanglong.message4u.SettingFragment;
+import com.syuct.zhanglong.message4u.UsercenterFragment;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +24,12 @@ import java.util.regex.Pattern;
 
 public class GlobalData
 {
+    public static FriendlistFragment friend=new FriendlistFragment();
+    public static AssistantFragment assistant=new AssistantFragment();
+    public static MessageFragment message=new MessageFragment();
+    public static SettingFragment setting=new SettingFragment();
+    public static UsercenterFragment usercenter=new UsercenterFragment();
+
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
 	          "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
 	          "\\@" +

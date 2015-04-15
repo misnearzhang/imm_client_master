@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.syuct.zhanglong.Utils.CircleImageDrawable;
+import com.syuct.zhanglong.Utils.GlobalData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,12 @@ public class LeftFragment extends Fragment {
     private Button dialogYes;
     private Button dialogNo;
     private View dialogview;
+
+    public FriendlistFragment friend;
+    public AssistantFragment assistant;
+    public MessageFragment message;
+    public SettingFragment setting;
+    public UsercenterFragment usercenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,19 +105,19 @@ public class LeftFragment extends Fragment {
 
                 switch (position) {
                     case 0:
-                        f = new FriendlistFragment();
+                            f= GlobalData.friend;
                         break;
                     case 1:
-                        f = new MessageFragment();
+                            f=GlobalData.message;
                         break;
                     case 2:
-                        f = new AssistantFragment();
+                            f=GlobalData.assistant;
                         break;
                     case 3:
-                        f = new UsercenterFragment();
+                            f=GlobalData.usercenter;
                         break;
                     case 4:
-                        f = new SettingFragment();
+                            f=GlobalData.setting;
                         break;
                     default:
                         //dialog();//弹出对话框待定

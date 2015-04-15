@@ -64,16 +64,10 @@ public class AssistantFragment extends Fragment {
                         t.show();
                         break;
                     case 0:
-                        Toast t2 = Toast.makeText(getActivity().getApplicationContext(),
-                                                  "选择天气",
-                                                  Toast.LENGTH_SHORT);
-                        t2.show();
+                        //异步任务取天气
                         break;
                     case 1:
-                        Toast t3 = Toast.makeText(getActivity().getApplicationContext(),
-                                                  "查看来电归属地",
-                                                  Toast.LENGTH_SHORT);
-                        t3.show();
+                        //异步任务取来电归属地
                         break;
                     default:
                         break;
@@ -95,6 +89,11 @@ public class AssistantFragment extends Fragment {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 selectType=arg2;//0,1,2
+                if (arg2==0){
+                    editer.setHint("请输入地区");
+                } else if (arg2==1){
+                    editer.setHint("请输入电话号码");
+                }
                 arg0.setVisibility(View.VISIBLE);
             }
 

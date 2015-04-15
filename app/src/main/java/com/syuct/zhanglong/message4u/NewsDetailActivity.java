@@ -89,7 +89,7 @@ public class NewsDetailActivity extends Activity {
         setContentView(R.layout.activity_newsdetail);
         textView=new TextView(this);
         dialog=new ProgressDialog(this);
-        dialog.setTitle("提示");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("正在加载....");
         linearLayout=(LinearLayout)findViewById(R.id.news);
         GetMsg n=new GetMsg();
@@ -118,7 +118,7 @@ public class NewsDetailActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             try{
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             }catch (Exception e){
                 e.printStackTrace();
             }
