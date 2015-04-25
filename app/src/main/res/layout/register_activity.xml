@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:id="@+id/parent_layout"
@@ -15,12 +15,13 @@
         >
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="用户注册"
-            android:textSize="40sp"
-            android:textColor="#aaa"
-            android:background="@drawable/shape"/>
+            android:textSize="30sp"
+            android:textColor="#aaa"/>
 
         </LinearLayout>
     <LinearLayout
@@ -37,6 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
             android:text="昵称"
             android:paddingTop="10dp"
             android:layout_gravity="center"
@@ -46,14 +48,15 @@
             />
         <EditText
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:paddingLeft="20dp"
             android:layout_weight="5"
             android:textSize="20sp"
-            android:background="@drawable/roundgraywhite"
             android:layout_marginLeft="10dp"
             android:hint="@string/namedescribe"
             android:textColor="#ff74654a"
+            android:background="#00ffffff"
             android:id="@+id/Tname"
             />
         </LinearLayout>
@@ -75,6 +78,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
             android:text="@string/password"
             android:paddingTop="10dp"
             android:layout_gravity="center"
@@ -84,11 +88,12 @@
         <EditText
             android:inputType="textPassword"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:paddingLeft="20dp"
-            android:background="@drawable/roundgraywhite"
             android:layout_weight="5"
             android:textSize="20sp"
+            android:background="#00ffffff"
             android:layout_marginLeft="10dp"
             android:hint="@string/pwddescribe"
 
@@ -110,6 +115,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
             android:layout_marginRight="10dp"
             android:paddingTop="10dp"
             android:layout_weight="0"
@@ -126,25 +132,18 @@
             android:textSize="20sp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:background="@drawable/roundblueblue_disable"
             android:textAlignment="center"
             android:hint="@string/datepicker"/>
         <Button
             android:id="@+id/datepicker"
             android:layout_weight="0"
             android:text="选择时间"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/shape"
             />
-        <!--<Button
-            android:id="@+id/datePickerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择日期"
-            android:background="#aaaa0a"
-            android:onClick="showDatePickerDialog"/>-->
     </LinearLayout>
 
     <LinearLayout
@@ -162,6 +161,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:layout_weight="0"
         android:text="@string/phoneNumber"
@@ -170,11 +170,12 @@
         android:textStyle="bold" />
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:textSize="20sp"
         android:layout_weight="0"
         android:paddingLeft="20dp"
-        android:background="@drawable/roundgraywhite"
+        android:background="#00ffffff"
         android:layout_marginLeft="10dp"
         android:hint="@string/phoneNumberdescribe"
 
@@ -198,12 +199,12 @@
         <Button
             android:id="@+id/btnpost"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="40dp"
             android:text="提交"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textColor="#ffc462c3"
             android:background="@drawable/shape"
             android:gravity="center"
@@ -211,7 +212,7 @@
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:text="取消"

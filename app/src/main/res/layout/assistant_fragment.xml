@@ -23,6 +23,7 @@
             android:layout_marginLeft="10dp"
             android:hint="@string/telephone"
             android:background="@drawable/roundbluewhite"
+            android:paddingLeft="10dp"
             />
         </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.syuct.zhanglong.message4u;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +47,12 @@ public class MessageFragment extends Fragment {
 
         webView.setWebChromeClient(new mychromeClient());
         webView.setWebViewClient(new myWebview());
-        webView.loadUrl("http://"+GlobalData.getIPaddress()+":8080/WebRoot/");
-	}
+        webView.loadUrl("http://" + GlobalData.getIPaddress() + ":8080/WebRoot/");
+        webView.setDrawingCacheEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+    }
     private class mychromeClient extends WebChromeClient {
 
         @Override

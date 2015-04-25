@@ -29,10 +29,17 @@ public class ConstData {
         cache.refresh(list);
         save(cache);
     }
+    public static void deleteList(long id){
+        Map<String,Object> map=list.get((int)id);
+        list.remove(map);
+        cache.refresh(list);
+        save(cache);
+    }
 
 
     public static void save(FriendListCache cache){
         try {
+
             FileOutputStream fos = new FileOutputStream("sdcard/list");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 

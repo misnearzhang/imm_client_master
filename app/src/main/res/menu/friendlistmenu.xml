@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:title="@string/delte"
+    android:id="@+id/delete"
+    android:orderInCategory="100"
+    android:showAsAction="never"
+    />
+
+    <item
+        android:title="@string/detail"
+        android:id="@+id/detail"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        />
+</menu>

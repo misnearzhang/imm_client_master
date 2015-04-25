@@ -30,8 +30,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 /**
- * 登录后的第一页莫非页面
- * 也叫主页面
+ *
  */
 public class IndexActivity extends SlidingFragmentActivity {//这里继承的是SlidingFragmentActivity
 

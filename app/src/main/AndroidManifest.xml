@@ -33,7 +33,6 @@
             android:name=".LoginActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
->
         </activity>
         <activity
             android:screenOrientation="portrait"
@@ -68,14 +67,18 @@
             android:name="UserDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
-
         </activity>
         <activity
             android:screenOrientation="portrait"
             android:name=".NewsDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
-
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".FriendDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
         </activity>
     </application>
 

@@ -1,14 +1,11 @@
 package com.syuct.zhanglong.message4u;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +19,6 @@ import com.syuct.zhanglong.bean.Paremeter;
 import com.syuct.zhanglong.bean.User;
 import com.syuct.zhanglong.http.HttpUtils;
 import com.syuct.zhanglong.http.Url;
-import com.syuct.zhanglong.service.testService;
 
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
@@ -34,7 +30,7 @@ public class LoginActivity extends SuperActivity {
     static long back_pressed;
     HttpUtils httpRequest = new HttpUtils();
     boolean bRemPass = false;
-    private ProgressDialog dialog;
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -99,6 +95,8 @@ public class LoginActivity extends SuperActivity {
                                     "美军仍位居世界上最强军队榜首，而中国位居第三位，之后依次是印度、英国、法国、德国、" +
                                     "土耳其、韩国。日本位居第10位。"));
 
+                            LoginAsy login=new LoginAsy(LoginActivity.this);
+                            login.execute("");
                             startActivity(intentLogin);
                             overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_fade_out);
                             finish();
@@ -126,7 +124,6 @@ public class LoginActivity extends SuperActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-
         initControl();
     }
 
@@ -191,6 +188,15 @@ public class LoginActivity extends SuperActivity {
     }
 
     class LoginAsy extends AsyncTask<String,Void,User>{
+
+
+        ProgressDialog pdialog;
+        public LoginAsy(Context context){
+            pdialog = new ProgressDialog(context, 0);
+            pdialog.setTitle("正在登录...");
+            pdialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        }
+
         @Override
         protected User doInBackground(String... params) {
             Url url=new Url();
@@ -204,12 +210,23 @@ public class LoginActivity extends SuperActivity {
 
         @Override
         protected void onPreExecute() {
+
             super.onPreExecute();
+            pdialog.show();
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+
+            }
+
         }
 
         @Override
         protected void onPostExecute(User user) {
+
             super.onPostExecute(user);
+            pdialog.dismiss();
+
         }
 
         @Override
