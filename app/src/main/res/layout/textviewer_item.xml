@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="60dp">
+
+
+    <TextView
+        android:id="@+id/textv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:hint="提示:这是一个文本显示"
+        android:textSize="25sp"
+        android:paddingTop="10dp"
+        />
+</LinearLayout>

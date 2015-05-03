@@ -13,9 +13,30 @@
     <Button
         android:layout_width="240dp"
         android:layout_height="40dp"
-        android:layout_marginTop="200dp"
-        android:layout_margin="50dp"
         android:id="@+id/button4"
         android:text="个人中心里面的按钮"
         />
+
+    <include
+        android:id="@+id/edtor"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        layout="@layout/editor_item"/>
+
+    <include
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        layout="@layout/textviewer_item"/>
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:text="点击测试"
+        android:textSize="25sp"
+        />
+
+
 </LinearLayout>
