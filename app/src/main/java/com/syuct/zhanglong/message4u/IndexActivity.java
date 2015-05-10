@@ -3,12 +3,10 @@ package com.syuct.zhanglong.message4u;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Entity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageButton;
@@ -18,11 +16,7 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.syuct.zhanglong.Utils.GlobalData;
-import com.syuct.zhanglong.bean.User;
-import com.syuct.zhanglong.http.HttpUtils;
-import com.syuct.zhanglong.http.Url;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -188,17 +182,9 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
         @Override
         protected String doInBackground(Void... params) {
             String result="";
-            Url url=new Url();
-            url.setPackege("system");
-            url.setRequestMethod("getAd");
 
-            HttpClient httpClient=new DefaultHttpClient();
-            HttpGet httpGet=new HttpGet(url.getFinUrl());
             try{
-                HttpResponse response=httpClient.execute(httpGet);
-                if(response.getStatusLine().getStatusCode()==200){
-                    result= EntityUtils.toString(response.getEntity());
-                }
+
             }catch (Exception e){
                 e.printStackTrace();
             }

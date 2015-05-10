@@ -237,4 +237,13 @@ public class GlobalData
         GlobalData.UUID = UUID;
     }
 
+    public static Context loginContext;
+
+    public static Context getLoginContext() {
+        return loginContext;
+    }
+
+    public static void setLoginContext(Context loginContext) {
+        GlobalData.loginContext = loginContext;
+    }
 }

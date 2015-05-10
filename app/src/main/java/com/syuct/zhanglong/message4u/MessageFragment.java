@@ -47,7 +47,7 @@ public class MessageFragment extends Fragment {
 
         webView.setWebChromeClient(new mychromeClient());
         webView.setWebViewClient(new myWebview());
-        webView.loadUrl("http://" + GlobalData.getIPaddress() + ":8080/WebRoot/");
+        webView.loadUrl("http://" + GlobalData.getIPaddress() + ":8080/message4U/");
         webView.setDrawingCacheEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
