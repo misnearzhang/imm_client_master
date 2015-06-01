@@ -80,6 +80,13 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
         </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".AddFriendActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+        </activity>
+
     </application>
 
 </manifest>

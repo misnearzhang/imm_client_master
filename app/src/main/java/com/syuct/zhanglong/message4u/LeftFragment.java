@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,6 +81,7 @@ public class LeftFragment extends Fragment {
          */
         ListView leftList = (ListView) rootView.findViewById(R.id.left_list);
         leftList.setAlwaysDrawnWithCacheEnabled(true);
+        leftList.setBackgroundColor(Color.GRAY);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(),

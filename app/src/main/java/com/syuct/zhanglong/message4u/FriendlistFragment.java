@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SimpleAdapter;
 
 
 import com.syuct.zhanglong.Utils.ConstData;
+import com.syuct.zhanglong.Utils.GlobalData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class FriendlistFragment extends Fragment {
     private DropDownListView friendlist;
     private View friendView;
     private SimpleAdapter adapter;
+    private Button addFriend;
     @Override
     public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -48,6 +51,15 @@ public class FriendlistFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        addFriend = (Button) friendView.findViewById(R.id.addFriend);
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Add_Intent = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
+                startActivity(Add_Intent);
+                getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
+            }
+        });
         initAdapter();
 
     }
@@ -104,8 +116,8 @@ public class FriendlistFragment extends Fragment {
     private List<Map<String, Object>> setData() {
         //List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("friendAccount","11160111");
-        map.put("name", "xcnana");
+        map.put("friendAccount", "[ 11160111 ]");
+        map.put("name", "迷死你的儿张");
         map.put("signature", "龙岂池中物,乘风上青天");
         map.put("img", R.drawable.headimg);
 
@@ -128,6 +140,8 @@ public class FriendlistFragment extends Fragment {
             case R.id.delete:
                 ConstData.deleteList(adapterContextMenuInfo.id);
                 adapter.notifyDataSetChanged();
+                GlobalData.showToast(getActivity().getApplicationContext(), "删除好友成功");
+
                 break;
             case R.id.detail:
                 Map<String,Object> map=ConstData.getList().get((int)adapterContextMenuInfo.id);

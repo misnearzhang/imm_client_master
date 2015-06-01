@@ -67,7 +67,7 @@ public class LoginActivity extends SuperActivity {
                         Login login = new Login();
                         login.setUserAccount(UserAccountOrPhoneNumber);
                         login.setPassword(Password);
-                        loginAsyncTask.execute(login);
+                        //loginAsyncTask.execute(login);
 
                         //httpRequest.login(UserAccountOrPhoneNumber, Password);
 

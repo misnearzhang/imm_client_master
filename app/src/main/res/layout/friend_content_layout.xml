@@ -2,30 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="50dp">
+              android:layout_height="60dp">
+
 
     <ImageView
         android:id="@+id/friend_headimg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="100dp"
-        android:layout_height="50dp">
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
         <TextView
             android:id="@+id/friend_name"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:textColor="#36A8DE"
-            android:textSize="22sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#ff0b0a0c"
+            android:textSize="20sp"
             android:gravity="center_vertical"/>
         <TextView
             android:id="@+id/friend_account"
             android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="20dp"
-            android:textColor="#ff0bfe0c"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/gray"
             android:gravity="center_vertical"
             android:textSize="13sp" />
     </LinearLayout>
@@ -33,7 +39,7 @@
         android:id="@+id/friend_signature"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:paddingTop="15dp"
+        android:paddingTop="30dp"
         android:paddingLeft="10dp"
         android:textSize="15sp"
         />

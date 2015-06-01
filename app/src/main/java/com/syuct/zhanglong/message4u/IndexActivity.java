@@ -140,24 +140,6 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     }
 
 
-/*
-    public void switchFragment2(Fragment f) {
-
-        contentFragment = f;
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction tx = fm.beginTransaction();
-        tx.hide(this);
-        tx.add(R.id.main_frame , f, "f");
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_frame, f)
-                .commit();
-
-        sm.toggle();//动态开关，关闭SlidingMenu
-    }*/
-
     @Override
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) {

@@ -10,13 +10,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        android:id="@+id/button4"
-        android:text="个人中心里面的按钮"
-        />
-
     <include
         android:id="@+id/edtor"
         android:layout_width="match_parent"
