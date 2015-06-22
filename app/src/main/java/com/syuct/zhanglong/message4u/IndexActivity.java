@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,21 +38,20 @@ public class IndexActivity extends SlidingFragmentActivity {//这里继承的是
     private Fragment mContent;
     private ImageButton topbutton;
 
-
+    private Button reload;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {//将protected变成public
         super.onCreate(savedInstanceState);
-
-
-
         Bundle data=getIntent().getExtras();
         name=data.getString("name");
         //GetNews s=new GetNews();
         //s.execute();
 
         setContentView(R.layout.activity_index);
+        reload = (Button) this.findViewById(R.id.reload);
+
         title=(TextView)findViewById(R.id.tv_top_center);
         title.setText(name);
         final Intent NewsDetail = new Intent(this,NewsDetailActivity.class);

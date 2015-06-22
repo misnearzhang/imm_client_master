@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.syuct.zhanglong.Utils.GlobalData;
@@ -19,13 +20,18 @@ public class MessageFragment extends Fragment {
     private WebView webView;
     private View view;
     private ProgressBar progress;
-	@Override
+    private Button reload;
+    private Button forward;
+    private Button back;
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-	}
-	
-	@Override
+
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.message_fragment,null);
@@ -36,6 +42,8 @@ public class MessageFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
         progress=(ProgressBar)view.findViewById(R.id.pb);
         progress.setMax(100);
+        reload = (Button) view.findViewById(R.id.reload);
+
 
 
         webView =(WebView)view.findViewById(R.id.web);
@@ -52,6 +60,13 @@ public class MessageFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
+        reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webView.reload();
+                GlobalData.showToast(getActivity().getApplicationContext(), "刷新成功!" + webView.getUrl());
+            }
+        });
     }
     private class mychromeClient extends WebChromeClient {
 
