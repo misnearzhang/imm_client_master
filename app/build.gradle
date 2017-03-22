@@ -3,9 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
-
     defaultConfig {
-        applicationId "com.syuct.zhanglong.message"
+        applicationId 'com.syuct.imm.message'
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
@@ -16,6 +15,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
