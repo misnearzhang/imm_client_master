@@ -2,6 +2,7 @@ package com.syuct.imm.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class FriendlistFragment extends Fragment {
 
     private ListView friendlist;
+    private Fragment sendmessagefragment;
     private View friendView;
     private SimpleAdapter adapter;
     private Button addFriend;
@@ -50,7 +52,7 @@ public class FriendlistFragment extends Fragment {
             ViewGroup container,
             Bundle savedInstanceState)
     {
-
+        sendmessagefragment=ChattingCurrentFragment.newInstance();
         friendView = inflater.inflate(R.layout.friendlist_fragment, null);
         return friendView;
     }
@@ -86,6 +88,12 @@ public class FriendlistFragment extends Fragment {
                                     View view,
                                     int position,
                                     long id) {
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        if (!sendmessagefragment.isAdded()) {	// 先判断是否被add过
+                            transaction.hide(getTargetFragment()).add(R.id.container, sendmessagefragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                        } else {
+                            transaction.hide(getTargetFragment()).show(sendmessagefragment).commit(); // 隐藏当前的fragment，显示下一个
+                        }
                 //Intent SendMessage2 = new Intent(getActivity().getApplicationContext());
                 /*Map<String, Object> friendMap = (Map) parent.getItemAtPosition(position);
                 String name = friendMap.get("name").toString();

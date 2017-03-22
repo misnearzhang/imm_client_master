@@ -29,18 +29,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ChattingCurrentFragment extends Fragment implements View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private View chattingView;
-    private EditText editText_ip=null;
-    private EditText editSendMsg=null;
-    private ListView lvFriendList=null;
-    private Button btnConnect=null;
-    private Button btnSend=null;
-    private ImageView imgConnectStatus=null;
-
     private Button mBtnSend;// 发送btn
     private Button mBtnBack;// 返回btn
     private EditText mEditTextContent;
@@ -48,8 +37,6 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
     private ChatMsgViewAdapter mAdapter;// 消息视图的Adapter
     private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();// 消息对象数组
     //private InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-    // TODO: Rename and change types of parameters
-
     public ChattingCurrentFragment() {
         // Required empty public constructor
     }
@@ -59,14 +46,6 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
         super.onActivityCreated(savedInstanceState);
 
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ChattingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ChattingCurrentFragment newInstance() {
         ChattingCurrentFragment fragment = new ChattingCurrentFragment();
         return fragment;
@@ -88,7 +67,6 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
 
         initData();// 初始化数据
         mListView.setSelection(mAdapter.getCount() - 1);
-
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -206,4 +184,6 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return format.format(new Date());
     }
+
+
 }

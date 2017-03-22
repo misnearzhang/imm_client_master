@@ -22,6 +22,7 @@ import com.syuct.imm.ui.R;
 import com.syuct.imm.ui.fragment.ChattingCurrentFragment;
 import com.syuct.imm.ui.fragment.FriendlistFragment;
 import com.syuct.imm.ui.fragment.LeftFragment;
+import com.syuct.imm.ui.fragment.MessageFragment;
 import com.syuct.imm.utils.GlobalData;
 
 /**
@@ -35,8 +36,12 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
     private Fragment leftFragment;//左侧视图
     static long back_pressed;
     private Fragment currentFragment;
+    private Fragment messageFragment;
     private Fragment mContent;
     private ImageButton topbutton;
+    private ImageButton btnRecent;
+    private ImageButton btnFriendList;
+    private ImageButton btnTimeLine;
     private BroadcastReceiver receiver;
 
 
@@ -49,6 +54,12 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
 
         topbutton=(ImageButton) findViewById(R.id.topbutton);
         topbutton.setOnClickListener(this);
+        btnRecent=(ImageButton)findViewById(R.id.BtnRecentChatting);
+        btnRecent.setOnClickListener(this);
+        btnFriendList=(ImageButton)findViewById(R.id.BtnFriendList);
+        btnFriendList.setOnClickListener(this);
+        btnTimeLine=(ImageButton)findViewById(R.id.BtnTimeLine);
+        btnTimeLine.setOnClickListener(this);
         sm = getSlidingMenu();
         sm.setMode(SlidingMenu.LEFT);//设置SlidingMenu可以从左右两侧都可以滑出
         //左边的菜单
@@ -61,7 +72,9 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         ChattingCurrentFragment chattingCurrentfragment=ChattingCurrentFragment.newInstance();
+        messageFragment=new MessageFragment();
         FriendlistFragment friendlistfragment=FriendlistFragment.newInstance();
+        friendlistfragment.setTargetFragment(friendlistfragment,1);
         transaction.replace(R.id.container, friendlistfragment).addToBackStack("friendlistfragment").commit();
                 //通过Fragment的管理器就可以切换Fragment
         fm.beginTransaction()//fragment的事物管理
@@ -141,6 +154,14 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         switch (view.getId()){
             case R.id.topbutton:
                 toggle();
+                break;
+            case R.id.BtnRecentChatting:
+                break;
+            case R.id.BtnFriendList:
+                break;
+            case R.id.BtnTimeLine:
+                switchContent(currentFragment,messageFragment);
+                break;
         }
     }
 }

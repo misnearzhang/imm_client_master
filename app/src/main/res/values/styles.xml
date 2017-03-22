@@ -1,5 +1,18 @@
 <resources>
-
+	<style name="AppTheme" parent="android:Theme.Material.NoActionBar">
+		<!--   状态栏颜色 -->
+		<item name="android:colorPrimaryDark">#ff0000</item>
+		<!--   控件颜色 -->
+		<item name="android:colorAccent">#ff0000</item>
+		<!-- 背景色 -->
+		<item name="android:windowBackground"> @color/bluelight</item>
+		<!-- 键盘区域颜色 -->
+		<item name="android:navigationBarColor">#faf9f9</item>
+		<!--标题栏字体颜色-->
+		<item name="android:textColorPrimary">#ff0000</item>
+		<!--内容区域字体颜色-->
+		<item name="android:textColor">#ff0000</item>
+	</style>
     <style name="CustomDialog">
 	    <item name="android:windowFrame">@null</item>
 	    <item name="android:windowNoTitle">true</item>
