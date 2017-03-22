@@ -3,15 +3,28 @@
               android:id="@+id/main_frame"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".MainActivity"
-              android:orientation="vertical">
-
+              tools:context=".MainActivity">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/layoutq"
+        android:layout_below="@+id/topbar">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/container"
+                android:layout_alignParentLeft="true"
+                >
+            </FrameLayout>
+        </RelativeLayout>
     <LinearLayout
+        android:id="@+id/layoutq"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/container"
-        android:background="@color/orange">
+        android:layout_below="@+id/container1"
+        android:background="@color/orange"
+        android:layout_alignParentBottom="true">
         <ImageButton
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -57,11 +70,5 @@
             />
     </RelativeLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/container"
-        android:layout_alignParentLeft="true"
-        android:paddingBottom="40dp">
-    </FrameLayout>
+
 </RelativeLayout>
