@@ -18,7 +18,7 @@
         >
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.MainActivity"
+            android:name="com.syuct.imm.ui.activity.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,48 +27,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.syuct.imm.ui.SuperActivity"
-            android:screenOrientation="portrait" >
+            android:name="com.syuct.imm.ui.activity.SuperActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.LoginActivity"
+            android:name="com.syuct.imm.ui.activity.LoginActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.IndexActivity"
+            android:name="com.syuct.imm.ui.activity.IndexActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.RegisterActivity"
+            android:name="com.syuct.imm.ui.activity.RegisterActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.UserDetailActivity"
+            android:name="com.syuct.imm.ui.activity.UserDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.NewsDetailActivity"
+            android:name="com.syuct.imm.ui.activity.NewsDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.FriendDetailActivity"
+            android:name="com.syuct.imm.ui.activity.FriendDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.syuct.imm.ui.AddFriendActivity"
+            android:name="com.syuct.imm.ui.activity.AddFriendActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             >
         </activity>

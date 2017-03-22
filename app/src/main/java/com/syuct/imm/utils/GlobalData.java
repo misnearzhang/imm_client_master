@@ -10,11 +10,11 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
-import com.syuct.imm.ui.AssistantFragment;
-import com.syuct.imm.ui.FriendlistFragment;
-import com.syuct.imm.ui.MessageFragment;
-import com.syuct.imm.ui.SettingFragment;
-import com.syuct.imm.ui.UsercenterFragment;
+import com.syuct.imm.ui.fragment.AssistantFragment;
+import com.syuct.imm.ui.fragment.FriendlistFragment;
+import com.syuct.imm.ui.fragment.MessageFragment;
+import com.syuct.imm.ui.fragment.SettingFragment;
+import com.syuct.imm.ui.fragment.UsercenterFragment;
 
 import java.io.ByteArrayOutputStream;
 import java.util.regex.Pattern;
@@ -77,7 +77,7 @@ public class GlobalData
         else
             return "0" + String.valueOf(c);
     }
-    public static String g_strPrefName = "Message4U";
+    public static String g_strPrefName = "Message";
     public static String g_strPassFlag = "PassFlag";
     public static String g_strUserID = "UserID";
     public static String g_strUserName = "UserName";
