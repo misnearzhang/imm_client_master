@@ -1,17 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_frame"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/main_frame"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".MainActivity"
+              android:orientation="vertical">
 
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    tools:context=".MainActivity" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/container"
+        android:background="@color/orange">
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/topbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#36A8DE"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <ImageButton
             android:layout_marginLeft="5dip"
             android:layout_centerVertical="true"
@@ -33,6 +55,13 @@
             android:focusableInTouchMode="true"
             android:marqueeRepeatLimit="marquee_forever"
             />
-
     </RelativeLayout>
-</FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/container"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="40dp">
+    </FrameLayout>
+</RelativeLayout>

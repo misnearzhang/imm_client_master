@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,6 +25,7 @@ import com.syuct.imm.utils.ConstData;
 import com.syuct.imm.utils.GlobalData;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +40,10 @@ public class FriendlistFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
     }
-
+    public static FriendlistFragment newInstance() {
+        FriendlistFragment fragment = new FriendlistFragment();
+        return fragment;
+    }
     @Override
     public View onCreateView(
             final LayoutInflater inflater,
@@ -51,15 +58,6 @@ public class FriendlistFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        addFriend = (Button) friendView.findViewById(R.id.addFriend);
-        addFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent Add_Intent = new Intent(getActivity().getApplicationContext(), AddFriendActivity.class);
-                startActivity(Add_Intent);
-                //getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
-            }
-        });
         initAdapter();
 
     }
@@ -69,7 +67,7 @@ public class FriendlistFragment extends Fragment {
     private void initAdapter() {
 
         adapter = new SimpleAdapter(getActivity().getApplicationContext(),
-                                    ConstData.getList(),
+                                    getList(),
                                     R.layout.friend_content_layout,
                                     new String[]{"name","friendAccount", "signature", "img"},
                                     new int[]{R.id.friend_name,
@@ -103,8 +101,33 @@ public class FriendlistFragment extends Fragment {
 
 
         friendlist.setAdapter(adapter);
+        friendlist.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                }
+            }
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
 
+            }
+        });
         registerForContextMenu(friendlist);
+    }
+
+    private List<? extends Map<String,?>> getList() {
+        List list=new ArrayList();
+        for(int i=0;i<20;i++){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("friendAccount", "[ 11160111 ]");
+            map.put("name", "迷死你的儿张");
+            map.put("signature", "龙岂池中物,乘风上青天");
+            map.put("img", R.drawable.headimg);
+            list.add(map);
+        }
+        return list;
     }
 
     private List<Map<String, Object>> setData() {
