@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.syuct.zhanglong.message4u"
+        applicationId "com.syuct.zhanglong.message"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -21,8 +21,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(':library')
     compile 'com.google.code.gson:gson:2.2.4'
-    compile project(':trineaandroidcommon')
+    compile 'com.android.support:gridlayout-v7:25.1.1'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile files('libs/protobuf-java-2.5.0.jar')
+    compile files('libs/netty-all-4.1.6.Final.jar')
+    compile 'com.android.support:support-v4:25.1.1'
 }

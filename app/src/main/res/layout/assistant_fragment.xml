@@ -7,7 +7,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp">
-
     </LinearLayout>
 
     <LinearLayout
@@ -32,10 +31,7 @@
         android:layout_height="50dp"
         android:layout_width="fill_parent"
         android:orientation="horizontal">
-
-
         <Spinner
-
             android:layout_marginLeft="10dp"
             android:id="@+id/select_type"
             android:layout_width="60dp"
@@ -43,8 +39,6 @@
             android:layout_weight="2"
             >
             </Spinner>
-
-
         <Button
             android:layout_weight="1"
             android:id="@+id/search_tel"
@@ -59,7 +53,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
         <TextView
             android:id="@+id/search_result"
             android:layout_width="fill_parent"
