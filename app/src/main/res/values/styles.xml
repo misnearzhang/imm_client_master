@@ -1,5 +1,5 @@
 <resources>
-	<style name="AppTheme" parent="android:Theme.Material.NoActionBar">
+	<style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
 		<!--   状态栏颜色 -->
 		<item name="android:colorPrimaryDark">#ff0000</item>
 		<!--   控件颜色 -->
@@ -7,7 +7,7 @@
 		<!-- 背景色 -->
 		<item name="android:windowBackground"> @color/bluelight</item>
 		<!-- 键盘区域颜色 -->
-		<item name="android:navigationBarColor">#faf9f9</item>
+		<item name="android:navigationBarColor">#e60d0d</item>
 		<!--标题栏字体颜色-->
 		<item name="android:textColorPrimary">#ff0000</item>
 		<!--内容区域字体颜色-->

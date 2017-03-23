@@ -1,16 +1,13 @@
-package com.syuct.imm.ui.fragment;
+package com.syuct.imm.ui.activity;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.app.Activity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
@@ -22,47 +19,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * create an instance of this fragment.
- */
-public class ChattingCurrentFragment extends Fragment implements View.OnClickListener{
-    private View chattingView;
+public class ChattingActivity extends Activity implements View.OnClickListener{
     private Button mBtnSend;// 发送btn
     private Button mBtnBack;// 返回btn
     private EditText mEditTextContent;
     private ListView mListView;
     private ChatMsgViewAdapter mAdapter;// 消息视图的Adapter
     private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();// 消息对象数组
-    //private InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-    public ChattingCurrentFragment() {
-        // Required empty public constructor
+
+    public ChattingActivity() {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-    public static ChattingCurrentFragment newInstance() {
-        ChattingCurrentFragment fragment = new ChattingCurrentFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        chattingView=inflater.inflate(R.layout.sendmessage_fragment,null);
-
-
+        setContentView(R.layout.activity_chatting);
         initView();// 初始化view
 
         initData();// 初始化数据
@@ -70,9 +41,9 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-                    imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(absListView.getWindowToken(), 0);
                 }
             }
             @Override
@@ -80,25 +51,12 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
 
             }
         });
-        return chattingView;
-
     }
-
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    /**
-     * 初始化view
-     */
     public void initView() {
-        mListView = (ListView) chattingView.findViewById(R.id.listview);
-        mBtnSend = (Button) chattingView.findViewById(R.id.btn_send);
+        mListView = (ListView) findViewById(R.id.listview);
+        mBtnSend = (Button) findViewById(R.id.btn_send);
         mBtnSend.setOnClickListener(this);
-        mEditTextContent = (EditText) chattingView.findViewById(R.id.et_sendmessage);
+        mEditTextContent = (EditText)findViewById(R.id.et_sendmessage);
     }
 
     private String[] msgArray = new String[] { "有大吗", "有！你呢？", "我也有", "那上吧",
@@ -132,7 +90,7 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
             mDataArrays.add(entity);
         }
 
-        mAdapter = new ChatMsgViewAdapter(getActivity(), mDataArrays);
+        mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
         mListView.setAdapter(mAdapter);
     }
 
@@ -184,6 +142,4 @@ public class ChattingCurrentFragment extends Fragment implements View.OnClickLis
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return format.format(new Date());
     }
-
-
 }
