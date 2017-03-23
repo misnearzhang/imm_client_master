@@ -21,6 +21,7 @@ import android.widget.SimpleAdapter;
 
 
 import com.syuct.imm.ui.R;
+import com.syuct.imm.ui.activity.ChattingActivity;
 import com.syuct.imm.ui.activity.FriendDetailActivity;
 import com.syuct.imm.utils.ConstData;
 import com.syuct.imm.utils.GlobalData;
@@ -52,7 +53,6 @@ public class FriendlistFragment extends Fragment {
             ViewGroup container,
             Bundle savedInstanceState)
     {
-        sendmessagefragment=ChattingCurrentFragment.newInstance();
         friendView = inflater.inflate(R.layout.friendlist_fragment, null);
         return friendView;
     }
@@ -88,19 +88,13 @@ public class FriendlistFragment extends Fragment {
                                     View view,
                                     int position,
                                     long id) {
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                        if (!sendmessagefragment.isAdded()) {	// 先判断是否被add过
-                            transaction.hide(getTargetFragment()).add(R.id.container, sendmessagefragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
-                        } else {
-                            transaction.hide(getTargetFragment()).show(sendmessagefragment).commit(); // 隐藏当前的fragment，显示下一个
-                        }
-                //Intent SendMessage2 = new Intent(getActivity().getApplicationContext());
-                /*Map<String, Object> friendMap = (Map) parent.getItemAtPosition(position);
+                Intent intent_sendMessage = new Intent(getActivity(), ChattingActivity.class);
+                Map<String, Object> friendMap = (Map) parent.getItemAtPosition(position);
                 String name = friendMap.get("name").toString();
                 String friendAccount = friendMap.get("friendAccount").toString();
-                SendMessage2.putExtra("friendAccount", friendAccount);
-                SendMessage2.putExtra("name", name);
-                startActivity(SendMessage2);*/
+                intent_sendMessage.putExtra("friendAccount", friendAccount);
+                intent_sendMessage.putExtra("name", name);
+                startActivity(intent_sendMessage);
                 //getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
             }
         });

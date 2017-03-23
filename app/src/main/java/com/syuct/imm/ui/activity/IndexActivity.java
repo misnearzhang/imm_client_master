@@ -19,7 +19,6 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.syuct.imm.broadcast.SystemBroad;
 import com.syuct.imm.core.io.ConnectorManager;
 import com.syuct.imm.ui.R;
-import com.syuct.imm.ui.fragment.ChattingCurrentFragment;
 import com.syuct.imm.ui.fragment.FriendlistFragment;
 import com.syuct.imm.ui.fragment.LeftFragment;
 import com.syuct.imm.ui.fragment.MessageFragment;
@@ -71,7 +70,6 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         leftFragment = new LeftFragment();//SlidingMenu需要显示的Fragment的实例
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        ChattingCurrentFragment chattingCurrentfragment=ChattingCurrentFragment.newInstance();
         messageFragment=new MessageFragment();
         FriendlistFragment friendlistfragment=FriendlistFragment.newInstance();
         friendlistfragment.setTargetFragment(friendlistfragment,1);
@@ -100,9 +98,6 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         //1.bundle
         //2.存放的ID
         //3.当前要保存的fragment的实例
-        this.getFragmentManager().putFragment(outState,
-                                              "contentFragment",
-                currentFragment);
     }
 
     @Override
