@@ -31,12 +31,10 @@ public class PushService extends Service {
 		String action = intent.getAction();
 
 		if (PushManager.ACTION_CREATE_IM_CONNECTION.equals(action)) {
-			/*String host = CacheToolkit.getInstance(this).getString(
+			String host = CacheToolkit.getInstance(this).getString(
 					CacheToolkit.KEY_CIM_SERVIER_HOST);
 			int port = CacheToolkit.getInstance(this).getInt(
-					CacheToolkit.KEY_CIM_SERVIER_PORT);*/
-			String host="192.168.0.105";
-			int port=3000;
+					CacheToolkit.KEY_CIM_SERVIER_PORT);
 			manager.connect(host, port);
 		}
 

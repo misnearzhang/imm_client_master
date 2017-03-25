@@ -1,38 +1,20 @@
 package com.syuct.imm.core.protocol;
 
+import java.io.Serializable;
+
 /**接收消息抽象
  * Created by zhanglong on 2017/2/25.
  */
-public class Message {
-    private String uid;//UUID  128bit
-    private String type;// 1,普通用户间消息  2.响应消息  3.系统通知消息 4.心跳
-    private Long timestamp;
-    private String body;
+public class Message implements Serializable{
+    private String head;//Header
+    private String body;//Body
 
-    public String getUid() {
-        return uid;
+    public String getHead() {
+        return head;
     }
 
-    public Message setUid(String uid) {
-        this.uid = uid;
-        return this;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Message setType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public Message setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public Message setHead(String head) {
+        this.head = head;
         return this;
     }
 
@@ -43,5 +25,13 @@ public class Message {
     public Message setBody(String body) {
         this.body = body;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "head='" + head + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }

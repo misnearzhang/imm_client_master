@@ -75,7 +75,7 @@ public class LoginActivity extends SuperActivity {
                         if (true) {
 
                             Intent intentLogin = new Intent(LoginActivity.this, IndexActivity.class);
-                            intentLogin.putExtra("name", new String("根据世界军力排名网“全球火力”(Global Firepower)" +
+                            intentLogin.putExtra("name", new String("根据世界军力排名网“全球火力”(global Firepower)" +
                                     "公布的世界最新军事力量排名，俄罗斯军队在世界最强军队排名榜上仅次于美国，位居第二位。" +
                                     "美军仍位居世界上最强军队榜首，而中国位居第三位，之后依次是印度、英国、法国、德国、" +
                                     "土耳其、韩国。日本位居第10位。"));

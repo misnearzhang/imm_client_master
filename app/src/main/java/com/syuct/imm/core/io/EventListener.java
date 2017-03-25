@@ -3,6 +3,8 @@ package com.syuct.imm.core.io;
 
 import android.net.NetworkInfo;
 
+import com.syuct.imm.core.protocol.Message;
+
 
 /**
  * 主要事件接口
@@ -15,7 +17,7 @@ public interface EventListener
      * 当收到服务端推送过来的消息时调用
      * @param message
      */
-    public abstract void onMessageReceived(byte[] message);
+    public abstract void onMessageReceived(Message message);
 
     /**
      * 当调用CIMPushManager.sendRequest()向服务端发送请求，获得相应时调用

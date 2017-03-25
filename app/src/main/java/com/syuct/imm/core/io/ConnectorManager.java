@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.syuct.imm.core.io.exception.NetWorkDisableException;
 import com.syuct.imm.core.io.exception.SessionDisableException;
 import com.syuct.imm.core.io.exception.WriteToClosedSessionException;
+import com.syuct.imm.core.protocol.Header;
+import com.syuct.imm.core.protocol.Message;
+import com.syuct.imm.core.protocol.MessageEnum;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -67,11 +71,11 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	// 发送message成功广播
 	public static final String ACTION_MESSAGE_SUCCESS = "com.oo.misnearzhang.MESSAGE_SUCCESS";
 
-	// 发送reply失败广播
-	public static final String ACTION_REPLY_FAILED = "com.oo.misnearzhang.REPLY_FAILED";
+	// 发送RESPONSE失败广播
+	public static final String ACTION_REPLY_FAILED = "com.oo.misnearzhang.RESPONSE_FAILED";
 
-	// 发送reply成功广播
-	public static final String ACTION_REPLY_SUCCESS = "com.oo.misnearzhang.REPLY_SUCCESS";
+	// 发送RESPONSE成功广播
+	public static final String ACTION_REPLY_SUCCESS = "com.oo.misnearzhang.RESPONSE_SUCCESS";
 
 	// 发送系统消息广播
 	public static final String ACTION_SYSTEM_RECEIVED= "com.oo.misnearzhang.SYSTEM_RECEIVED";
@@ -139,7 +143,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 
 	}
 
-	private synchronized void syncConnection(final String cimServerHost,
+	private synchronized void syncConnection(final String imServerHost,
 			final int cimServerPort) {
 		try {
 
@@ -147,20 +151,20 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 				return;
 			}
 			ChannelFuture channelFuture = bootstrap.connect(
-					new InetSocketAddress(cimServerHost, cimServerPort)).sync(); // 这里的IP和端口，根据自己情况修改
+					new InetSocketAddress(imServerHost, cimServerPort)).sync(); // 这里的IP和端口，根据自己情况修改
 			channel = channelFuture.channel();
 		} catch (Exception e) {
 			Intent intent = new Intent();
 			intent.setAction(ACTION_CONNECTION_FAILED);
 			intent.putExtra("exception", e);
 			context.sendBroadcast(intent);
-			Log.e(TAG, "******************IM连接服务器失败  " + cimServerHost + ":"
+			Log.e(TAG, "******************IM连接服务器失败  " + imServerHost + ":"
 					+ cimServerPort);
 		}
 
 	}
 
-	public void connect(final String cimServerHost, final int cimServerPort) {
+	public void connect(final String imServerHost, final int imServerPort) {
 
 		if (!netWorkAvailable(context)) {
 
@@ -174,7 +178,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		Future<?> future = executor.submit(new Runnable() {
 			@Override
 			public void run() {
-				syncConnection(cimServerHost, cimServerPort);
+				syncConnection(imServerHost, imServerPort);
 			}
 		});
 		/*
@@ -390,31 +394,28 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 				Intent intent = new Intent();
 				Log.e(TAG, "msg==" + msg.toString());
 				String message_string= (String) msg;
-				intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
-				intent.putExtra("message", message_string.getBytes());
-				context.sendBroadcast(intent);
-				/*Message request=gson.fromJson(message_string,Message.class);
-				ByteBuf responsebuf=Unpooled.copiedBuffer("yes Im recevied\r\n".getBytes());
-				switch (request.getType()){
-					case Constant.MessageType.user:
-						intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
-						intent.putExtra("message", request.getBody());
-						context.sendBroadcast(intent);
-						break;
-					case Constant.MessageType.system:
-						intent.setAction(ConnectorManager.ACTION_SYSTEM_RECEIVED);
-						intent.putExtra("system", request.getBody());
-						context.sendBroadcast(intent);
-						channel.writeAndFlush(responsebuf);
-						break;
-					case Constant.MessageType.response:
-						intent.setAction(ConnectorManager.ACTION_REPLY_RECEIVED);
-						intent.putExtra("response", request.getBody());
-						context.sendBroadcast(intent);
-						break;
-					default:
-						break;
-				}*/
+				Message request=gson.fromJson(message_string,Message.class);
+				String head=request.getHead();
+				Header header=gson.fromJson(head,Header.class);
+				String type=header.getType();
+				if(MessageEnum.type.PING.getCode().equals(type)){
+					//ping 不发广播  直接连接层处理
+					Header header1 = new Header();
+					header1.setUid(header.getUid());
+					header1.setStatus("200");
+					header1.setType(MessageEnum.type.PONG.getCode());
+					request.setHead(gson.toJson(header1));
+					String send = gson.toJson(request);
+					send += "\r\n";
+					ByteBuf buf = Unpooled.copiedBuffer(send.getBytes());
+					ctx.channel().writeAndFlush(buf);
+				}else {
+					intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("message", request);
+					intent.putExtras(bundle);
+					context.sendBroadcast(intent);
+				}
 			} else {
 				System.out.println("接收到对象:" + msg.toString());
 			}

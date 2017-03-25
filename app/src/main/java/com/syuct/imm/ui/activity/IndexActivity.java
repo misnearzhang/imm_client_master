@@ -4,10 +4,21 @@ package com.syuct.imm.ui.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
 import android.widget.ImageButton;
@@ -17,7 +28,10 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.syuct.imm.broadcast.SystemBroad;
+import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.core.io.ConnectorManager;
+import com.syuct.imm.core.io.PushManager;
+import com.syuct.imm.core.io.PushService;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.ui.fragment.FriendlistFragment;
 import com.syuct.imm.ui.fragment.LeftFragment;
@@ -42,11 +56,26 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
     private ImageButton btnFriendList;
     private ImageButton btnTimeLine;
     private BroadcastReceiver receiver;
+    private Intent serviceIntent;
 
-
+    SoundPool soundPool;
     @Override
     public void onCreate(Bundle savedInstanceState) {//将protected变成public
         super.onCreate(savedInstanceState);
+        SoundPool.Builder builder = new SoundPool.Builder();
+        builder.setMaxStreams(2);//传入音频数量
+        //AudioAttributes是一个封装音频各种属性的方法
+        AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
+        attrBuilder.setLegacyStreamType(AudioManager.STREAM_MUSIC);//设置音频流的合适的属性
+        builder.setAudioAttributes(attrBuilder.build());//加载一个AudioAttributes
+        soundPool = builder.build();
+        soundPool.load(this, R.raw.system,1);
+
+        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_HOST,"xcnana.com");
+        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_PORT,"3000");
+        serviceIntent= new Intent(this, PushService.class);
+        serviceIntent.setAction(PushManager.ACTION_CREATE_IM_CONNECTION);
+        startService(serviceIntent);
         receiver=new SystemBroad();
         setContentView(R.layout.activity_index);
         setBehindContentView(R.layout.menu);//设置SlidingMenu的layout
@@ -117,7 +146,7 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
 
     @Override
     protected void onResume() {
-        IntentFilter intentFilter = new IntentFilter();
+        /*IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
         intentFilter.addAction(ConnectorManager.ACTION_SENT_FAILED);
         intentFilter.addAction(ConnectorManager.ACTION_SENT_SUCCESS);
@@ -134,13 +163,15 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         intentFilter.addAction(ConnectorManager.ACTION_UNCAUGHT_EXCEPTION);
         intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_STATUS);
         intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_RECOVERY);
-        this.registerReceiver(receiver, intentFilter);
+        this.registerReceiver(receiver, intentFilter);*/
+        serviceIntent.setAction(PushManager.ACTION_CREATE_IM_CONNECTION);
+        startService(serviceIntent);
         super.onResume();
 
     }
         @Override
         protected void onStop() {
-            this.unregisterReceiver(receiver);
+            /*this.unregisterReceiver(receiver);*/
             super.onStop();
         }
 
@@ -148,6 +179,19 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.topbutton:
+                soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                    @Override
+                    public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                        soundPool.play(1,1, 1, 0, 0, 1);
+                    }
+                });
+
+                /*NotificationManager manger = (NotificationManager) IndexActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notification = new Notification.Builder(IndexActivity.this)
+                        .setContentTitle("title")
+                        .setContentText("text").setSmallIcon(R.drawable.ic_launcher).build();
+                notification.defaults=Notification.DEFAULT_SOUND;
+                manger.notify(1, notification);*/
                 toggle();
                 break;
             case R.id.BtnRecentChatting:
@@ -159,5 +203,54 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
                 break;
         }
     }
+    private void showDefaultNotification() {
+        // 定义Notication的各种属性
+        CharSequence title = "i am new";
+        int icon = R.drawable.wechat_icon;
+        long when = System.currentTimeMillis();
+        Notification noti = new Notification(icon, title, when + 10000);
+        noti.flags = Notification.FLAG_INSISTENT;
+
+        // 创建一个通知
+        Notification mNotification = new Notification();
+
+        // 设置属性值
+        mNotification.icon = R.drawable.wechat_icon;
+        mNotification.tickerText = "NotificationTest";
+        mNotification.when = System.currentTimeMillis(); // 立即发生此通知
+
+        // 带参数的构造函数,属性值如上
+        // Notification mNotification = = new Notification(R.drawable.icon,"NotificationTest", System.currentTimeMillis()));
+
+        // 添加声音效果
+        mNotification.defaults |= Notification.DEFAULT_SOUND;
+
+        // 添加震动,后来得知需要添加震动权限 : Virbate Permission
+        //mNotification.defaults |= Notification.DEFAULT_VIBRATE ;
+
+        //添加状态标志
+
+        //FLAG_AUTO_CANCEL          该通知能被状态栏的清除按钮给清除掉
+        //FLAG_NO_CLEAR                 该通知能被状态栏的清除按钮给清除掉
+        //FLAG_ONGOING_EVENT      通知放置在正在运行
+        //FLAG_INSISTENT                通知的音乐效果一直播放
+        mNotification.flags = Notification.FLAG_INSISTENT ;
+        // 设置setLatestEventInfo方法,如果不设置会App报错异常
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent contentIntent = PendingIntent.getActivity
+                (IndexActivity.this, 0,new Intent("android.settings.SETTINGS"), 0);
+
+        //注册此通知
+        // 如果该NOTIFICATION_ID的通知已存在，会显示最新通知的相关信息 ，比如tickerText 等
+        mNotificationManager.notify(1, mNotification);
+    }
+
+    private void removeNotification()
+    {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // 取消的只是当前Context的Notification
+        mNotificationManager.cancel(2);
+    }
+
 }
 

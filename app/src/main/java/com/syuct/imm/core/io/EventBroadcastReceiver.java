@@ -11,6 +11,8 @@ import android.util.Log;
 import com.syuct.imm.core.constant.Constant;
 import com.syuct.imm.core.io.exception.SessionDisableException;
 import com.syuct.imm.core.io.exception.WriteToClosedSessionException;
+import com.syuct.imm.core.protocol.Message;
+import com.syuct.imm.utils.okhttp.OkHttpUtils;
 
 /**
  * 消息入口，所有消息都会经过这里
@@ -61,7 +63,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		}
 
 		/*
-		 * cim连接服务器成功事件
+		 * im连接服务器成功事件
 		 */
 		if (it.getAction()
 				.equals(ConnectorManager.ACTION_CONNECTION_SUCCESS)) {
@@ -72,8 +74,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 收到消息事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_RECEIVED)) {
-
-				byte[] message=it.getByteArrayExtra("message");
+				Message message=(Message)it.getSerializableExtra("message");
 				onInnerMessageReceived(message);
 		}
 		/*
@@ -86,30 +87,30 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 发送消息失败事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_FAILED)) {
-				byte[] message=it.getByteArrayExtra("message");
+				Message message= (Message) it.getSerializableExtra("message");
 				onInnerMessageReceived(message);
 		}
 
 		/*
 		 * 获取收到replybody成功事件
-		 */
+		 *//*
 		if (it.getAction().equals(ConnectorManager.ACTION_REPLY_RECEIVED)) {
 
 			byte[] message=it.getByteArrayExtra("replyBody");
 			onInnerMessageReceived(message);
 		}
 
-		/*
+		*//*
 		 * 获取sendbody发送失败事件
-		 */
+		 *//*
 		if (it.getAction().equals(ConnectorManager.ACTION_SENT_FAILED)) {
 			byte[] message=it.getByteArrayExtra("sentBody");
 			onInnerMessageReceived(message);
 		}
 
-		/*
+		*//*
 		 * 获取sendbody发送成功事件
-		 */
+		 *//*
 		if (it.getAction().equals(ConnectorManager.ACTION_SENT_SUCCESS)) {
 			byte[] message=it.getByteArrayExtra("sentBody");
 			onInnerMessageReceived(message);
@@ -118,12 +119,12 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		if (it.getAction().equals(ConnectorManager.ACTION_REPLY_FAILED)) {
 			byte[] message=it.getByteArrayExtra("replyBody");
 			onInnerMessageReceived(message);
-		}
+		}*/
 
 		if (it.getAction().equals(ConnectorManager.ACTION_REPLY_SUCCESS)) {
 		}
 		/*
-		 * 获取cim数据传输异常事件
+		 * 获取im数据传输异常事件
 		 */
 		if (it.getAction()
 				.equals(ConnectorManager.ACTION_UNCAUGHT_EXCEPTION)) {
@@ -193,12 +194,11 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		onNetworkChanged(info);
 	}
 
-	private void onInnerMessageReceived(byte[] message) {
-		if (Constant.MessageType.TYPE_999.equals(message)) {
+	private void onInnerMessageReceived(Message message) {
+		/*if (Constant.MessageType.TYPE_999.equals(message)) {
 			CacheToolkit.getInstance(context).putBoolean(
 					CacheToolkit.KEY_MANUAL_STOP, true);
-		}
-
+		}*/
 
 		onMessageReceived(message);
 	}
@@ -243,7 +243,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 	}
 
 	@Override
-	public abstract void onMessageReceived(byte[] message);
+	public abstract void onMessageReceived(Message message);
 
 	@Override
 	public abstract void onReplyReceived(String body);

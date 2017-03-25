@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class CacheToolkit extends SQLiteOpenHelper {
+public class CacheToolkit extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME  = "CIM_CONFIG_INFO.db";
 	private static final int DATABASE_VERSION  = 20160406;
