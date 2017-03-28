@@ -23,11 +23,9 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	public interface IMsgViewType {
 		int IMVT_COM_MSG = 0;// 收到对方的消息
 		int IMVT_TO_MSG = 1;// 自己发送出去的消息
-		int IMVT_COM_IMAGE=2;
-		int IMVT_TO_IMAGE=3;
 	}
 
-	private static final int ITEMCOUNT = 4;// 消息类型的总数
+	private static final int ITEMCOUNT = 2;// 消息类型的总数
 	private List<ChatMsgEntity> coll;// 消息对象数组
 	private LayoutInflater mInflater;
 
@@ -57,14 +55,10 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	public int getItemViewType(int position) {
 		ChatMsgEntity entity = coll.get(position);
 
-		if (entity.getType()==0) {//收到的消息
+		if (entity.getType() == 0) {//收到的消息
 			return IMsgViewType.IMVT_COM_MSG;
-		} else if(entity.getType()==1){//自己发送的消息
+		} else {//自己发送的消息
 			return IMsgViewType.IMVT_TO_MSG;
-		}else if(entity.getType()==2){
-			return IMsgViewType.IMVT_COM_IMAGE;
-		}else {
-			return IMsgViewType.IMVT_TO_IMAGE;
 		}
 	}
 
@@ -83,21 +77,13 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			switch (isComMsg){
-				case 1:
+				case 0:
 					convertView = mInflater.inflate(
 							R.layout.chatting_item_msg_text_left, null);
 					break;
-				case 2:
+				case 1:
 					convertView = mInflater.inflate(
 							R.layout.chatting_item_msg_text_right, null);
-					break;
-				case 3:
-					convertView = mInflater.inflate(
-							R.layout.chatting_item_msg_img_left, null);
-					break;
-				case 4:
-					convertView = mInflater.inflate(
-							R.layout.chatting_item_msg_img_right, null);
 					break;
 				default:
 			}

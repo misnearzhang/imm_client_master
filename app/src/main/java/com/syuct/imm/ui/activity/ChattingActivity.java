@@ -1,6 +1,7 @@
 package com.syuct.imm.ui.activity;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class ChattingActivity extends Activity implements View.OnClickListener{
     private Button mBtnSend;// 发送btn
-    private Button mBtnBack;// 返回btn
+    private ImageButton mBtnBack;// 返回btn
     private EditText mEditTextContent;
     private ListView mListView;
     private ChatMsgViewAdapter mAdapter;// 消息视图的Adapter
@@ -56,6 +58,9 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         mListView = (ListView) findViewById(R.id.listview);
         mBtnSend = (Button) findViewById(R.id.btn_send);
         mBtnSend.setOnClickListener(this);
+        mBtnBack = (ImageButton) findViewById(R.id.topbutton_back);
+        mBtnBack.setOnClickListener(this);
+
         mEditTextContent = (EditText)findViewById(R.id.et_sendmessage);
     }
 
@@ -81,10 +86,10 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             entity.setDate(dataArray[i]);
             if (i % 2 == 0) {
                 entity.setName("肖B");
-                entity.setType(1);// 收到的消息
+                entity.setType(0);// 收到的消息
             } else {
                 entity.setName("必败");
-                entity.setType(2);// 自己发送的消息
+                entity.setType(1);// 自己发送的消息
             }
             entity.setMessage(msgArray[i]);
             mDataArrays.add(entity);
@@ -100,6 +105,9 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             case R.id.btn_send:// 发送按钮点击事件
                 send();
                 break;
+            case R.id.topbutton_back:
+                super.onBackPressed();
+                break;
         }
     }
 
@@ -113,18 +121,16 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             entity.setName("必败");
             entity.setDate(getDate());
             entity.setMessage(contString);
-            entity.setType(3);
+            entity.setType(0);
             mDataArrays.add(entity);
 
             ChatMsgEntity entity1 = new ChatMsgEntity();
             entity1.setName("必败");
             entity1.setDate(getDate());
             entity1.setMessage(contString);
-            entity1.setType(4);
+            entity1.setType(1);
 
             mDataArrays.add(entity1);
-           /* mAdapter = new ChatMsgViewAdapter(getActivity(), mDataArrays);
-            mListView.setAdapter(mAdapter);*/
             mAdapter.setDataList(mDataArrays);
             mAdapter.notifyDataSetChanged();
             mEditTextContent.setText("");// 清空编辑框数据

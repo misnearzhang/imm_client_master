@@ -185,13 +185,6 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
                         soundPool.play(1,1, 1, 0, 0, 1);
                     }
                 });
-
-                /*NotificationManager manger = (NotificationManager) IndexActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification = new Notification.Builder(IndexActivity.this)
-                        .setContentTitle("title")
-                        .setContentText("text").setSmallIcon(R.drawable.ic_launcher).build();
-                notification.defaults=Notification.DEFAULT_SOUND;
-                manger.notify(1, notification);*/
                 toggle();
                 break;
             case R.id.BtnRecentChatting:
@@ -203,54 +196,5 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
                 break;
         }
     }
-    private void showDefaultNotification() {
-        // 定义Notication的各种属性
-        CharSequence title = "i am new";
-        int icon = R.drawable.wechat_icon;
-        long when = System.currentTimeMillis();
-        Notification noti = new Notification(icon, title, when + 10000);
-        noti.flags = Notification.FLAG_INSISTENT;
-
-        // 创建一个通知
-        Notification mNotification = new Notification();
-
-        // 设置属性值
-        mNotification.icon = R.drawable.wechat_icon;
-        mNotification.tickerText = "NotificationTest";
-        mNotification.when = System.currentTimeMillis(); // 立即发生此通知
-
-        // 带参数的构造函数,属性值如上
-        // Notification mNotification = = new Notification(R.drawable.icon,"NotificationTest", System.currentTimeMillis()));
-
-        // 添加声音效果
-        mNotification.defaults |= Notification.DEFAULT_SOUND;
-
-        // 添加震动,后来得知需要添加震动权限 : Virbate Permission
-        //mNotification.defaults |= Notification.DEFAULT_VIBRATE ;
-
-        //添加状态标志
-
-        //FLAG_AUTO_CANCEL          该通知能被状态栏的清除按钮给清除掉
-        //FLAG_NO_CLEAR                 该通知能被状态栏的清除按钮给清除掉
-        //FLAG_ONGOING_EVENT      通知放置在正在运行
-        //FLAG_INSISTENT                通知的音乐效果一直播放
-        mNotification.flags = Notification.FLAG_INSISTENT ;
-        // 设置setLatestEventInfo方法,如果不设置会App报错异常
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity
-                (IndexActivity.this, 0,new Intent("android.settings.SETTINGS"), 0);
-
-        //注册此通知
-        // 如果该NOTIFICATION_ID的通知已存在，会显示最新通知的相关信息 ，比如tickerText 等
-        mNotificationManager.notify(1, mNotification);
-    }
-
-    private void removeNotification()
-    {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // 取消的只是当前Context的Notification
-        mNotificationManager.cancel(2);
-    }
-
 }
 

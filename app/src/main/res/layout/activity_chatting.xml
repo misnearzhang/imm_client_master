@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         >
 
@@ -33,14 +33,52 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#36A8DE"
+        android:orientation="vertical">
+        <ImageButton
+            android:layout_marginLeft="5dip"
+            android:layout_centerVertical="true"
+            android:id="@+id/topbutton_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/back"/>
+        <TextView
+            android:layout_toRightOf="@id/topbutton_back"
+            android:id="@+id/tv_top_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dip"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            />
+    </RelativeLayout>
+<RelativeLayout
+    android:id="@+id/listviewly"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/topbar"
+    android:layout_above="@+id/rl_bottom"
+    >
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/rl_bottom"
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:dividerHeight="5dp"
-        android:scrollbars="none" />
-
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+</RelativeLayout>
 </RelativeLayout>
