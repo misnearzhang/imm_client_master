@@ -24,28 +24,8 @@ public class CacheToolkit extends SQLiteOpenHelper {
 	
 	public static final String KEY_PASSWORD = "KEY_PASSWORD";
 	
-	
-	public static final String KEY_ADDRESS = "KEY_ADDRESS";
-	
-	public static final String KEY_POINT = "KEY_POINT";
-	
-	
-	public static final String KEY_NICKNAME = "KEY_NICKNAME";
-	
-	
-	public static final String KEY_HEAD_URL = "KEY_HEAD_URL";
-	
-	
-	public static final String KEY_SEX = "KEY_SEX";
-	
-	
-	public static final String KEY_DECLARATION = "KEY_DECLARATION";
-	
-	
-	public static final String KEY_AREA = "KEY_AREA";
-	
-	public static final String KEY_PLATFORM = "KEY_PLATFORM";
-	
+	public static final String KEY_HANDSHAKE="KEY_HANDSHAKE";
+
 	public static final String KEY_MANUAL_STOP = "KEY_MANUAL_STOP";
 	
 	public static final String KEY_CIM_DESTROYED = "KEY_CIM_DESTROYED";

@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.syuct.imm.bean.ChatMsgEntity;
 import com.syuct.imm.ui.R;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -94,6 +96,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_username);
 			viewHolder.tvContent = (TextView) convertView
 					.findViewById(R.id.tv_chatcontent);
+			viewHolder.status = (ProgressBar)convertView.findViewById(R.id.pb_sending);
 			viewHolder.isComMsg = isComMsg;
 
 			convertView.setTag(viewHolder);
@@ -103,7 +106,18 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		viewHolder.tvSendTime.setText(entity.getDate());
 		viewHolder.tvUserName.setText(entity.getName());
 		viewHolder.tvContent.setText(entity.getMessage());
+		if(entity.isStatus()){
+			viewHolder.status.setVisibility(View.INVISIBLE);
+		}else{
+			viewHolder.status.setVisibility(View.VISIBLE);
+		}
+
 		return convertView;
+	}
+
+	public View getView(String uuid){
+
+		return null;
 	}
 
 	static class ViewHolder {
@@ -111,6 +125,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		public TextView tvUserName;
 		public TextView tvContent;
 		public Integer isComMsg;
+		public ProgressBar status;
 	}
 
 }

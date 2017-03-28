@@ -1,5 +1,6 @@
 package com.syuct.imm.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.syuct.imm.asynctask.LoginAsyncTask;
+import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.utils.GlobalData;
 import com.syuct.imm.bean.Login;
+import com.syuct.imm.utils.okhttp.https.HttpsUtils;
 
 
 public class LoginActivity extends SuperActivity {
@@ -43,15 +46,14 @@ public class LoginActivity extends SuperActivity {
                     break;
                 case R.id.btnLogin:
                     String UserAccountOrPhoneNumber = txtUserName.getText().toString();
-                    String connection = txtConnect.getText().toString();
-                    LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
-                    if (connection.length() == 0) {
+                    /*String connection = txtConnect.getText().toString();*/
+                    /*if (connection.length() == 0) {
                         GlobalData.showToast(LoginActivity.this,
                                 getString(R.string.disconnect));
                         return;
                     } else {
                         GlobalData.setIPaddress(connection);
-                    }
+                    }*/
                     if (UserAccountOrPhoneNumber.length() == 0) {
                         GlobalData.showToast(LoginActivity.this,
                                 getString(R.string.inputusername));
@@ -68,25 +70,8 @@ public class LoginActivity extends SuperActivity {
                         Login login = new Login();
                         login.setUserAccount(UserAccountOrPhoneNumber);
                         login.setPassword(Password);
-                        //loginAsyncTask.execute(login);
-
-                        //httpRequest.login(UserAccountOrPhoneNumber, Password);
-
-                        if (true) {
-
-                            Intent intentLogin = new Intent(LoginActivity.this, IndexActivity.class);
-                            intentLogin.putExtra("name", new String("根据世界军力排名网“全球火力”(global Firepower)" +
-                                    "公布的世界最新军事力量排名，俄罗斯军队在世界最强军队排名榜上仅次于美国，位居第二位。" +
-                                    "美军仍位居世界上最强军队榜首，而中国位居第三位，之后依次是印度、英国、法国、德国、" +
-                                    "土耳其、韩国。日本位居第10位。"));
-
-                            startActivity(intentLogin);
-                            //overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_fade_out);
-                            finish();
-
-                        } else {
-                            GlobalData.showToast(LoginActivity.this, "账号或密码错误!");
-                        }
+                        LoginAsyncTask task=new LoginAsyncTask(getApplicationContext());
+                        task.execute(login);
                     } else {
                         GlobalData.showToast(LoginActivity.this, "断网了!");
                     }
@@ -102,6 +87,7 @@ public class LoginActivity extends SuperActivity {
     TextView lblForgetPass = null;
     Button btnRegister = null;
     Button btnLogin = null;
+    ProgressDialog dialog=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +113,10 @@ public class LoginActivity extends SuperActivity {
         txtUserName = (EditText) findViewById(R.id.txtUserID);
         txtPass = (EditText) findViewById(R.id.txtPassword);
         txtConnect = (EditText) findViewById(R.id.connect);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(onClickListener);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(onClickListener);
         if (GlobalData.GetPassFlag(LoginActivity.this)) {
             txtUserName.setText(GlobalData.GetUserName(LoginActivity.this));
             txtPass.setText(GlobalData.GetPass(LoginActivity.this));
@@ -135,10 +125,6 @@ public class LoginActivity extends SuperActivity {
             txtPass.setText("");
         }
 
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(onClickListener);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(onClickListener);
     }
 
     @Override

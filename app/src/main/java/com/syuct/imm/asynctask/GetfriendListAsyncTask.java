@@ -6,26 +6,25 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.syuct.imm.bean.Login;
 import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.ui.activity.IndexActivity;
-import com.syuct.imm.bean.Login;
 import com.syuct.imm.utils.GlobalData;
 import com.syuct.imm.utils.okhttp.OkHttpUtils;
 import com.syuct.imm.utils.okhttp.builder.PostFormBuilder;
-import com.syuct.imm.utils.okhttp.callback.Callback;
 import com.syuct.imm.utils.okhttp.callback.StringCallback;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Response;
 
 
 /**
  * Created by zhanglong on 4/6/15.
  */
-public class LoginAsyncTask extends AsyncTask<Login, Void, Void> {
-    public LoginAsyncTask(Context context) {
+public class GetfriendListAsyncTask extends AsyncTask<Void, Void, Void> {
+    public GetfriendListAsyncTask(Context context) {
         this.context = context;
     }
 
@@ -48,16 +47,12 @@ public class LoginAsyncTask extends AsyncTask<Login, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Login... params) {
+    protected Void doInBackground(Void... params) {
         //return http.Post("http://localhost:8080/message4U/api/user/login", "login", params[0]);
-        String account = params[0].getUserAccount();
-        String password = params[0].getPassword();
         PostFormBuilder post = OkHttpUtils.post();
-        post.url("http://xcnana.com:8080/imm/login.htm");
+        post.url("http://xcnana.com:8080/imm/getFriendsList.htm");
+        String account=CacheToolkit.getInstance(context).getString(CacheToolkit.KEY_ACCOUNT);
         post.addParams("account", account);
-        post.addParams("password", password);
-        CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_ACCOUNT,account);
-        CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_PASSWORD,password);
         post.build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -71,8 +66,9 @@ public class LoginAsyncTask extends AsyncTask<Login, Void, Void> {
                 String code=(String)map.get("status");
                 Log.v("code",code);
                 if("200".equals(code)){
-                    Intent intentLogin = new Intent(context, IndexActivity.class);
-                    context.startActivity(intentLogin);
+                    //{"data":[{"account":"1065302407","nickname":"1039075891","sex":"123456"},{"account":"1065302407","nickname":"123456","sex":"123456"}],"status":"200","desc":"OK"}
+                    List<Map> data=(List<Map>) map.get("data");
+
                     }else{
                         GlobalData.showToast(context,"账号或者密码错误");
                     }

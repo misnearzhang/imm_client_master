@@ -117,9 +117,7 @@ public class PushManager {
 	 */
 
 	public static void sendBindRequest(Context context, String username,
-			String password, String currentAddress, String currtenPoint,
-			String nickname, String headurl, String sex, String declaration,
-			String area,String platform) {
+			String password,String handshake) {
 
 		CacheToolkit.getInstance(context).putBoolean(
 				CacheToolkit.KEY_MANUAL_STOP, false);
@@ -127,42 +125,9 @@ public class PushManager {
 				CacheToolkit.KEY_ACCOUNT, username);
 		CacheToolkit.getInstance(context).putString(
 				CacheToolkit.KEY_PASSWORD, password);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_ADDRESS, currentAddress);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_POINT, currtenPoint);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_NICKNAME, nickname);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_HEAD_URL, headurl);
-		CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_SEX,
-				sex);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_DECLARATION, declaration);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_AREA, area);
-		CacheToolkit.getInstance(context).putString(
-				CacheToolkit.KEY_PLATFORM, platform);
-		
+		CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_HANDSHAKE,handshake);
 		String imei = ((TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-		imei += context.getPackageName();
-		/*SentBody.Builder sentBody = SentBody.newBuilder();
-		sentBody.setKey(Constant.RequestKey.CLIENT_LOGIN);
-		sentBody.addData(username);
-		sentBody.addData(password);
-		sentBody.addData(currentAddress == null ? "" : currentAddress);
-		sentBody.addData(currtenPoint == null ? "" : currtenPoint);
-		sentBody.addData("1001");
-		sentBody.addData(android.os.Build.MODEL);
-		sentBody.addData(nickname == null ? "" : nickname);
-		sentBody.addData(headurl == null ? "" : headurl);
-		sentBody.addData(imei == null ? "" : imei);
-		sentBody.addData(sex == null ? "" : sex);
-		sentBody.addData(declaration == null ? "" : declaration);
-		sentBody.addData(area == null ? "" : area);
-		sentBody.addData(platform);
-		sentBody.setTimestamp(System.currentTimeMillis());*/
 		sendRequest(context, "");
 	}
 
@@ -172,24 +137,7 @@ public class PushManager {
 				CacheToolkit.KEY_ACCOUNT);
 		String password = CacheToolkit.getInstance(context).getString(
 				CacheToolkit.KEY_PASSWORD);
-		String address = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_ADDRESS);
-		String point = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_POINT);
-		String nickname = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_NICKNAME);
-		String headurl = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_HEAD_URL);
-		String sex = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_SEX);
-		String declaration = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_DECLARATION);
-
-		String area = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_AREA);
-		
-		String platform = CacheToolkit.getInstance(context).getString(
-				CacheToolkit.KEY_PLATFORM);
+		String handshake=CacheToolkit.getInstance(context).getString(CacheToolkit.KEY_HANDSHAKE);
 		boolean isManualDestory = CacheToolkit.getInstance(context)
 				.getBoolean(CacheToolkit.KEY_CIM_DESTROYED);
 		boolean isManualStoped = CacheToolkit.getInstance(context)
@@ -199,8 +147,7 @@ public class PushManager {
 			return false;
 		}
 
-		sendBindRequest(context, account, password, address, point, nickname,
-				headurl, sex, declaration, area,platform);
+		sendBindRequest(context, account, password,handshake);
 
 		return true;
 	}

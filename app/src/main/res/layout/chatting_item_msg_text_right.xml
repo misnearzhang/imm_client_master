@@ -61,6 +61,14 @@
             android:textSize="10sp"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/iv_userhead" />
+        <ProgressBar
+            android:id="@+id/pb_sending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tv_chatcontent"
+            android:layout_marginEnd="12dp"
+            android:progressBackgroundTintMode="add"
+            />
     </RelativeLayout>
 
 </LinearLayout>

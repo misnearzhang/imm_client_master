@@ -7,10 +7,28 @@ package com.syuct.imm.bean;
  * 
  */
 public class ChatMsgEntity {
+	private String uuid;//消息编码
 	private String name;//消息来自
 	private String date;//消息日期
 	private String message;//消息内容
 	private Integer type;// 是否为收到的消息
+	private boolean status;
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 	public String getName() {
 		return name;

@@ -1,7 +1,6 @@
 package com.syuct.imm.ui.activity;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -14,12 +13,16 @@ import android.widget.ListView;
 
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
 import com.syuct.imm.bean.ChatMsgEntity;
+import com.syuct.imm.core.io.PushManager;
 import com.syuct.imm.ui.R;
+import com.syuct.imm.utils.MessageGenerators;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.UUID;
 
 public class ChattingActivity extends Activity implements View.OnClickListener{
     private Button mBtnSend;// 发送btn
@@ -29,6 +32,7 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     private ChatMsgViewAdapter mAdapter;// 消息视图的Adapter
     private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();// 消息对象数组
 
+    private String to;
     public ChattingActivity() {
     }
 
@@ -36,8 +40,9 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
+        Bundle bundle=this.getIntent().getExtras();
+        to=bundle.getString("friendAccount");
         initView();// 初始化view
-
         initData();// 初始化数据
         mListView.setSelection(mAdapter.getCount() - 1);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -91,6 +96,8 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
                 entity.setName("必败");
                 entity.setType(1);// 自己发送的消息
             }
+            entity.setUuid(UUID.randomUUID().toString());
+            entity.setStatus(true);
             entity.setMessage(msgArray[i]);
             mDataArrays.add(entity);
         }
@@ -116,26 +123,21 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
      */
     private void send() {
         String contString = mEditTextContent.getText().toString();
+        String uuid= UUID.randomUUID().toString();
         if (contString.length() > 0) {
-            ChatMsgEntity entity = new ChatMsgEntity();
-            entity.setName("必败");
-            entity.setDate(getDate());
-            entity.setMessage(contString);
-            entity.setType(0);
-            mDataArrays.add(entity);
-
             ChatMsgEntity entity1 = new ChatMsgEntity();
             entity1.setName("必败");
             entity1.setDate(getDate());
             entity1.setMessage(contString);
             entity1.setType(1);
-
+            entity1.setUuid(uuid);
+            entity1.setStatus(false);
             mDataArrays.add(entity1);
             mAdapter.setDataList(mDataArrays);
             mAdapter.notifyDataSetChanged();
             mEditTextContent.setText("");// 清空编辑框数据
-
             mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
+            PushManager.sendMessage(this,MessageGenerators.generat_message(contString,to,uuid));
         }
     }
 
