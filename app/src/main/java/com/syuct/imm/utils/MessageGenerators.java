@@ -27,7 +27,7 @@ public class MessageGenerators {
         header.setType(MessageEnum.type.USER.getCode());
         header.setStatus(MessageEnum.status.REQ.getCode());
         header.setUid(uuid);
-        message.setHead(gson.toJson(header));
+        message.setHead(header);
         message.setBody(gson.toJson(userMessage));
         return gson.toJson(message);
     }

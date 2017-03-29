@@ -35,7 +35,7 @@ public class SystemBroad extends EventBroadcastReceiver {
         notification.defaults=Notification.DEFAULT_SOUND;
         manger.notify(1, notification);
         Log.v("收到消息",message.toString());
-        Header header=gson.fromJson(message.getHead(),Header.class);
+        Header header=message.getHead();
         //判断消息类型
         if(MessageEnum.type.RESPONSE.getCode().equals(header.getType())){
             //response

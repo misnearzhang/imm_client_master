@@ -146,7 +146,7 @@ public class PushManager {
 		header.setUid(UUID.randomUUID().toString());
 		header.setStatus("100");
 		header.setType(MessageEnum.type.HANDSHAKE.getCode());
-		message.setHead(gson.toJson(header));
+		message.setHead(header);
 		message.setBody(gson.toJson(handShakeMessage));
 		Log.v("send handshake",gson.toJson(message));
 		sendRequest(context, gson.toJson(message));

@@ -396,8 +396,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 				Log.e(TAG, "收到的消息==" + msg.toString());
 				String message_string= (String) msg;
 				Message request=gson.fromJson(message_string,Message.class);
-				String head=request.getHead();
-				Header header=gson.fromJson(head,Header.class);
+				Header header=request.getHead();
 				String type=header.getType();
 				if(MessageEnum.type.PING.getCode().equals(type)){
 					//ping 不发广播  直接连接层处理
@@ -405,7 +404,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					header1.setUid(header.getUid());
 					header1.setStatus("200");
 					header1.setType(MessageEnum.type.PONG.getCode());
-					request.setHead(gson.toJson(header1));
+					request.setHead(header1);
 					String send = gson.toJson(request);
 					send += "\r\n";
 					ByteBuf buf = Unpooled.copiedBuffer(send.getBytes());
