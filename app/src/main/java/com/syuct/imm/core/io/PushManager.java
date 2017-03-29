@@ -6,6 +6,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.syuct.imm.core.protocol.HandShakeMessage;
+import com.syuct.imm.core.protocol.Header;
+import com.syuct.imm.core.protocol.Message;
+import com.syuct.imm.core.protocol.MessageEnum;
+
+import java.util.UUID;
 
 /**
  *  功能接口
@@ -118,7 +127,7 @@ public class PushManager {
 
 	public static void sendBindRequest(Context context, String username,
 			String password,String handshake) {
-
+		Gson gson=new Gson();
 		CacheToolkit.getInstance(context).putBoolean(
 				CacheToolkit.KEY_MANUAL_STOP, false);
 		CacheToolkit.getInstance(context).putString(
@@ -128,7 +137,19 @@ public class PushManager {
 		CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_HANDSHAKE,handshake);
 		String imei = ((TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-		sendRequest(context, "");
+		//构建握手信息
+		Message message=new Message();
+		Header header=new Header();
+		HandShakeMessage handShakeMessage=new HandShakeMessage();
+		handShakeMessage.setAccount(username);
+		handShakeMessage.setPassword(password);
+		header.setUid(UUID.randomUUID().toString());
+		header.setStatus("100");
+		header.setType(MessageEnum.type.HANDSHAKE.getCode());
+		message.setHead(gson.toJson(header));
+		message.setBody(gson.toJson(handShakeMessage));
+		Log.v("send handshake",gson.toJson(message));
+		sendRequest(context, gson.toJson(message));
 	}
 
 	protected static boolean autoBindAccount(Context context) {
@@ -169,7 +190,7 @@ public class PushManager {
 			return;
 		}
 		Intent serviceIntent = new Intent(context, PushService.class);
-		serviceIntent.putExtra(KEY_SEND_BODY, body.getBytes());
+		serviceIntent.putExtra(KEY_SEND_BODY,body);
 		serviceIntent.setAction(ACTION_SEND_REQUEST);
 		context.startService(serviceIntent);
 

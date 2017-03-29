@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,11 +21,19 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 
+import com.google.gson.Gson;
+import com.syuct.imm.adapter.FriendlistAdapter;
+import com.syuct.imm.bean.model.Friends;
+import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.ui.activity.ChattingActivity;
 import com.syuct.imm.ui.activity.FriendDetailActivity;
+import com.syuct.imm.ui.activity.IndexActivity;
 import com.syuct.imm.utils.ConstData;
 import com.syuct.imm.utils.GlobalData;
+import com.syuct.imm.utils.okhttp.OkHttpUtils;
+import com.syuct.imm.utils.okhttp.builder.PostFormBuilder;
+import com.syuct.imm.utils.okhttp.callback.StringCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,13 +41,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+
 public class FriendlistFragment extends Fragment {
 
     private ListView friendlist;
     private Fragment sendmessagefragment;
     private View friendView;
-    private SimpleAdapter adapter;
+    private FriendlistAdapter adapter;
     private Button addFriend;
+    private Gson gson = new Gson();
     @Override
     public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -68,20 +80,8 @@ public class FriendlistFragment extends Fragment {
 
     private void initAdapter() {
 
-        adapter = new SimpleAdapter(getActivity().getApplicationContext(),
-                                    getList(),
-                                    R.layout.friend_content_layout,
-                                    new String[]{"name","friendAccount", "signature", "img"},
-                                    new int[]{R.id.friend_name,
-                                              R.id.friend_account,
-                                              R.id.friend_signature,
-                                              R .id.friend_headimg
-                                              }
-                                    );
-
+        adapter = new FriendlistAdapter(getList(),getActivity());
         friendlist = (ListView)friendView.findViewById(R.id.friendlist);
-
-
         friendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,
@@ -89,19 +89,18 @@ public class FriendlistFragment extends Fragment {
                                     int position,
                                     long id) {
                 Intent intent_sendMessage = new Intent(getActivity(), ChattingActivity.class);
-                Map<String, Object> friendMap = (Map) parent.getItemAtPosition(position);
-                String name = friendMap.get("name").toString();
-                String friendAccount = friendMap.get("friendAccount").toString();
-                intent_sendMessage.putExtra("friendAccount", friendAccount);
+                Friends friends= (Friends) parent.getItemAtPosition(position);
+                String name = friends.getNickname();
+                String friendAccount = friends.getAccount();
+                intent_sendMessage.putExtra("account", friendAccount);
                 intent_sendMessage.putExtra("name", name);
                 startActivity(intent_sendMessage);
                 //getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
             }
         });
 
+
         friendlist.setScrollingCacheEnabled(true);
-
-
         friendlist.setAdapter(adapter);
         friendlist.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -119,17 +118,13 @@ public class FriendlistFragment extends Fragment {
         registerForContextMenu(friendlist);
     }
 
-    private List<? extends Map<String,?>> getList() {
-        List list=new ArrayList();
-        for(int i=0;i<20;i++){
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("friendAccount", "[ 11160111 ]");
-            map.put("name", "迷死你的儿张");
-            map.put("signature", "龙岂池中物,乘风上青天");
-            map.put("img", R.drawable.headimg);
-            list.add(map);
+    private List<Friends> getList() {
+        List<Friends> friendsList=new ArrayList<>();
+        for (int i=0;i<10;i++) {
+            Friends friends = new Friends("123", "123", "123");
+            friendsList.add(friends);
         }
-        return list;
+        return friendsList;
     }
 
     private List<Map<String, Object>> setData() {

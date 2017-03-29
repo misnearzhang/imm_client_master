@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.syuct.imm.ui.fragment.AssistantFragment;
 import com.syuct.imm.ui.fragment.FriendlistFragment;
 import com.syuct.imm.ui.fragment.MessageFragment;
@@ -243,4 +244,5 @@ public class GlobalData
     public static void setLoginContext(Context loginContext) {
         GlobalData.loginContext = loginContext;
     }
+
 }

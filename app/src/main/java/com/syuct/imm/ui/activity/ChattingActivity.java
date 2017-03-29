@@ -3,6 +3,7 @@ package com.syuct.imm.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -41,7 +42,8 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
         Bundle bundle=this.getIntent().getExtras();
-        to=bundle.getString("friendAccount");
+        to=bundle.getString("account");
+        Log.v("收到的数据",to);
         initView();// 初始化view
         initData();// 初始化数据
         mListView.setSelection(mAdapter.getCount() - 1);

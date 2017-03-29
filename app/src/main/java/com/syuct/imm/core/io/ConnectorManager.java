@@ -193,6 +193,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		发送信息 系统验证和退出等消息
 	 */
 	public void send(final String body) {
+		Log.v("发送的消息",body);
 		final ByteBuf mesbuf=Unpooled.copiedBuffer((body+"\r\n").getBytes());
 		executor.execute(new Runnable() {
 			@Override
@@ -392,7 +393,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		try {
 			if (msg instanceof String) {
 				Intent intent = new Intent();
-				Log.e(TAG, "msg==" + msg.toString());
+				Log.e(TAG, "收到的消息==" + msg.toString());
 				String message_string= (String) msg;
 				Message request=gson.fromJson(message_string,Message.class);
 				String head=request.getHead();

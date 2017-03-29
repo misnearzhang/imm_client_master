@@ -55,7 +55,6 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
     private ImageButton btnRecent;
     private ImageButton btnFriendList;
     private ImageButton btnTimeLine;
-    private BroadcastReceiver receiver;
     private Intent serviceIntent;
 
     SoundPool soundPool;
@@ -71,12 +70,11 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         soundPool = builder.build();
         soundPool.load(this, R.raw.system,1);
 
-        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_HOST,"xcnana.com");
+        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_HOST,"192.168.1.23");
         CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_PORT,"3000");
         serviceIntent= new Intent(this, PushService.class);
         serviceIntent.setAction(PushManager.ACTION_CREATE_IM_CONNECTION);
         startService(serviceIntent);
-        receiver=new SystemBroad();
         setContentView(R.layout.activity_index);
         setBehindContentView(R.layout.menu);//设置SlidingMenu的layout
 
