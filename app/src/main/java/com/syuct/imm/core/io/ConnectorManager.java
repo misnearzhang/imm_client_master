@@ -231,6 +231,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		发送信息
 	 */
 	public void sendMessage(final String message) {
+		Log.v("sendMessage",message);
 		final ByteBuf mesbuf=Unpooled.copiedBuffer((message+"\r\n").getBytes());
 		executor.execute(new Runnable() {
 			@Override

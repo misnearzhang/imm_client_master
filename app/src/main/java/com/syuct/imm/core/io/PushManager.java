@@ -203,16 +203,16 @@ public class PushManager {
 	 * @param message
 	 */
 	public static void sendMessage(Context context, String message) {
-		boolean isManualStop = CacheToolkit.getInstance(context).getBoolean(
+		/*boolean isManualStop = CacheToolkit.getInstance(context).getBoolean(
 				CacheToolkit.KEY_MANUAL_STOP);
 		boolean isManualDestory = CacheToolkit.getInstance(context)
 				.getBoolean(CacheToolkit.KEY_CIM_DESTROYED);
 		if (isManualStop || isManualDestory) {
 			return;
-		}
+		}*/
 
 		Intent serviceIntent = new Intent(context, PushService.class);
-		serviceIntent.putExtra(KEY_MESSAGE_BODY, message.getBytes());
+		serviceIntent.putExtra(KEY_MESSAGE_BODY, message);
 		serviceIntent.setAction(ACTION_SEND_MESSAGE);
 		context.startService(serviceIntent);
 

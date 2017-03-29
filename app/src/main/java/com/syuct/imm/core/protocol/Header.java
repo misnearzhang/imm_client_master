@@ -36,4 +36,13 @@ public class Header implements Serializable{
         this.uid = uid;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Header{" +
+                "type='" + type + '\'' +
+                ", status='" + status + '\'' +
+                ", uid='" + uid + '\'' +
+                '}';
+    }
 }

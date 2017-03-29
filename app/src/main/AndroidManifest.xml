@@ -76,6 +76,12 @@
 
         <receiver android:name="com.syuct.imm.broadcast.SystemBroad">
             <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="com.oo.misnearzhang.MESSAGE_RECEIVED"/>
             </intent-filter>
             <intent-filter>

@@ -139,7 +139,7 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             mAdapter.notifyDataSetChanged();
             mEditTextContent.setText("");// 清空编辑框数据
             mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
-            PushManager.sendMessage(this,MessageGenerators.generat_message(contString,to,uuid));
+            PushManager.sendMessage(this,MessageGenerators.generat_message(getApplicationContext(),contString,to,uuid));
         }
     }
 

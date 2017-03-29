@@ -43,7 +43,7 @@ public class PushService extends Service {
 				manager.send(request);
 		}
 		if (PushManager.ACTION_SEND_MESSAGE.equals(action)) {
-				String message=intent.getByteArrayExtra(PushManager.KEY_MESSAGE_BODY).toString();
+				String message=intent.getStringExtra(PushManager.KEY_MESSAGE_BODY);
 				manager.sendMessage(message);
 		}
 		if (PushManager.ACTION_SEND_REPLY.equals(action)) {

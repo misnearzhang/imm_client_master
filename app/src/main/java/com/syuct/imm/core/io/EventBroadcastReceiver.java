@@ -40,6 +40,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 设备网络状态变化事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_NETWORK_CHANGED)) {
+			Log.v("v","断网");
 			ConnectivityManager connectivityManager = (ConnectivityManager) context
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo info = connectivityManager

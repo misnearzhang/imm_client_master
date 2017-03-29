@@ -45,6 +45,8 @@ public class SystemBroad extends EventBroadcastReceiver {
                 GlobalData.showToast(context,"登陆成功");
                 String uid=header.getUid();
                 //取到uid  发送的消息取消进度 握手信息则提示成功
+            }else if("201".equals(header.getStatus())){
+                Log.v("收到消息","你发送的用户暂时没有在线 等候将重新发送消息");
             }
         }else if(MessageEnum.type.USER.getCode().equals(header.getType())){
             //user
@@ -62,7 +64,7 @@ public class SystemBroad extends EventBroadcastReceiver {
 
     @Override
     public void onNetworkChanged(NetworkInfo info) {
-        Log.i("message","");
+        Log.v("message","123");
     }
 
     @Override
