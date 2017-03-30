@@ -75,7 +75,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 收到消息事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_RECEIVED)) {
-				Message message=(Message)it.getSerializableExtra("message");
+				String message=it.getStringExtra("message");
 				onInnerMessageReceived(message);
 		}
 		/*
@@ -88,7 +88,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 发送消息失败事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_FAILED)) {
-				Message message= (Message) it.getSerializableExtra("message");
+				String message=  it.getStringExtra("message");
 				onInnerMessageReceived(message);
 		}
 
@@ -195,7 +195,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		onNetworkChanged(info);
 	}
 
-	private void onInnerMessageReceived(Message message) {
+	private void onInnerMessageReceived(String message) {
 		/*if (Constant.MessageType.TYPE_999.equals(message)) {
 			CacheToolkit.getInstance(context).putBoolean(
 					CacheToolkit.KEY_MANUAL_STOP, true);
@@ -244,7 +244,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 	}
 
 	@Override
-	public abstract void onMessageReceived(Message message);
+	public abstract void onMessageReceived(String message);
 
 	@Override
 	public abstract void onReplyReceived(String body);

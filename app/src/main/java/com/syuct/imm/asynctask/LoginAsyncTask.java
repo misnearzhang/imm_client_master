@@ -72,6 +72,7 @@ public class LoginAsyncTask extends AsyncTask<Login, Void, Void> {
                 Log.v("code",code);
                 if("200".equals(code)){
                     Intent intentLogin = new Intent(context, IndexActivity.class);
+                    intentLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intentLogin);
                     }else{
                         GlobalData.showToast(context,"账号或者密码错误");

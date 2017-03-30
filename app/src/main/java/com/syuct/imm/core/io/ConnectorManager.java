@@ -206,12 +206,12 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 						intent.setAction(ACTION_SENT_FAILED);
 						intent.putExtra("exception",
 								new WriteToClosedSessionException());
-						intent.putExtra("system", body.getBytes());
+						intent.putExtra("system", body);
 						context.sendBroadcast(intent);
 					} else {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_SENT_SUCCESS);
-						intent.putExtra("system", body.getBytes());
+						intent.putExtra("system", body);
 						context.sendBroadcast(intent);
 					}
 				} else {
@@ -220,7 +220,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.setAction(ACTION_SENT_FAILED);
 					intent.putExtra("exception",
 							new SessionDisableException());
-					intent.putExtra("system", body.getBytes());
+					intent.putExtra("system", body);
 					context.sendBroadcast(intent);
 				}
 			}
@@ -242,14 +242,14 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					if (!isDone) {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_MESSAGE_FAILED);
-						intent.putExtra("message", message.getBytes());
+						intent.putExtra("message", message);
 						intent.putExtra("exception",
 								new WriteToClosedSessionException());
 						context.sendBroadcast(intent);
 					} else {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_MESSAGE_SUCCESS);
-						intent.putExtra("message", message.getBytes());
+						intent.putExtra("message", message);
 						context.sendBroadcast(intent);
 					}
 				} else {
@@ -257,7 +257,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.setAction(ACTION_MESSAGE_FAILED);
 					intent.putExtra("exception",
 							new SessionDisableException());
-					intent.putExtra("message", message.getBytes());
+					intent.putExtra("message", message);
 					context.sendBroadcast(intent);
 				}
 			}
@@ -279,14 +279,14 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					if (!isDone) {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_REPLY_FAILED);
-						intent.putExtra("response", replyBody.getBytes());
+						intent.putExtra("response", replyBody);
 						intent.putExtra("exception",
 								new WriteToClosedSessionException());
 						context.sendBroadcast(intent);
 					} else {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_REPLY_SUCCESS);
-						intent.putExtra("response", replyBody.toString());
+						intent.putExtra("response", replyBody);
 						context.sendBroadcast(intent);
 					}
 
@@ -295,7 +295,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.setAction(ACTION_REPLY_FAILED);
 					intent.putExtra("exception",
 							new SessionDisableException());
-					intent.putExtra("response", replyBody.toString());
+					intent.putExtra("response", replyBody);
 					context.sendBroadcast(intent);
 				}
 			}
@@ -413,7 +413,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 				}else {
 					intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable("message", request);
+					bundle.putString("message", message_string);
 					intent.putExtras(bundle);
 					context.sendBroadcast(intent);
 				}

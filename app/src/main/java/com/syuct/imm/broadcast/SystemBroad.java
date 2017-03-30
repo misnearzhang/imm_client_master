@@ -26,8 +26,9 @@ import static android.media.SoundPool.*;
 
 public class SystemBroad extends EventBroadcastReceiver {
     @Override
-    public void onMessageReceived(Message message) {
+    public void onMessageReceived(String string) {
         Gson gson=new Gson();
+        Message message = gson.fromJson(string,Message.class);
         NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("新消息")
@@ -64,7 +65,8 @@ public class SystemBroad extends EventBroadcastReceiver {
 
     @Override
     public void onNetworkChanged(NetworkInfo info) {
-        Log.v("message","123");
+        Log.v("网络邮编","123");
+        GlobalData.showToast(context,"网络断开!!!");
     }
 
     @Override
