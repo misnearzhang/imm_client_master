@@ -1,6 +1,7 @@
 package com.syuct.imm.adapter;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,14 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	private static final int ITEMCOUNT = 2;// 消息类型的总数
 	private List<ChatMsgEntity> coll;// 消息对象数组
 	private LayoutInflater mInflater;
+	private  Context context;
 
 	public void setDataList(List<ChatMsgEntity> data){
 		this.coll=data;
 	}
 	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> coll) {
 		this.coll = coll;
+		this.context =context;
 		mInflater = LayoutInflater.from(context);
 	}
 
@@ -103,6 +106,9 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		int screenWidth = dm.widthPixels;//屏幕宽度
+		viewHolder.tvContent.setMaxWidth(screenWidth*3/4);
 		viewHolder.tvSendTime.setText(entity.getDate());
 		viewHolder.tvUserName.setText(entity.getName());
 		viewHolder.tvContent.setText(entity.getMessage());
