@@ -14,6 +14,7 @@ import com.syuct.imm.core.io.exception.WriteToClosedSessionException;
 import com.syuct.imm.core.protocol.Header;
 import com.syuct.imm.core.protocol.Message;
 import com.syuct.imm.core.protocol.MessageEnum;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -34,9 +35,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.LineBasedFrameDecoder;
-import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
@@ -121,11 +121,15 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			public void initChannel(SocketChannel ch) throws Exception {
 
 				ChannelPipeline pipeline = ch.pipeline();
-				ByteBuf delimiter = Unpooled.copiedBuffer("\r\n".getBytes());
-				ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
+				// 设置protobuf编码器
+				ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
+				// 设置带长度解码器
+				ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(
+						Protoc.Message.getDefaultInstance()));
+				/*ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
 				// 设置带长度编码器
 				ch.pipeline().addLast(new StringDecoder());
-				ch.pipeline().addLast(new LineBasedFrameDecoder(1024*5));
+				ch.pipeline().addLast(new LineBasedFrameDecoder(1024*5));*/
 				pipeline.addLast("idleStateHandler", new IdleStateHandler(
 						0, 0, READ_IDLE_TIME));
 				pipeline.addLast(ConnectorManager.this);
@@ -192,26 +196,24 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	/*
 		发送信息 系统验证和退出等消息
 	 */
-	public void send(final String body) {
-		Log.v("发送的消息",body);
-		final ByteBuf mesbuf=Unpooled.copiedBuffer((body+"\r\n").getBytes());
+	public void send(final Protoc.Message message) {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
 				if (channel != null && channel.isActive()) {
-					boolean isDone = channel.writeAndFlush(mesbuf)
+					boolean isDone = channel.writeAndFlush(message)
 							.awaitUninterruptibly(5000);
 					if (!isDone) {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_SENT_FAILED);
 						intent.putExtra("exception",
 								new WriteToClosedSessionException());
-						intent.putExtra("system", body);
+						intent.putExtra("message", message);
 						context.sendBroadcast(intent);
 					} else {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_SENT_SUCCESS);
-						intent.putExtra("system", body);
+						intent.putExtra("message", message);
 						context.sendBroadcast(intent);
 					}
 				} else {
@@ -220,7 +222,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.setAction(ACTION_SENT_FAILED);
 					intent.putExtra("exception",
 							new SessionDisableException());
-					intent.putExtra("system", body);
+					intent.putExtra("message", message);
 					context.sendBroadcast(intent);
 				}
 			}
@@ -232,6 +234,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	 */
 	public void sendMessage(final String message) {
 		Log.v("sendMessage",message);
+
 		final ByteBuf mesbuf=Unpooled.copiedBuffer((message+"\r\n").getBytes());
 		executor.execute(new Runnable() {
 			@Override
@@ -258,44 +261,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.putExtra("exception",
 							new SessionDisableException());
 					intent.putExtra("message", message);
-					context.sendBroadcast(intent);
-				}
-			}
-		});
-	}
-
-	/*
-		发送响应
-	 */
-	public void sendReply(final String replyBody) {
-		final ByteBuf response=Unpooled.copiedBuffer((replyBody+"\r\n").getBytes());
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				Log.e(TAG, "response");
-				if (channel != null && channel.isActive()) {
-					boolean isDone = channel.writeAndFlush(response)
-							.awaitUninterruptibly(5000);
-					if (!isDone) {
-						Intent intent = new Intent();
-						intent.setAction(ACTION_REPLY_FAILED);
-						intent.putExtra("response", replyBody);
-						intent.putExtra("exception",
-								new WriteToClosedSessionException());
-						context.sendBroadcast(intent);
-					} else {
-						Intent intent = new Intent();
-						intent.setAction(ACTION_REPLY_SUCCESS);
-						intent.putExtra("response", replyBody);
-						context.sendBroadcast(intent);
-					}
-
-				} else {
-					Intent intent = new Intent();
-					intent.setAction(ACTION_REPLY_FAILED);
-					intent.putExtra("exception",
-							new SessionDisableException());
-					intent.putExtra("response", replyBody);
 					context.sendBroadcast(intent);
 				}
 			}
@@ -392,35 +357,25 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
 		try {
-			if (msg instanceof String) {
+			if (msg instanceof Protoc.Message) {
+				Protoc.Message message = (Protoc.Message) msg;
 				Intent intent = new Intent();
-				Log.e(TAG, "收到的消息==" + msg.toString());
-				String message_string= (String) msg;
-				Message request=gson.fromJson(message_string,Message.class);
-				Header header=request.getHead();
-				String type=header.getType();
-				if(MessageEnum.type.PING.getCode().equals(type)){
-					//ping 不发广播  直接连接层处理
-					Header header1 = new Header();
-					header1.setUid(header.getUid());
-					header1.setStatus("200");
-					header1.setType(MessageEnum.type.PONG.getCode());
-					request.setHead(header1);
-					String send = gson.toJson(request);
-					send += "\r\n";
-					ByteBuf buf = Unpooled.copiedBuffer(send.getBytes());
-					ctx.channel().writeAndFlush(buf);
-				}else {
-					intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
-					Bundle bundle = new Bundle();
-					bundle.putString("message", message_string);
-					intent.putExtras(bundle);
-					context.sendBroadcast(intent);
+				Log.e(TAG, "收到的消息==" + message.getBody().toString());
+				switch (message.getHead().getType()) {
+					case PING:
+						ctx.channel().writeAndFlush(null);
+						break;
+					case PONG:
+						//do nothing
+						break;
+					default:
+						intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
+						Bundle bundle = new Bundle();
+						bundle.putByteArray("message", message.toByteArray());
+						intent.putExtras(bundle);
+						context.sendBroadcast(intent);
 				}
-			} else {
-				System.out.println("接收到对象:" + msg.toString());
 			}
-
 		} finally {
 			ReferenceCountUtil.release(msg);
 		}

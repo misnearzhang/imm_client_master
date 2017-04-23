@@ -13,6 +13,7 @@ import com.syuct.imm.core.protocol.HandShakeMessage;
 import com.syuct.imm.core.protocol.Header;
 import com.syuct.imm.core.protocol.Message;
 import com.syuct.imm.core.protocol.MessageEnum;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 
 import java.util.UUID;
 
@@ -149,7 +150,7 @@ public class PushManager {
 		message.setHead(header);
 		message.setBody(gson.toJson(handShakeMessage));
 		Log.v("send handshake",gson.toJson(message));
-		sendRequest(context, gson.toJson(message));
+		//SenderProxy.send("", Protoc.Message.type.HANDSHAKE, Protoc.Message.status.REQ);
 	}
 
 	protected static boolean autoBindAccount(Context context) {
@@ -174,35 +175,12 @@ public class PushManager {
 	}
 
 	/**
-	 * 发送一个CIM请求
-	 * 
-	 * @param context
-	 * @body
-	 */
-	public static void sendRequest(Context context, String body) {
-
-		boolean isManualStop = CacheToolkit.getInstance(context).getBoolean(
-				CacheToolkit.KEY_MANUAL_STOP);
-		boolean isManualDestory = CacheToolkit.getInstance(context)
-				.getBoolean(CacheToolkit.KEY_CIM_DESTROYED);
-
-		if (isManualStop || isManualDestory) {
-			return;
-		}
-		Intent serviceIntent = new Intent(context, PushService.class);
-		serviceIntent.putExtra(KEY_SEND_BODY,body);
-		serviceIntent.setAction(ACTION_SEND_REQUEST);
-		context.startService(serviceIntent);
-
-	}
-
-	/**
 	 * 发送一个消息
 	 * 
 	 * @param context
 	 * @param message
 	 */
-	public static void sendMessage(Context context, String message) {
+	public static void sendMessage(Context context, Protoc.Message message) {
 		/*boolean isManualStop = CacheToolkit.getInstance(context).getBoolean(
 				CacheToolkit.KEY_MANUAL_STOP);
 		boolean isManualDestory = CacheToolkit.getInstance(context)
@@ -214,26 +192,6 @@ public class PushManager {
 		Intent serviceIntent = new Intent(context, PushService.class);
 		serviceIntent.putExtra(KEY_MESSAGE_BODY, message);
 		serviceIntent.setAction(ACTION_SEND_MESSAGE);
-		context.startService(serviceIntent);
-
-	}
-
-	/**
-	 * 发送一个 应答包
-	 * 
-	 * @param context
-	 */
-	public static void sendReply(Context context, String replyBody) {
-		boolean isManualStop = CacheToolkit.getInstance(context).getBoolean(
-				CacheToolkit.KEY_MANUAL_STOP);
-		boolean isManualDestory = CacheToolkit.getInstance(context)
-				.getBoolean(CacheToolkit.KEY_CIM_DESTROYED);
-		if (isManualStop || isManualDestory) {
-			return;
-		}
-		Intent serviceIntent = new Intent(context, PushService.class);
-		serviceIntent.putExtra(KEY_REPLY_BODY, replyBody.getBytes());
-		serviceIntent.setAction(ACTION_SEND_REPLY);
 		context.startService(serviceIntent);
 
 	}

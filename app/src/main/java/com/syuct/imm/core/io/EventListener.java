@@ -3,7 +3,7 @@ package com.syuct.imm.core.io;
 
 import android.net.NetworkInfo;
 
-import com.syuct.imm.core.protocol.Message;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 
 
 /**
@@ -17,13 +17,13 @@ public interface EventListener
      * 当收到服务端推送过来的消息时调用
      * @param message
      */
-    public abstract void onMessageReceived(String message);
+    public abstract void onMessageReceived(Protoc.Message message);
 
     /**
      * 当调用CIMPushManager.sendRequest()向服务端发送请求，获得相应时调用
      * @param replybody
      */
-    public abstract void onReplyReceived(String replybody);
+    public abstract void onReplyReceived(Protoc.Message replybody);
 
     /**
      * 当手机网络发生变化时调用
@@ -52,11 +52,11 @@ public interface EventListener
 	/**
 	 * 消息发送失败时
 	 */
-	public abstract void onMessageFailed(String message);
+	public abstract void onMessageFailed(Protoc.Message message);
 	
 	/**
 	 * 请求发送失败时
 	 */
-	public abstract void onSentFailed(String body);
+	public abstract void onSentFailed(Protoc.Message body);
 }
 

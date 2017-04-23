@@ -8,11 +8,11 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.syuct.imm.core.constant.Constant;
 import com.syuct.imm.core.io.exception.SessionDisableException;
 import com.syuct.imm.core.io.exception.WriteToClosedSessionException;
-import com.syuct.imm.core.protocol.Message;
-import com.syuct.imm.utils.okhttp.OkHttpUtils;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 
 /**
  * 消息入口，所有消息都会经过这里
@@ -75,8 +75,15 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 收到消息事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_RECEIVED)) {
-				String message=it.getStringExtra("message");
-				onInnerMessageReceived(message);
+				byte[] message=it.getByteArrayExtra("message");
+				if(message.length>0){
+					try {
+						Protoc.Message message1 = Protoc.Message.parseFrom(message);
+						onInnerMessageReceived(message1);
+					} catch (InvalidProtocolBufferException e) {
+						e.printStackTrace();
+					}
+				}
 		}
 		/*
 		 * 发送消息成功事件
@@ -88,8 +95,15 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		 * 发送消息失败事件
 		 */
 		if (it.getAction().equals(ConnectorManager.ACTION_MESSAGE_FAILED)) {
-				String message=  it.getStringExtra("message");
-				onInnerMessageReceived(message);
+			byte[] message=it.getByteArrayExtra("message");
+			if(message.length>0){
+				try {
+					Protoc.Message message1 = Protoc.Message.parseFrom(message);
+					onInnerMessageReceived(message1);
+				} catch (InvalidProtocolBufferException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		/*
@@ -195,7 +209,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		onNetworkChanged(info);
 	}
 
-	private void onInnerMessageReceived(String message) {
+	private void onInnerMessageReceived(Protoc.Message message) {
 		/*if (Constant.MessageType.TYPE_999.equals(message)) {
 			CacheToolkit.getInstance(context).putBoolean(
 					CacheToolkit.KEY_MANUAL_STOP, true);
@@ -204,7 +218,7 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 		onMessageReceived(message);
 	}
 
-	private void onSentFailed(Exception e, String body) {
+	private void onSentFailed(Exception e, Protoc.Message body) {
 
 		// 与服务端端开链接，重新连接
 		if (e instanceof SessionDisableException
@@ -213,12 +227,12 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 			PushManager.connect(context);
 		} else {
 			// 发送失败 重新发送
-			PushManager.sendRequest(context, body);
+			PushManager.sendMessage(context, body);
 		}
 
 	}
 
-	private void onMessageFailed(Exception e, String message) {
+	private void onMessageFailed(Exception e, Protoc.Message message) {
 		if (e instanceof SessionDisableException
 				|| e instanceof WriteToClosedSessionException) {
 			PushManager.connect(context);
@@ -229,25 +243,25 @@ public abstract class EventBroadcastReceiver extends BroadcastReceiver
 
 	}
 
-	private void onReplyFailed(Exception e, String replyBody) {
+	private void onReplyFailed(Exception e, Protoc.Message replyBody) {
 		if (e instanceof SessionDisableException
 				|| e instanceof WriteToClosedSessionException) {
 			PushManager.connect(context);
 		} else {
 			// 发送失败 重新发送
-			PushManager.sendReply(context, replyBody);
+			PushManager.sendMessage(context, replyBody);
 		}
 
 	}
 
-	private void onSentSucceed(String body) {
+	private void onSentSucceed(Protoc.Message body) {
 	}
 
 	@Override
-	public abstract void onMessageReceived(String message);
+	public abstract void onMessageReceived(Protoc.Message message);
 
 	@Override
-	public abstract void onReplyReceived(String body);
+	public abstract void onReplyReceived(Protoc.Message body);
 
 	public abstract void onNetworkChanged(NetworkInfo info);
 

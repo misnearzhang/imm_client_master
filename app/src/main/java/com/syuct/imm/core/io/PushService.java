@@ -40,7 +40,7 @@ public class PushService extends Service {
 
 		if (PushManager.ACTION_SEND_REQUEST.equals(action)) {
 				String request=intent.getStringExtra(PushManager.KEY_SEND_BODY);
-				manager.send(request);
+				manager.sendMessage(request);
 		}
 		if (PushManager.ACTION_SEND_MESSAGE.equals(action)) {
 				String message=intent.getStringExtra(PushManager.KEY_MESSAGE_BODY);
@@ -48,7 +48,7 @@ public class PushService extends Service {
 		}
 		if (PushManager.ACTION_SEND_REPLY.equals(action)) {
 			String response=intent.getByteArrayExtra(PushManager.KEY_REPLY_BODY).toString();
-				manager.sendReply(response);
+				manager.sendMessage(response);
 		}
 
 		if (PushManager.ACTION_DISCONNECTION.equals(action)) {
