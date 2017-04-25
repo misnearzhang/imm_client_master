@@ -17,6 +17,7 @@ import com.syuct.imm.core.protocol.MessageEnum;
 import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,6 +38,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
@@ -49,7 +51,8 @@ import io.netty.util.ReferenceCountUtil;
 public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 
 	private final static String TAG = ConnectorManager.class.getSimpleName();
-	private Channel channel;;
+	private Channel channel;
+	private static int HeartBeatCount;
 
 	Context context;
 
@@ -102,10 +105,8 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	private ExecutorService executor;
 	public static final String HEARTBEAT_PINGED = "HEARTBEAT_PINGED";
 	// 连接空闲时间
-	public static final int READ_IDLE_TIME = 180;// 秒
-	// 心跳超时
-	public static final int HEART_TIME_OUT = 180000;// 秒
-
+	public static final int READ_IDLE_TIME = 245;// 秒
+	public static final int WRITE_DILE_TIME = 240;//
 	private static Gson gson=new Gson();
 
 	private ConnectorManager(Context ctx) {
@@ -131,7 +132,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 				ch.pipeline().addLast(new StringDecoder());
 				ch.pipeline().addLast(new LineBasedFrameDecoder(1024*5));*/
 				pipeline.addLast("idleStateHandler", new IdleStateHandler(
-						0, 0, READ_IDLE_TIME));
+						READ_IDLE_TIME, WRITE_DILE_TIME, 0));
 				pipeline.addLast(ConnectorManager.this);
 
 			}
@@ -296,10 +297,27 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	@Override
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
 			throws Exception {
-		if (evt instanceof IdleStateEvent){
-			if(((IdleStateEvent) evt).isFirst()){
-				System.out.println("first");
+		try {
+			if (evt instanceof IdleStateEvent) {
+				IdleStateEvent idle = (IdleStateEvent) evt;
+				if (idle.state().equals(IdleState.WRITER_IDLE)) {
+						Protoc.Message.Builder message_builder = Protoc.Message.newBuilder();
+						Protoc.Head.Builder head_builder=Protoc.Head.newBuilder();
+						head_builder.setType(Protoc.type.PING);
+						head_builder.setStatus(Protoc.status.REQ);
+						head_builder.setUid(UUID.randomUUID().toString());
+						head_builder.setTime(System.currentTimeMillis());
+						message_builder.setHead(head_builder);
+						ctx.channel().writeAndFlush(message_builder.build());
+				} else if (idle.state().equals(IdleState.READER_IDLE)) {
+					HeartBeatCount++;
+					if (HeartBeatCount == 4) {
+						ctx.channel().close();
+					}
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -307,7 +325,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		Long lastTime = (Long) channel.attr(
 				AttributeKey.valueOf(HEARTBEAT_PINGED)).get();
 		if (lastTime != null
-				&& (System.currentTimeMillis() - lastTime) > HEART_TIME_OUT) {
+				&& (System.currentTimeMillis() - lastTime) > 10000) {
 			channel.close();
 		}
 	}

@@ -8,49 +8,49 @@ import java.util.UUID;
  * Created by zhanglong on 2017/4/23.
  */
 
-public class SenderProxy implements ISenderProxy{
+public class SenderProxy{
 
-    public void send(String message, Protoc.Message.type _type, Protoc.Message.status status){
-        Protoc.Message.Head.Builder headBuilder = Protoc.Message.Head.newBuilder();
+    public static Protoc.Message factory(String message, Protoc.type _type, Protoc.status status){
+        Protoc.Head.Builder headBuilder = Protoc.Head.newBuilder();
         Protoc.Message.Builder messageBuilder = Protoc.Message.newBuilder();
         switch (_type){
             case USER:
-                headBuilder.setType(Protoc.Message.type.USER);
+                headBuilder.setType(Protoc.type.USER);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
                 messageBuilder.setBody(message);
                 break;
             case SYSTEM:
-                headBuilder.setType(Protoc.Message.type.SYSTEM);
+                headBuilder.setType(Protoc.type.SYSTEM);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
                 messageBuilder.setBody(message);
                 break;
             case RESPONSE:
-                headBuilder.setType(Protoc.Message.type.RESPONSE);
+                headBuilder.setType(Protoc.type.RESPONSE);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
                 messageBuilder.setBody(message);
                 break;
             case PING:
-                headBuilder.setType(Protoc.Message.type.PING);
+                headBuilder.setType(Protoc.type.PING);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
                 messageBuilder.setBody(message);
                 break;
             case PONG:
-                headBuilder.setType(Protoc.Message.type.PONG);
+                headBuilder.setType(Protoc.type.PONG);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
                 messageBuilder.setBody(message);
                 break;
             case HANDSHAKE:
-                headBuilder.setType(Protoc.Message.type.HANDSHAKE);
+                headBuilder.setType(Protoc.type.HANDSHAKE);
                 headBuilder.setStatus(status);
                 headBuilder.setUid(UUID.randomUUID().toString());
                 messageBuilder.setHead(headBuilder);
@@ -58,6 +58,7 @@ public class SenderProxy implements ISenderProxy{
                 break;
             default:
         }
+        return messageBuilder.build();
     }
 
     public void sendUserMessage(){
@@ -72,8 +73,8 @@ public class SenderProxy implements ISenderProxy{
     public void sendPong(){
 
     }
-    public void sendHandshake(){
-
+    public static void getHandshake(String body){
+        factory(body, Protoc.type.HANDSHAKE, Protoc.status.REQ);
     }
     public void sendResponse(){
 

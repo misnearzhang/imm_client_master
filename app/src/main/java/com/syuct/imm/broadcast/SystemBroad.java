@@ -14,6 +14,7 @@ import com.syuct.imm.core.io.PushManager;
 import com.syuct.imm.core.protocol.Header;
 import com.syuct.imm.core.protocol.Message;
 import com.syuct.imm.core.protocol.MessageEnum;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.utils.GlobalData;
 import com.syuct.imm.utils.MessageGenerators;
@@ -26,18 +27,16 @@ import static android.media.SoundPool.*;
 
 public class SystemBroad extends EventBroadcastReceiver {
     @Override
-    public void onMessageReceived(String string) {
-        Gson gson=new Gson();
-        Message message = gson.fromJson(string,Message.class);
+    public void onMessageReceived(Protoc.Message string) {
         NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("新消息")
-                .setContentText(message.getBody()).setSmallIcon(R.drawable.ic_launcher).build();
+                .setContentText(string.getBody()).setSmallIcon(R.drawable.ic_launcher).build();
         notification.defaults=Notification.DEFAULT_SOUND;
         manger.notify(1, notification);
-        Log.v("收到消息",message.toString());
-        Header header=message.getHead();
+        Log.v("收到消息",string.toString());
         //判断消息类型
+        /*string.getHead();
         if(MessageEnum.type.RESPONSE.getCode().equals(header.getType())){
             //response
             if("200".equals(header.getStatus())){
@@ -53,14 +52,14 @@ public class SystemBroad extends EventBroadcastReceiver {
             //user
         }else if(MessageEnum.type.SYSTEM.getCode().equals(header.getType())){
             //system push
-        }
+        }*/
         //String response= MessageGenerators.getResponse(null);
         //PushManager.sendReply(super.context,response);
     }
 
     @Override
-    public void onReplyReceived(String body) {
-        Log.i("message",body);
+    public void onReplyReceived(Protoc.Message body) {
+        Log.i("message",body.getBody());
     }
 
     @Override
@@ -86,12 +85,12 @@ public class SystemBroad extends EventBroadcastReceiver {
     }
 
     @Override
-    public void onMessageFailed(String message) {
-        Log.i("message",message);
+    public void onMessageFailed(Protoc.Message message) {
+        Log.i("message",message.getBody());
     }
 
     @Override
-    public void onSentFailed(String body) {
-        Log.i("message",body);
+    public void onSentFailed(Protoc.Message body) {
+        Log.i("message",body.getBody());
     }
 }

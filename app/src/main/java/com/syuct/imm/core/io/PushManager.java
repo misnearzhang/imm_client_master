@@ -127,7 +127,7 @@ public class PushManager {
 	 */
 
 	public static void sendBindRequest(Context context, String username,
-			String password,String handshake) {
+			String password) {
 		Gson gson=new Gson();
 		CacheToolkit.getInstance(context).putBoolean(
 				CacheToolkit.KEY_MANUAL_STOP, false);
@@ -135,22 +135,21 @@ public class PushManager {
 				CacheToolkit.KEY_ACCOUNT, username);
 		CacheToolkit.getInstance(context).putString(
 				CacheToolkit.KEY_PASSWORD, password);
-		CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_HANDSHAKE,handshake);
 		String imei = ((TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 		//构建握手信息
-		Message message=new Message();
-		Header header=new Header();
+		Protoc.Message.Builder message= Protoc.Message.newBuilder();
+		Protoc.Head.Builder header=Protoc.Head.newBuilder();
 		HandShakeMessage handShakeMessage=new HandShakeMessage();
 		handShakeMessage.setAccount(username);
 		handShakeMessage.setPassword(password);
 		header.setUid(UUID.randomUUID().toString());
-		header.setStatus("100");
-		header.setType(MessageEnum.type.HANDSHAKE.getCode());
+		header.setStatus(Protoc.status.REQ);
+		header.setType(Protoc.type.HANDSHAKE);
 		message.setHead(header);
 		message.setBody(gson.toJson(handShakeMessage));
 		Log.v("send handshake",gson.toJson(message));
-		//SenderProxy.send("", Protoc.Message.type.HANDSHAKE, Protoc.Message.status.REQ);
+		sendMessage(context,message.build());
 	}
 
 	protected static boolean autoBindAccount(Context context) {
@@ -159,7 +158,6 @@ public class PushManager {
 				CacheToolkit.KEY_ACCOUNT);
 		String password = CacheToolkit.getInstance(context).getString(
 				CacheToolkit.KEY_PASSWORD);
-		String handshake=CacheToolkit.getInstance(context).getString(CacheToolkit.KEY_HANDSHAKE);
 		boolean isManualDestory = CacheToolkit.getInstance(context)
 				.getBoolean(CacheToolkit.KEY_CIM_DESTROYED);
 		boolean isManualStoped = CacheToolkit.getInstance(context)
@@ -169,7 +167,7 @@ public class PushManager {
 			return false;
 		}
 
-		sendBindRequest(context, account, password,handshake);
+		sendBindRequest(context, account, password);
 
 		return true;
 	}
