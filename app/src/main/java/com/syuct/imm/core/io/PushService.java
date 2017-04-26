@@ -7,6 +7,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
+
 /**
  * 与服务端连接服务
  * 
@@ -39,16 +42,31 @@ public class PushService extends Service {
 		}
 
 		if (PushManager.ACTION_SEND_REQUEST.equals(action)) {
-				String request=intent.getStringExtra(PushManager.KEY_SEND_BODY);
-				manager.sendMessage(request);
+			byte[] msg =intent.getByteArrayExtra(PushManager.KEY_SEND_BODY);
+			try {
+				Protoc.Message message = Protoc.Message.parseFrom(msg);
+				manager.sendMessage(message);
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+			}
 		}
 		if (PushManager.ACTION_SEND_MESSAGE.equals(action)) {
-				String message=intent.getStringExtra(PushManager.KEY_MESSAGE_BODY);
+			byte[] msg =intent.getByteArrayExtra(PushManager.KEY_MESSAGE_BODY);
+			try {
+				Protoc.Message message = Protoc.Message.parseFrom(msg);
 				manager.sendMessage(message);
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+			}
 		}
 		if (PushManager.ACTION_SEND_REPLY.equals(action)) {
-			String response=intent.getByteArrayExtra(PushManager.KEY_REPLY_BODY).toString();
-				manager.sendMessage(response);
+			byte[] msg =intent.getByteArrayExtra(PushManager.KEY_REPLY_BODY);
+			try {
+				Protoc.Message message = Protoc.Message.parseFrom(msg);
+				manager.sendMessage(message);
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+			}
 		}
 
 		if (PushManager.ACTION_DISCONNECTION.equals(action)) {

@@ -16,8 +16,12 @@ import com.syuct.imm.core.protocol.Message;
 import com.syuct.imm.core.protocol.MessageEnum;
 import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 import com.syuct.imm.ui.R;
+import com.syuct.imm.ui.activity.DataConfig;
+import com.syuct.imm.ui.activity.NomalMessage;
 import com.syuct.imm.utils.GlobalData;
 import com.syuct.imm.utils.MessageGenerators;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static android.media.SoundPool.*;
 
@@ -27,14 +31,31 @@ import static android.media.SoundPool.*;
 
 public class SystemBroad extends EventBroadcastReceiver {
     @Override
-    public void onMessageReceived(Protoc.Message string) {
-        NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    public void onMessageReceived(Protoc.Message message) {
+        /*NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("新消息")
                 .setContentText(string.getBody()).setSmallIcon(R.drawable.ic_launcher).build();
         notification.defaults=Notification.DEFAULT_SOUND;
-        manger.notify(1, notification);
-        Log.v("收到消息",string.toString());
+        manger.notify(1, notification);*/
+        Log.v("收到消息",message.toString());
+        Protoc.Head head = message.getHead();
+        NomalMessage push = new NomalMessage();
+        push.wht = DataConfig.SendMessage_data;
+        push.obj = message;
+        switch (head.getType()){
+            case RESPONSE:
+                EventBus.getDefault().post(push);
+                break;
+            case SYSTEM:
+                break;
+            case USER:
+                break;
+            case HANDSHAKERESPONSE:
+                break;
+            default:
+                Log.v("未知消息类型","no such method");
+        }
         //判断消息类型
         /*string.getHead();
         if(MessageEnum.type.RESPONSE.getCode().equals(header.getType())){

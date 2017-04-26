@@ -195,53 +195,14 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	}
 
 	/*
-		发送信息 系统验证和退出等消息
+		发送信息
 	 */
-	public void send(final Protoc.Message message) {
+	public void sendMessage(final Protoc.Message message) {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
 				if (channel != null && channel.isActive()) {
 					boolean isDone = channel.writeAndFlush(message)
-							.awaitUninterruptibly(5000);
-					if (!isDone) {
-						Intent intent = new Intent();
-						intent.setAction(ACTION_SENT_FAILED);
-						intent.putExtra("exception",
-								new WriteToClosedSessionException());
-						intent.putExtra("message", message);
-						context.sendBroadcast(intent);
-					} else {
-						Intent intent = new Intent();
-						intent.setAction(ACTION_SENT_SUCCESS);
-						intent.putExtra("message", message);
-						context.sendBroadcast(intent);
-					}
-				} else {
-
-					Intent intent = new Intent();
-					intent.setAction(ACTION_SENT_FAILED);
-					intent.putExtra("exception",
-							new SessionDisableException());
-					intent.putExtra("message", message);
-					context.sendBroadcast(intent);
-				}
-			}
-		});
-	}
-
-	/*
-		发送信息
-	 */
-	public void sendMessage(final String message) {
-		Log.v("sendMessage",message);
-
-		final ByteBuf mesbuf=Unpooled.copiedBuffer((message+"\r\n").getBytes());
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				if (channel != null && channel.isActive()) {
-					boolean isDone = channel.writeAndFlush(mesbuf)
 							.awaitUninterruptibly(5000);
 					if (!isDone) {
 						Intent intent = new Intent();
@@ -378,9 +339,15 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			if (msg instanceof Protoc.Message) {
 				Protoc.Message message = (Protoc.Message) msg;
 				Intent intent = new Intent();
-				Log.e(TAG, "收到的消息==" + message.getBody().toString());
 				switch (message.getHead().getType()) {
 					case PING:
+						Protoc.Message.Builder response = Protoc.Message.newBuilder();
+						Protoc.Head.Builder head1= Protoc.Head.newBuilder();
+						head1.setTime(System.currentTimeMillis());
+						head1.setUid(message.getHead().getUid());
+						head1.setStatus(Protoc.status.OK);
+						head1.setType(Protoc.type.RESPONSE);
+						response.setHead(head1);
 						ctx.channel().writeAndFlush(null);
 						break;
 					case PONG:

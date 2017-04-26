@@ -70,7 +70,7 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         soundPool = builder.build();
         soundPool.load(this, R.raw.system,1);
 
-        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_HOST,"169.254.20.93");
+        CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_HOST,"192.168.1.101");
         CacheToolkit.getInstance(this).putString(CacheToolkit.KEY_CIM_SERVIER_PORT,"3000");
         serviceIntent= new Intent(this, PushService.class);
         serviceIntent.setAction(PushManager.ACTION_CREATE_IM_CONNECTION);

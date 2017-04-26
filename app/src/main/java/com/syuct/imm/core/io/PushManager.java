@@ -146,9 +146,9 @@ public class PushManager {
 		header.setUid(UUID.randomUUID().toString());
 		header.setStatus(Protoc.status.REQ);
 		header.setType(Protoc.type.HANDSHAKE);
+		header.setTime(System.currentTimeMillis());
 		message.setHead(header);
 		message.setBody(gson.toJson(handShakeMessage));
-		Log.v("send handshake",gson.toJson(message));
 		sendMessage(context,message.build());
 	}
 
@@ -188,7 +188,7 @@ public class PushManager {
 		}*/
 
 		Intent serviceIntent = new Intent(context, PushService.class);
-		serviceIntent.putExtra(KEY_MESSAGE_BODY, message);
+		serviceIntent.putExtra(KEY_MESSAGE_BODY, message.toByteArray());
 		serviceIntent.setAction(ACTION_SEND_MESSAGE);
 		context.startService(serviceIntent);
 

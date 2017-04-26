@@ -11,12 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Since;
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
 import com.syuct.imm.bean.ChatMsgEntity;
 import com.syuct.imm.core.io.PushManager;
+import com.syuct.imm.core.protocol.MessageEnum;
+import com.syuct.imm.core.protocol.UserMessage;
+import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.utils.MessageGenerators;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +42,7 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     private ListView mListView;
     private ChatMsgViewAdapter mAdapter;// 消息视图的Adapter
     private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();// 消息对象数组
-
+    private Gson gson = new Gson();
     private String to;
     public ChattingActivity() {
     }
@@ -43,9 +53,12 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_chatting);
         Bundle bundle=this.getIntent().getExtras();
         to=bundle.getString("account");
-        Log.v("收到的数据",to);
+        Log.v("给用户发消息",to);
         initView();// 初始化view
         initData();// 初始化数据
+
+        //注册eventbus
+        EventBus.getDefault().register(this);
         mListView.setSelection(mAdapter.getCount() - 1);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -60,6 +73,22 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
 
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NomalMessage message){
+        if (message.wht == DataConfig.SendMessage_data) {
+            String uuid = message.getObj().getHead().getUid();
+            Log.v("uuid",uuid);
+            for (ChatMsgEntity entity:mDataArrays){
+                if(uuid.equals(entity.getUuid())){
+                    entity.setStatus(true);
+                }
+            }
+            mAdapter.setDataList(mDataArrays);
+            mAdapter.notifyDataSetChanged();
+            //Toast.makeText(this, message.obj.getBody(), Toast.LENGTH_LONG).show();
+        }
     }
     public void initView() {
         mListView = (ListView) findViewById(R.id.listview);
@@ -139,7 +168,21 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             mAdapter.notifyDataSetChanged();
             mEditTextContent.setText("");// 清空编辑框数据
             mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
-            //PushManager.sendMessage(this,MessageGenerators.generat_message(getApplicationContext(),contString,to,uuid));
+            Protoc.Message.Builder send_build = Protoc.Message.newBuilder();
+            Protoc.Head.Builder head_build  = Protoc.Head.newBuilder();
+            head_build.setTime(System.currentTimeMillis());
+            head_build.setStatus(Protoc.status.REQ);
+            head_build.setUid(uuid);
+            head_build.setType(Protoc.type.USER);
+            UserMessage message = new UserMessage();
+            message.setContent(contString);
+            message.setFrom("1065302407");
+            message.setSign(null);
+            message.setTo("2296480526");
+            message.setType(MessageEnum.type.USER.getCode());
+            send_build.setHead(head_build);
+            send_build.setBody(gson.toJson(message));
+            PushManager.sendMessage(this,send_build.build());
         }
     }
 
@@ -151,5 +194,12 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     private String getDate() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return format.format(new Date());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //注销eventbus
+        EventBus.getDefault().unregister(this);
     }
 }
