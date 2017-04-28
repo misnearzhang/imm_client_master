@@ -11,18 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.Since;
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
 import com.syuct.imm.bean.ChatMsgEntity;
 import com.syuct.imm.core.io.PushManager;
 import com.syuct.imm.core.protocol.MessageEnum;
 import com.syuct.imm.core.protocol.UserMessage;
 import com.syuct.imm.core.protocol.protocolbuf.Protoc;
+import com.syuct.imm.eventbus.DataConfig;
+import com.syuct.imm.eventbus.NomalMessage;
 import com.syuct.imm.ui.R;
-import com.syuct.imm.utils.MessageGenerators;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.UUID;
 
 public class ChattingActivity extends Activity implements View.OnClickListener{
@@ -56,9 +54,9 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         Log.v("给用户发消息",to);
         initView();// 初始化view
         initData();// 初始化数据
-
         //注册eventbus
         EventBus.getDefault().register(this);
+
         mListView.setSelection(mAdapter.getCount() - 1);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -75,6 +73,10 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         });
     }
 
+    /**
+     * 消息处理器
+     * @param message
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(NomalMessage message){
         if (message.wht == DataConfig.SendMessage_data) {
@@ -156,33 +158,69 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         String contString = mEditTextContent.getText().toString();
         String uuid= UUID.randomUUID().toString();
         if (contString.length() > 0) {
-            ChatMsgEntity entity1 = new ChatMsgEntity();
-            entity1.setName("必败");
-            entity1.setDate(getDate());
-            entity1.setMessage(contString);
-            entity1.setType(1);
-            entity1.setUuid(uuid);
-            entity1.setStatus(false);
-            mDataArrays.add(entity1);
-            mAdapter.setDataList(mDataArrays);
-            mAdapter.notifyDataSetChanged();
-            mEditTextContent.setText("");// 清空编辑框数据
-            mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
-            Protoc.Message.Builder send_build = Protoc.Message.newBuilder();
-            Protoc.Head.Builder head_build  = Protoc.Head.newBuilder();
-            head_build.setTime(System.currentTimeMillis());
-            head_build.setStatus(Protoc.status.REQ);
-            head_build.setUid(uuid);
-            head_build.setType(Protoc.type.USER);
-            UserMessage message = new UserMessage();
-            message.setContent(contString);
-            message.setFrom("1065302407");
-            message.setSign(null);
-            message.setTo("2296480526");
-            message.setType(MessageEnum.type.USER.getCode());
-            send_build.setHead(head_build);
-            send_build.setBody(gson.toJson(message));
-            PushManager.sendMessage(this,send_build.build());
+            if(contString.length()>400){
+                ArrayList<String> strings = getSplitMessage(contString,400);
+                //分割字符串
+                for(String send : strings){
+                    ChatMsgEntity entity1 = new ChatMsgEntity();
+                    entity1.setName("必败");
+                    entity1.setDate(getDate());
+                    entity1.setMessage(send);
+                    entity1.setType(1);
+                    entity1.setUuid(uuid);
+                    entity1.setStatus(false);
+                    mDataArrays.add(entity1);
+                    mAdapter.setDataList(mDataArrays);
+                    mAdapter.notifyDataSetChanged();
+                    mEditTextContent.setText("");// 清空编辑框数据
+                    mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
+
+                    Protoc.Message.Builder send_build = Protoc.Message.newBuilder();
+                    Protoc.Head.Builder head_build  = Protoc.Head.newBuilder();
+                    head_build.setTime(System.currentTimeMillis());
+                    head_build.setStatus(Protoc.status.REQ);
+                    head_build.setUid(uuid);
+                    head_build.setType(Protoc.type.USER);
+                    UserMessage message = new UserMessage();
+                    message.setContent(send);
+                    message.setFrom("1065302407");
+                    message.setSign(null);
+                    message.setTo("2296480526");
+                    message.setType(MessageEnum.type.USER.getCode());
+                    send_build.setHead(head_build);
+                    send_build.setBody(gson.toJson(message));
+                    PushManager.sendMessage(this,send_build.build());
+                }
+            }else{
+                ChatMsgEntity entity1 = new ChatMsgEntity();
+                entity1.setName("必败");
+                entity1.setDate(getDate());
+                entity1.setMessage(contString);
+                entity1.setType(1);
+                entity1.setUuid(uuid);
+                entity1.setStatus(false);
+                mDataArrays.add(entity1);
+                mAdapter.setDataList(mDataArrays);
+                mAdapter.notifyDataSetChanged();
+                mEditTextContent.setText("");// 清空编辑框数据
+                mListView.setSelection(mAdapter.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
+
+                Protoc.Message.Builder send_build = Protoc.Message.newBuilder();
+                Protoc.Head.Builder head_build  = Protoc.Head.newBuilder();
+                head_build.setTime(System.currentTimeMillis());
+                head_build.setStatus(Protoc.status.REQ);
+                head_build.setUid(uuid);
+                head_build.setType(Protoc.type.USER);
+                UserMessage message = new UserMessage();
+                message.setContent(contString);
+                message.setFrom("1065302407");
+                message.setSign(null);
+                message.setTo("2296480526");
+                message.setType(MessageEnum.type.USER.getCode());
+                send_build.setHead(head_build);
+                send_build.setBody(gson.toJson(message));
+                PushManager.sendMessage(this,send_build.build());
+            }
         }
     }
 
@@ -194,6 +232,21 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     private String getDate() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return format.format(new Date());
+    }
+    private static ArrayList<String> getSplitMessage(String message,int len){
+        ArrayList<String> strs = new ArrayList<String>();
+        int strlength = message.length();
+        for(int i=0;i<strlength;){
+            String msg = "";
+            if(strlength-i>len){
+                msg = message.substring(i,i+len);
+            }else{
+                msg = message.substring(i,strlength);
+            }
+            strs.add(msg);
+            i+=len;
+        }
+        return strs;
     }
 
     @Override

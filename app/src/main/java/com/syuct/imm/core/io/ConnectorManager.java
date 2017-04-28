@@ -105,8 +105,8 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 	private ExecutorService executor;
 	public static final String HEARTBEAT_PINGED = "HEARTBEAT_PINGED";
 	// 连接空闲时间
-	public static final int READ_IDLE_TIME = 245;// 秒
-	public static final int WRITE_DILE_TIME = 240;//
+	public static final int READ_IDLE_TIME = 210;// 秒
+	public static final int WRITE_DILE_TIME = 205;//
 	private static Gson gson=new Gson();
 
 	private ConnectorManager(Context ctx) {
@@ -337,6 +337,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			throws Exception {
 		try {
 			if (msg instanceof Protoc.Message) {
+				HeartBeatCount=0;
 				Protoc.Message message = (Protoc.Message) msg;
 				Intent intent = new Intent();
 				switch (message.getHead().getType()) {
@@ -348,10 +349,11 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 						head1.setStatus(Protoc.status.OK);
 						head1.setType(Protoc.type.RESPONSE);
 						response.setHead(head1);
-						ctx.channel().writeAndFlush(null);
+						ctx.channel().writeAndFlush(response.build());
 						break;
 					case PONG:
 						//do nothing
+						Log.v("收到心跳响应",message.toString());
 						break;
 					default:
 						intent.setAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);

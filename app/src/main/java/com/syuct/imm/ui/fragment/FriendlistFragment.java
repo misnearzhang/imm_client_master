@@ -119,6 +119,7 @@ public class FriendlistFragment extends Fragment {
     }
 
     private List<Friends> getList() {
+
         List<Friends> friendsList=new ArrayList<>();
         for (int i=0;i<10;i++) {
             Friends friends = new Friends("123", "123", "123");

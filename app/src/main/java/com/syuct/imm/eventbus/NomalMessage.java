@@ -1,4 +1,4 @@
-package com.syuct.imm.ui.activity;
+package com.syuct.imm.eventbus;
 
 import com.syuct.imm.core.protocol.protocolbuf.Protoc;
 

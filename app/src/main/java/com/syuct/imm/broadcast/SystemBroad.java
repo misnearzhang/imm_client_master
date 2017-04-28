@@ -1,29 +1,15 @@
 package com.syuct.imm.broadcast;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.syuct.imm.core.io.EventBroadcastReceiver;
-import com.syuct.imm.core.io.PushManager;
-import com.syuct.imm.core.protocol.Header;
-import com.syuct.imm.core.protocol.Message;
-import com.syuct.imm.core.protocol.MessageEnum;
 import com.syuct.imm.core.protocol.protocolbuf.Protoc;
-import com.syuct.imm.ui.R;
-import com.syuct.imm.ui.activity.DataConfig;
-import com.syuct.imm.ui.activity.NomalMessage;
+import com.syuct.imm.eventbus.DataConfig;
+import com.syuct.imm.eventbus.NomalMessage;
 import com.syuct.imm.utils.GlobalData;
-import com.syuct.imm.utils.MessageGenerators;
 
 import org.greenrobot.eventbus.EventBus;
-
-import static android.media.SoundPool.*;
 
 /**
  * Created by zhanglong on 2017/3/19.
