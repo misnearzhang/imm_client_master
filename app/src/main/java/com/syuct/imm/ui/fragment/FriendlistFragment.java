@@ -121,9 +121,12 @@ public class FriendlistFragment extends Fragment {
     private List<Friends> getList() {
 
         List<Friends> friendsList=new ArrayList<>();
-        for (int i=0;i<10;i++) {
-            Friends friends = new Friends("123", "123", "123");
-            friendsList.add(friends);
+        String account = CacheToolkit.getInstance(getActivity()).getString(CacheToolkit.KEY_ACCOUNT);
+        Log.v("account",account);
+        if(account!=null&&"1065302407".equals(account)){
+            friendsList.add(new Friends("1039075891","123456",""));
+        }else{
+            friendsList.add(new Friends("1065302407","123456",""));
         }
         return friendsList;
     }

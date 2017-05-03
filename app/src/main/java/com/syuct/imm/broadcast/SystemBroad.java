@@ -36,6 +36,8 @@ public class SystemBroad extends EventBroadcastReceiver {
             case SYSTEM:
                 break;
             case USER:
+                push.wht = DataConfig.ReceveMessage_data;
+                EventBus.getDefault().post(push);
                 break;
             case HANDSHAKERESPONSE:
                 break;

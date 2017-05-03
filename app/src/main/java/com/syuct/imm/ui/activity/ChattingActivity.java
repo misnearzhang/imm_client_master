@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.syuct.imm.adapter.ChatMsgViewAdapter;
 import com.syuct.imm.bean.ChatMsgEntity;
+import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.core.io.PushManager;
 import com.syuct.imm.core.protocol.MessageEnum;
 import com.syuct.imm.core.protocol.UserMessage;
@@ -42,6 +43,7 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
     private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();// 消息对象数组
     private Gson gson = new Gson();
     private String to;
+    String account = "";
     public ChattingActivity() {
     }
 
@@ -56,6 +58,8 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
         initData();// 初始化数据
         //注册eventbus
         EventBus.getDefault().register(this);
+
+        account = CacheToolkit.getInstance(this).getString(CacheToolkit.KEY_ACCOUNT);
 
         mListView.setSelection(mAdapter.getCount() - 1);
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -90,6 +94,21 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
             mAdapter.setDataList(mDataArrays);
             mAdapter.notifyDataSetChanged();
             //Toast.makeText(this, message.obj.getBody(), Toast.LENGTH_LONG).show();
+        }else if(message.wht == DataConfig.ReceveMessage_data){
+            String uuid = message.getObj().getHead().getUid();
+            ChatMsgEntity entity1 = new ChatMsgEntity();
+            UserMessage message1 = gson.fromJson(message.getObj().getBody(),UserMessage.class);
+            entity1.setName(message1.getFrom());
+            entity1.setDate(getDate());
+            UserMessage userMessage = gson.fromJson(message.getObj().getBody(),UserMessage.class);
+            entity1.setMessage(userMessage.getContent());
+            entity1.setType(0);
+            entity1.setUuid(uuid);
+            entity1.setStatus(true);
+            mDataArrays.add(entity1);
+            mAdapter.setDataList(mDataArrays);
+            mAdapter.notifyDataSetChanged();
+            mListView.setSelection(mAdapter.getCount() - 1);
         }
     }
     public void initView() {
@@ -183,12 +202,13 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
                     head_build.setType(Protoc.type.USER);
                     UserMessage message = new UserMessage();
                     message.setContent(send);
-                    message.setFrom("1065302407");
+                    message.setFrom(account);
                     message.setSign(null);
-                    message.setTo("2296480526");
+                    message.setTo(to);
                     message.setType(MessageEnum.type.USER.getCode());
                     send_build.setHead(head_build);
                     send_build.setBody(gson.toJson(message));
+                    Log.v("发送的消息",send_build.build().toString());
                     PushManager.sendMessage(this,send_build.build());
                 }
             }else{
@@ -213,12 +233,13 @@ public class ChattingActivity extends Activity implements View.OnClickListener{
                 head_build.setType(Protoc.type.USER);
                 UserMessage message = new UserMessage();
                 message.setContent(contString);
-                message.setFrom("1065302407");
+                message.setFrom(account);
                 message.setSign(null);
-                message.setTo("2296480526");
+                message.setTo(to);
                 message.setType(MessageEnum.type.USER.getCode());
                 send_build.setHead(head_build);
                 send_build.setBody(gson.toJson(message));
+                Log.v("发送的消息",send_build.build().toString());
                 PushManager.sendMessage(this,send_build.build());
             }
         }
