@@ -53,7 +53,7 @@ public class LoginAsyncTask extends AsyncTask<Login, Void, Void> {
         String account = params[0].getUserAccount();
         String password = params[0].getPassword();
         PostFormBuilder post = OkHttpUtils.post();
-        post.url("http://xcnana.com:8080/imm/login.htm");
+        post.url("http://45.32.10.203:8080/imm/login.htm");
         post.addParams("account", account);
         post.addParams("password", password);
         CacheToolkit.getInstance(context).putString(CacheToolkit.KEY_ACCOUNT,account);

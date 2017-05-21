@@ -6,10 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.syuct.imm.bean.model.Friends;
+import com.syuct.imm.db.entity.Friends;
 import com.syuct.imm.ui.R;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class FriendlistAdapter extends BaseAdapter {
         } else {
             viewHolder = (FriendlistAdapter.friendsHolder) convertView.getTag();
         }
-        viewHolder.textView_userName.setText(entity.getNickname());
+        viewHolder.textView_userName.setText(entity.getFriendName());
         viewHolder.textView_recent_message.setText("");
         return convertView;
     }

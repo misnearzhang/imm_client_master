@@ -50,7 +50,7 @@ public class GetfriendListAsyncTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         //return http.Post("http://localhost:8080/message4U/api/user/login", "login", params[0]);
         PostFormBuilder post = OkHttpUtils.post();
-        post.url("http://xcnana.com:8080/imm/getFriendsList.htm");
+        post.url("http://45.32.10.203:8080/imm/getFriendsList.htm");
         String account=CacheToolkit.getInstance(context).getString(CacheToolkit.KEY_ACCOUNT);
         post.addParams("account", account);
         post.build().execute(new StringCallback() {

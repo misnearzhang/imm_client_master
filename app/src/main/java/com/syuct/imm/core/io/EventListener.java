@@ -11,8 +11,6 @@ import com.syuct.imm.core.protocol.protocolbuf.Protoc;
  */
 public interface EventListener
 {
-
-
     /**
      * 当收到服务端推送过来的消息时调用
      * @param message

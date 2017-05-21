@@ -38,6 +38,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -120,24 +122,17 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		bootstrap.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			public void initChannel(SocketChannel ch) throws Exception {
-
 				ChannelPipeline pipeline = ch.pipeline();
-				// 设置protobuf编码器
-				ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
-				// 设置带长度解码器
+				ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
 				ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(
 						Protoc.Message.getDefaultInstance()));
-				/*ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
-				// 设置带长度编码器
-				ch.pipeline().addLast(new StringDecoder());
-				ch.pipeline().addLast(new LineBasedFrameDecoder(1024*5));*/
+				ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
+				ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
 				pipeline.addLast("idleStateHandler", new IdleStateHandler(
 						READ_IDLE_TIME, WRITE_DILE_TIME, 0));
 				pipeline.addLast(ConnectorManager.this);
-
 			}
 		});
-
 	}
 
 	public synchronized static ConnectorManager getManager(Context context) {
@@ -145,13 +140,11 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			manager = new ConnectorManager(context);
 		}
 		return manager;
-
 	}
 
 	private synchronized void syncConnection(final String imServerHost,
 			final int cimServerPort) {
 		try {
-
 			if (isConnected()) {
 				return;
 			}
@@ -193,7 +186,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		 * connect(cimServerHost, cimServerPort); e.printStackTrace(); }
 		 */
 	}
-
 	/*
 		发送信息
 	 */
@@ -207,14 +199,14 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					if (!isDone) {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_MESSAGE_FAILED);
-						intent.putExtra("message", message);
+						intent.putExtra("message", message.toByteArray());
 						intent.putExtra("exception",
 								new WriteToClosedSessionException());
 						context.sendBroadcast(intent);
 					} else {
 						Intent intent = new Intent();
 						intent.setAction(ACTION_MESSAGE_SUCCESS);
-						intent.putExtra("message", message);
+						intent.putExtra("message", message.toByteArray());
 						context.sendBroadcast(intent);
 					}
 				} else {
@@ -222,7 +214,7 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 					intent.setAction(ACTION_MESSAGE_FAILED);
 					intent.putExtra("exception",
 							new SessionDisableException());
-					intent.putExtra("message", message);
+					intent.putExtra("message", message.toByteArray());
 					context.sendBroadcast(intent);
 				}
 			}
@@ -296,7 +288,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 
 		ctx.channel().attr(AttributeKey.valueOf(HEARTBEAT_PINGED)).set(
 				System.currentTimeMillis());
-
 		Intent intent = new Intent();
 		intent.setAction(ACTION_CONNECTION_SUCCESS);
 		context.sendBroadcast(intent);
@@ -312,7 +303,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			Intent intent = new Intent();
 			intent.setAction(ACTION_CONNECTION_CLOSED);
 			context.sendBroadcast(intent);
-
 		}
 	}
 
@@ -366,7 +356,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 		} finally {
 			ReferenceCountUtil.release(msg);
 		}
-
 	}
 
 	public static boolean netWorkAvailable(Context context) {
@@ -377,7 +366,6 @@ public class ConnectorManager extends SimpleChannelInboundHandler<Object> {
 			return networkInfo != null;
 		} catch (Exception e) {
 		}
-
 		return false;
 	}
 
