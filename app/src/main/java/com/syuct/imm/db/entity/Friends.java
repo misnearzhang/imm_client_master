@@ -13,7 +13,7 @@ import org.greenrobot.greendao.annotation.Index;
 
 @Entity
 public class Friends {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     @Index(unique = true)
     private String friendAccount;

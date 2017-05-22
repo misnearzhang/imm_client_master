@@ -3,18 +3,25 @@ package com.syuct.imm.db.entity;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Unique;
+
 import java.util.Date;
 @Entity
 public class User {
-    @Id
+    @Id(autoincrement = true)
+    private Long id;
+    @Unique
+    @NotNull
     private String account;
     private String userName;
     private String password;
     private String status;
     private java.util.Date addTime;
-    @Generated(hash = 613306058)
-    public User(String account, String userName, String password, String status,
-            java.util.Date addTime) {
+    @Generated(hash = 630061635)
+    public User(Long id, @NotNull String account, String userName, String password,
+            String status, java.util.Date addTime) {
+        this.id = id;
         this.account = account;
         this.userName = userName;
         this.password = password;
@@ -53,5 +60,11 @@ public class User {
     }
     public void setAddTime(java.util.Date addTime) {
         this.addTime = addTime;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

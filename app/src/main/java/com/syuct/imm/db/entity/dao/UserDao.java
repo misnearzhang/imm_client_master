@@ -15,7 +15,7 @@ import com.syuct.imm.db.entity.User;
 /** 
  * DAO for table "USER".
 */
-public class UserDao extends AbstractDao<User, String> {
+public class UserDao extends AbstractDao<User, Long> {
 
     public static final String TABLENAME = "USER";
 
@@ -24,11 +24,12 @@ public class UserDao extends AbstractDao<User, String> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Account = new Property(0, String.class, "account", true, "ACCOUNT");
-        public final static Property UserName = new Property(1, String.class, "userName", false, "USER_NAME");
-        public final static Property Password = new Property(2, String.class, "password", false, "PASSWORD");
-        public final static Property Status = new Property(3, String.class, "status", false, "STATUS");
-        public final static Property AddTime = new Property(4, java.util.Date.class, "addTime", false, "ADD_TIME");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property Account = new Property(1, String.class, "account", false, "ACCOUNT");
+        public final static Property UserName = new Property(2, String.class, "userName", false, "USER_NAME");
+        public final static Property Password = new Property(3, String.class, "password", false, "PASSWORD");
+        public final static Property Status = new Property(4, String.class, "status", false, "STATUS");
+        public final static Property AddTime = new Property(5, java.util.Date.class, "addTime", false, "ADD_TIME");
     }
 
 
@@ -44,11 +45,12 @@ public class UserDao extends AbstractDao<User, String> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
-                "\"ACCOUNT\" TEXT PRIMARY KEY NOT NULL ," + // 0: account
-                "\"USER_NAME\" TEXT," + // 1: userName
-                "\"PASSWORD\" TEXT," + // 2: password
-                "\"STATUS\" TEXT," + // 3: status
-                "\"ADD_TIME\" INTEGER);"); // 4: addTime
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "\"ACCOUNT\" TEXT NOT NULL UNIQUE ," + // 1: account
+                "\"USER_NAME\" TEXT," + // 2: userName
+                "\"PASSWORD\" TEXT," + // 3: password
+                "\"STATUS\" TEXT," + // 4: status
+                "\"ADD_TIME\" INTEGER);"); // 5: addTime
     }
 
     /** Drops the underlying database table. */
@@ -61,29 +63,30 @@ public class UserDao extends AbstractDao<User, String> {
     protected final void bindValues(DatabaseStatement stmt, User entity) {
         stmt.clearBindings();
  
-        String account = entity.getAccount();
-        if (account != null) {
-            stmt.bindString(1, account);
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
         }
+        stmt.bindString(2, entity.getAccount());
  
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(2, userName);
+            stmt.bindString(3, userName);
         }
  
         String password = entity.getPassword();
         if (password != null) {
-            stmt.bindString(3, password);
+            stmt.bindString(4, password);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(4, status);
+            stmt.bindString(5, status);
         }
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(5, addTime.getTime());
+            stmt.bindLong(6, addTime.getTime());
         }
     }
 
@@ -91,67 +94,71 @@ public class UserDao extends AbstractDao<User, String> {
     protected final void bindValues(SQLiteStatement stmt, User entity) {
         stmt.clearBindings();
  
-        String account = entity.getAccount();
-        if (account != null) {
-            stmt.bindString(1, account);
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
         }
+        stmt.bindString(2, entity.getAccount());
  
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(2, userName);
+            stmt.bindString(3, userName);
         }
  
         String password = entity.getPassword();
         if (password != null) {
-            stmt.bindString(3, password);
+            stmt.bindString(4, password);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(4, status);
+            stmt.bindString(5, status);
         }
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(5, addTime.getTime());
+            stmt.bindLong(6, addTime.getTime());
         }
     }
 
     @Override
-    public String readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public User readEntity(Cursor cursor, int offset) {
         User entity = new User( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // account
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // userName
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // password
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // status
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // addTime
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getString(offset + 1), // account
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userName
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // password
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // status
+            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // addTime
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, User entity, int offset) {
-        entity.setAccount(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setUserName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setPassword(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStatus(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setAddTime(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setAccount(cursor.getString(offset + 1));
+        entity.setUserName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setPassword(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setStatus(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddTime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
      }
     
     @Override
-    protected final String updateKeyAfterInsert(User entity, long rowId) {
-        return entity.getAccount();
+    protected final Long updateKeyAfterInsert(User entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public String getKey(User entity) {
+    public Long getKey(User entity) {
         if(entity != null) {
-            return entity.getAccount();
+            return entity.getId();
         } else {
             return null;
         }
@@ -159,7 +166,7 @@ public class UserDao extends AbstractDao<User, String> {
 
     @Override
     public boolean hasKey(User entity) {
-        return entity.getAccount() != null;
+        return entity.getId() != null;
     }
 
     @Override
