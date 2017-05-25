@@ -18,14 +18,19 @@ public class Friends {
     @Index(unique = true)
     private String friendAccount;
     private String friendName;
+    private String headImageNet;//头像网络地址
+    private String headImageLocal;//头像本地地址
     private Date addTime;
     private Date updateTime;
-    @Generated(hash = 1330653055)
-    public Friends(Long id, String friendAccount, String friendName, Date addTime,
+    @Generated(hash = 1101975472)
+    public Friends(Long id, String friendAccount, String friendName,
+            String headImageNet, String headImageLocal, Date addTime,
             Date updateTime) {
         this.id = id;
         this.friendAccount = friendAccount;
         this.friendName = friendName;
+        this.headImageNet = headImageNet;
+        this.headImageLocal = headImageLocal;
         this.addTime = addTime;
         this.updateTime = updateTime;
     }
@@ -49,6 +54,18 @@ public class Friends {
     }
     public void setFriendName(String friendName) {
         this.friendName = friendName;
+    }
+    public String getHeadImageNet() {
+        return this.headImageNet;
+    }
+    public void setHeadImageNet(String headImageNet) {
+        this.headImageNet = headImageNet;
+    }
+    public String getHeadImageLocal() {
+        return this.headImageLocal;
+    }
+    public void setHeadImageLocal(String headImageLocal) {
+        this.headImageLocal = headImageLocal;
     }
     public Date getAddTime() {
         return this.addTime;

@@ -21,13 +21,12 @@ import com.syuct.imm.adapter.FriendlistAdapter;
 import com.syuct.imm.application.ApplicationInit;
 import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.db.entity.Friends;
-import com.syuct.imm.db.entity.dao.FriendsDao;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.ui.activity.ChattingActivity;
 import com.syuct.imm.ui.activity.FriendDetailActivity;
 import com.syuct.imm.utils.ConstData;
 import com.syuct.imm.utils.GlobalData;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +38,14 @@ public class FriendlistFragment extends Fragment {
     private FriendlistAdapter adapter;
     private Button addFriend;
     private Gson gson = new Gson();
-    private static FriendsDao friendsDao = ApplicationInit.getInstances().getDaoSession().getFriendsDao();
+    //private static FriendsDao friendsDao = ApplicationInit.getInstances().getDaoSession().getFriendsDao();
     @Override
     public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
     }
     public static FriendlistFragment newInstance() {
-        friendsDao.insert(new Friends((long) 1002, "1039075891", "xcnana", new Date(),new Date()));
-        friendsDao.insert(new Friends((long) 1003, "123456", "zhanglong", new Date(),new Date()));
+        //friendsDao.insert(new Friends((long) 1002, "1039075891", "xcnana", new Date(),new Date()));
+        //friendsDao.insert(new Friends((long) 1003, "123456", "zhanglong", new Date(),new Date()));
         FriendlistFragment fragment = new FriendlistFragment();
         return fragment;
     }
@@ -104,7 +103,8 @@ public class FriendlistFragment extends Fragment {
     private List<Friends> getList() {
         String account = CacheToolkit.getInstance(getActivity()).getString(CacheToolkit.KEY_ACCOUNT);
         Log.v("account",account);
-        return friendsDao.loadAll();
+        //return friendsDao.loadAll();
+        return null;
     }
 
     @Override

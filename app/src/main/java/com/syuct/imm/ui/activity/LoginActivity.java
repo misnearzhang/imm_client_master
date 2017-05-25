@@ -83,11 +83,9 @@ public class LoginActivity extends SuperActivity {
     TextView lblRemPass = null;
     EditText txtUserName = null;
     EditText txtPass = null;
-    EditText txtConnect = null;
     TextView lblForgetPass = null;
     Button btnRegister = null;
     Button btnLogin = null;
-    ProgressDialog dialog=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +110,6 @@ public class LoginActivity extends SuperActivity {
 
         txtUserName = (EditText) findViewById(R.id.txtUserID);
         txtPass = (EditText) findViewById(R.id.txtPassword);
-        txtConnect = (EditText) findViewById(R.id.connect);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(onClickListener);
         btnLogin = (Button) findViewById(R.id.btnLogin);

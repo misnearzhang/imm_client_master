@@ -27,9 +27,11 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Account = new Property(1, String.class, "account", false, "ACCOUNT");
         public final static Property UserName = new Property(2, String.class, "userName", false, "USER_NAME");
-        public final static Property Password = new Property(3, String.class, "password", false, "PASSWORD");
-        public final static Property Status = new Property(4, String.class, "status", false, "STATUS");
-        public final static Property AddTime = new Property(5, java.util.Date.class, "addTime", false, "ADD_TIME");
+        public final static Property HeadImageNet = new Property(3, String.class, "headImageNet", false, "HEAD_IMAGE_NET");
+        public final static Property HeadImageLocal = new Property(4, String.class, "HeadImageLocal", false, "HEAD_IMAGE_LOCAL");
+        public final static Property Password = new Property(5, String.class, "password", false, "PASSWORD");
+        public final static Property Status = new Property(6, String.class, "status", false, "STATUS");
+        public final static Property AddTime = new Property(7, java.util.Date.class, "addTime", false, "ADD_TIME");
     }
 
 
@@ -48,9 +50,11 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"ACCOUNT\" TEXT NOT NULL UNIQUE ," + // 1: account
                 "\"USER_NAME\" TEXT," + // 2: userName
-                "\"PASSWORD\" TEXT," + // 3: password
-                "\"STATUS\" TEXT," + // 4: status
-                "\"ADD_TIME\" INTEGER);"); // 5: addTime
+                "\"HEAD_IMAGE_NET\" TEXT," + // 3: headImageNet
+                "\"HEAD_IMAGE_LOCAL\" TEXT," + // 4: HeadImageLocal
+                "\"PASSWORD\" TEXT," + // 5: password
+                "\"STATUS\" TEXT," + // 6: status
+                "\"ADD_TIME\" INTEGER);"); // 7: addTime
     }
 
     /** Drops the underlying database table. */
@@ -74,19 +78,29 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(3, userName);
         }
  
+        String headImageNet = entity.getHeadImageNet();
+        if (headImageNet != null) {
+            stmt.bindString(4, headImageNet);
+        }
+ 
+        String HeadImageLocal = entity.getHeadImageLocal();
+        if (HeadImageLocal != null) {
+            stmt.bindString(5, HeadImageLocal);
+        }
+ 
         String password = entity.getPassword();
         if (password != null) {
-            stmt.bindString(4, password);
+            stmt.bindString(6, password);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(5, status);
+            stmt.bindString(7, status);
         }
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(6, addTime.getTime());
+            stmt.bindLong(8, addTime.getTime());
         }
     }
 
@@ -105,19 +119,29 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(3, userName);
         }
  
+        String headImageNet = entity.getHeadImageNet();
+        if (headImageNet != null) {
+            stmt.bindString(4, headImageNet);
+        }
+ 
+        String HeadImageLocal = entity.getHeadImageLocal();
+        if (HeadImageLocal != null) {
+            stmt.bindString(5, HeadImageLocal);
+        }
+ 
         String password = entity.getPassword();
         if (password != null) {
-            stmt.bindString(4, password);
+            stmt.bindString(6, password);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(5, status);
+            stmt.bindString(7, status);
         }
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(6, addTime.getTime());
+            stmt.bindLong(8, addTime.getTime());
         }
     }
 
@@ -132,9 +156,11 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // account
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userName
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // password
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // status
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // addTime
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // headImageNet
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // HeadImageLocal
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // password
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // status
+            cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)) // addTime
         );
         return entity;
     }
@@ -144,9 +170,11 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setAccount(cursor.getString(offset + 1));
         entity.setUserName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setPassword(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setStatus(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setAddTime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setHeadImageNet(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setHeadImageLocal(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPassword(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setStatus(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setAddTime(cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)));
      }
     
     @Override

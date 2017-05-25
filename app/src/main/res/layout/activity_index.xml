@@ -64,7 +64,7 @@
             android:textColor="#ff0000"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dip"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"

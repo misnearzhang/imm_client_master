@@ -27,8 +27,10 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property FriendAccount = new Property(1, String.class, "friendAccount", false, "FRIEND_ACCOUNT");
         public final static Property FriendName = new Property(2, String.class, "friendName", false, "FRIEND_NAME");
-        public final static Property AddTime = new Property(3, java.util.Date.class, "addTime", false, "ADD_TIME");
-        public final static Property UpdateTime = new Property(4, java.util.Date.class, "updateTime", false, "UPDATE_TIME");
+        public final static Property HeadImageNet = new Property(3, String.class, "headImageNet", false, "HEAD_IMAGE_NET");
+        public final static Property HeadImageLocal = new Property(4, String.class, "headImageLocal", false, "HEAD_IMAGE_LOCAL");
+        public final static Property AddTime = new Property(5, java.util.Date.class, "addTime", false, "ADD_TIME");
+        public final static Property UpdateTime = new Property(6, java.util.Date.class, "updateTime", false, "UPDATE_TIME");
     }
 
 
@@ -47,8 +49,10 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"FRIEND_ACCOUNT\" TEXT," + // 1: friendAccount
                 "\"FRIEND_NAME\" TEXT," + // 2: friendName
-                "\"ADD_TIME\" INTEGER," + // 3: addTime
-                "\"UPDATE_TIME\" INTEGER);"); // 4: updateTime
+                "\"HEAD_IMAGE_NET\" TEXT," + // 3: headImageNet
+                "\"HEAD_IMAGE_LOCAL\" TEXT," + // 4: headImageLocal
+                "\"ADD_TIME\" INTEGER," + // 5: addTime
+                "\"UPDATE_TIME\" INTEGER);"); // 6: updateTime
         // Add Indexes
         db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_FRIENDS_FRIEND_ACCOUNT ON \"FRIENDS\"" +
                 " (\"FRIEND_ACCOUNT\" ASC);");
@@ -79,14 +83,24 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
             stmt.bindString(3, friendName);
         }
  
+        String headImageNet = entity.getHeadImageNet();
+        if (headImageNet != null) {
+            stmt.bindString(4, headImageNet);
+        }
+ 
+        String headImageLocal = entity.getHeadImageLocal();
+        if (headImageLocal != null) {
+            stmt.bindString(5, headImageLocal);
+        }
+ 
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(4, addTime.getTime());
+            stmt.bindLong(6, addTime.getTime());
         }
  
         java.util.Date updateTime = entity.getUpdateTime();
         if (updateTime != null) {
-            stmt.bindLong(5, updateTime.getTime());
+            stmt.bindLong(7, updateTime.getTime());
         }
     }
 
@@ -109,14 +123,24 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
             stmt.bindString(3, friendName);
         }
  
+        String headImageNet = entity.getHeadImageNet();
+        if (headImageNet != null) {
+            stmt.bindString(4, headImageNet);
+        }
+ 
+        String headImageLocal = entity.getHeadImageLocal();
+        if (headImageLocal != null) {
+            stmt.bindString(5, headImageLocal);
+        }
+ 
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(4, addTime.getTime());
+            stmt.bindLong(6, addTime.getTime());
         }
  
         java.util.Date updateTime = entity.getUpdateTime();
         if (updateTime != null) {
-            stmt.bindLong(5, updateTime.getTime());
+            stmt.bindLong(7, updateTime.getTime());
         }
     }
 
@@ -131,8 +155,10 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // friendAccount
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // friendName
-            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)), // addTime
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // updateTime
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // headImageNet
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // headImageLocal
+            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // addTime
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)) // updateTime
         );
         return entity;
     }
@@ -142,8 +168,10 @@ public class FriendsDao extends AbstractDao<Friends, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setFriendAccount(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setFriendName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setAddTime(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
-        entity.setUpdateTime(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
+        entity.setHeadImageNet(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setHeadImageLocal(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddTime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setUpdateTime(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
      }
     
     @Override

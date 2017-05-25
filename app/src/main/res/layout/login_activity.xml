@@ -4,49 +4,21 @@
     android:layout_height="fill_parent"
     android:id="@+id/parent_layout"
     android:background="@color/grayrare">
-
+<LinearLayout
+    android:id="@+id/log"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_centerHorizontal="true"
+    >
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/imgMainIcon"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
         android:src="@drawable/messages"
         android:layout_alignParentTop="true" />
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:id="@+id/connection"
-        android:layout_below="@+id/imgMainIcon">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:id="@+id/imageconnect"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="25px"
-            android:scaleType="fitCenter"
-            android:src="@drawable/server"/>
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/connect"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imgUserIcon"
-            android:layout_marginLeft="5dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical|left"
-            android:textColor="@color/graylight"
-            android:textSize="15sp"
-            android:hint="@string/connect"
-            android:paddingRight="20dp"
-            android:singleLine="true"
-            android:ellipsize="end"/>
-
-        </LinearLayout>
+</LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -55,30 +27,27 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/roundgraywhite"
         android:id="@+id/linearlayout"
-        android:layout_below="@+id/connection">
+        android:layout_below="@+id/log">
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:id="@+id/imgUserIcon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:layout_marginLeft="25px"
             android:scaleType="fitCenter"
+            android:layout_marginTop="5dp"
             android:src="@drawable/usericon_gray"/>
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/txtUserID"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imgUserIcon"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|left"
             android:textColor="@color/graylight"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:hint="@string/inputusername"
-            android:paddingRight="20dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="end"/>
     </LinearLayout>
     <LinearLayout
@@ -93,13 +62,11 @@
 
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:id="@+id/imgLockIcon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:layout_marginLeft="25px"
             android:scaleType="fitCenter"
-
+            android:layout_marginTop="5dp"
             android:src="@drawable/lockicon"/>
         <EditText
             android:layout_width="fill_parent"
@@ -107,16 +74,16 @@
             android:id="@+id/txtPassword"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imgLockIcon"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|left"
             android:textColor="@color/graylight"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:hint="@string/inputpassword"
-            android:paddingRight="20dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="end"
-            android:password="true"/>
+            android:inputType="textPassword"
+            />
 
     </LinearLayout>
     <LinearLayout
@@ -129,29 +96,21 @@
         android:id="@+id/linearlayout3"
         android:layout_below="@+id/linearlayout2">
 
+        <ImageView
+            android:id="@+id/imgRemPass"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/unchecked"/>
 
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_weight="1"
-        android:id="@+id/imgRemPass"
-        android:layout_below="@+id/linearlayout2"
-        android:layout_alignLeft="@+id/linearlayout2"
-        android:layout_marginTop="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/unchecked"/>
-    <TextView
+        <TextView
         android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_weight="1"
         android:text="@string/savepassword"
         android:id="@+id/lblRemPass"
         android:layout_toRightOf="@+id/imgRemPass"
-        android:layout_below="@+id/linearlayout2"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="1dp"
         android:gravity="center_vertical|left"
         android:textColor="@color/graylight"
         android:textSize="20sp"/>
@@ -161,11 +120,7 @@
         android:layout_weight="1"
         android:text="@string/nopassword"
         android:id="@+id/lblDisPass"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="10dp"
-
-        android:layout_alignBottom="@+id/lblRemPass"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|left"
         android:textColor="@color/graylight"
         android:textSize="20sp"/>
     </LinearLayout>
@@ -190,9 +145,6 @@
         android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-
-
-
         android:layout_below="@+id/lblRemPass"
         android:layout_alignLeft="@+id/linearlayout4"
         android:layout_alignStart="@+id/imgRemPass"

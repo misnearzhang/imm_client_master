@@ -29,7 +29,10 @@ public class MessageDao extends AbstractDao<Message, String> {
         public final static Property FriendId = new Property(2, String.class, "friendId", false, "FRIEND_ID");
         public final static Property FriendAccount = new Property(3, String.class, "friendAccount", false, "FRIEND_ACCOUNT");
         public final static Property Status = new Property(4, String.class, "status", false, "STATUS");
-        public final static Property AddTime = new Property(5, Long.class, "addTime", false, "ADD_TIME");
+        public final static Property Type = new Property(5, String.class, "type", false, "TYPE");
+        public final static Property ImageUri = new Property(6, String.class, "imageUri", false, "IMAGE_URI");
+        public final static Property ImageUriLocal = new Property(7, String.class, "imageUriLocal", false, "IMAGE_URI_LOCAL");
+        public final static Property AddTime = new Property(8, Long.class, "addTime", false, "ADD_TIME");
     }
 
 
@@ -50,7 +53,10 @@ public class MessageDao extends AbstractDao<Message, String> {
                 "\"FRIEND_ID\" TEXT," + // 2: friendId
                 "\"FRIEND_ACCOUNT\" TEXT," + // 3: friendAccount
                 "\"STATUS\" TEXT," + // 4: status
-                "\"ADD_TIME\" INTEGER);"); // 5: addTime
+                "\"TYPE\" TEXT," + // 5: type
+                "\"IMAGE_URI\" TEXT," + // 6: imageUri
+                "\"IMAGE_URI_LOCAL\" TEXT," + // 7: imageUriLocal
+                "\"ADD_TIME\" INTEGER);"); // 8: addTime
     }
 
     /** Drops the underlying database table. */
@@ -88,9 +94,24 @@ public class MessageDao extends AbstractDao<Message, String> {
             stmt.bindString(5, status);
         }
  
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(6, type);
+        }
+ 
+        String imageUri = entity.getImageUri();
+        if (imageUri != null) {
+            stmt.bindString(7, imageUri);
+        }
+ 
+        String imageUriLocal = entity.getImageUriLocal();
+        if (imageUriLocal != null) {
+            stmt.bindString(8, imageUriLocal);
+        }
+ 
         Long addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(6, addTime);
+            stmt.bindLong(9, addTime);
         }
     }
 
@@ -123,9 +144,24 @@ public class MessageDao extends AbstractDao<Message, String> {
             stmt.bindString(5, status);
         }
  
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(6, type);
+        }
+ 
+        String imageUri = entity.getImageUri();
+        if (imageUri != null) {
+            stmt.bindString(7, imageUri);
+        }
+ 
+        String imageUriLocal = entity.getImageUriLocal();
+        if (imageUriLocal != null) {
+            stmt.bindString(8, imageUriLocal);
+        }
+ 
         Long addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(6, addTime);
+            stmt.bindLong(9, addTime);
         }
     }
 
@@ -142,7 +178,10 @@ public class MessageDao extends AbstractDao<Message, String> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // friendId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // friendAccount
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // status
-            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // addTime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // type
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // imageUri
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // imageUriLocal
+            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8) // addTime
         );
         return entity;
     }
@@ -154,7 +193,10 @@ public class MessageDao extends AbstractDao<Message, String> {
         entity.setFriendId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setFriendAccount(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setStatus(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setAddTime(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
+        entity.setType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setImageUri(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setImageUriLocal(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setAddTime(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
      }
     
     @Override
