@@ -17,11 +17,11 @@ import java.util.List;
  * Created by Misnearzhang on 2017/3/29.
  */
 
-public class FriendlistAdapter extends BaseAdapter {
+public class FriendListAdapter extends BaseAdapter {
     private List<Friends> list;// 消息对象数组
     private LayoutInflater mInflater;
 
-    public FriendlistAdapter(List<Friends> list, Context context) {
+    public FriendListAdapter(List<Friends> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -44,10 +44,10 @@ public class FriendlistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Friends entity = list.get(position);
-        FriendlistAdapter.friendsHolder viewHolder = null;
+        FriendListAdapter.friendsHolder viewHolder = null;
         if (convertView == null) {
             convertView=mInflater.inflate(R.layout.friendlist_item,null);
-            viewHolder = new FriendlistAdapter.friendsHolder();
+            viewHolder = new FriendListAdapter.friendsHolder();
             viewHolder.imageView_headimg = (ImageView) convertView
                     .findViewById(R.id.iv_userhead);
             viewHolder.textView_userName = (TextView) convertView
@@ -57,12 +57,13 @@ public class FriendlistAdapter extends BaseAdapter {
             viewHolder.imageView_status = (ImageView) convertView.findViewById(R.id.iv_status);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (FriendlistAdapter.friendsHolder) convertView.getTag();
+            viewHolder = (FriendListAdapter.friendsHolder) convertView.getTag();
         }
         viewHolder.textView_userName.setText(entity.getFriendName());
         viewHolder.textView_recent_message.setText("");
         return convertView;
     }
+
 
     static class friendsHolder{
         ImageView imageView_headimg;

@@ -22,7 +22,7 @@ public class SettingFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.setting_fragment,null);
-        Button button=(Button)view.findViewById(R.id.button5);
+        Button button = view.findViewById(R.id.button5);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

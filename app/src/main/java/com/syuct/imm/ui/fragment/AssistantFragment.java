@@ -46,10 +46,10 @@ public class AssistantFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-        Button button=(Button)view.findViewById(R.id.search_tel);
-        editer=(EditText)view.findViewById(R.id.edit_tel);
-        result=(TextView)view.findViewById(R.id.search_result);
-        spinner=(Spinner)view.findViewById(R.id.select_type);
+        Button button = view.findViewById(R.id.search_tel);
+        editer = view.findViewById(R.id.edit_tel);
+        result = view.findViewById(R.id.search_result);
+        spinner =  view.findViewById(R.id.select_type);
 
         button.setOnClickListener(new View.OnClickListener() {
 

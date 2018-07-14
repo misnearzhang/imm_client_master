@@ -4,53 +4,41 @@ package com.syuct.imm.ui.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 
-import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.syuct.imm.broadcast.SystemBroad;
 import com.syuct.imm.core.io.CacheToolkit;
-import com.syuct.imm.core.io.ConnectorManager;
 import com.syuct.imm.core.io.PushManager;
 import com.syuct.imm.core.io.PushService;
 import com.syuct.imm.ui.R;
-import com.syuct.imm.ui.fragment.FriendlistFragment;
+import com.syuct.imm.ui.fragment.FriendListFragment;
 import com.syuct.imm.ui.fragment.LeftFragment;
 import com.syuct.imm.ui.fragment.MessageFragment;
 import com.syuct.imm.utils.GlobalData;
+
+import java.util.List;
 
 /**
  *
  */
 public class IndexActivity extends SlidingFragmentActivity implements View.OnClickListener{//这里继承的是SlidingFragmentActivity
 
-    static String name;
-    private TextView title;
     private SlidingMenu sm;//滑动菜单
     private Fragment leftFragment;//左侧视图
     static long back_pressed;
     private Fragment currentFragment;
     private Fragment messageFragment;
-    private Fragment mContent;
     private ImageButton topbutton;
     private ImageButton btnRecent;
     private ImageButton btnFriendList;
@@ -97,7 +85,7 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         messageFragment=new MessageFragment();
-        FriendlistFragment friendlistfragment=FriendlistFragment.newInstance();
+        FriendListFragment friendlistfragment=FriendListFragment.newInstance();
         friendlistfragment.setTargetFragment(friendlistfragment,1);
         transaction.replace(R.id.container, friendlistfragment).addToBackStack("friendlistfragment").commit();
                 //通过Fragment的管理器就可以切换Fragment
@@ -130,6 +118,14 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) {
             GlobalData.setUUID("2");
+            final FragmentManager fragmentManager = getFragmentManager();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                List<Fragment> fragments = fragmentManager.getFragments();
+                fragments.forEach(item->{
+                    fragmentManager.beginTransaction().remove(item);
+                });
+
+            }
             super.onBackPressed();
         }
         else {
@@ -143,34 +139,16 @@ public class IndexActivity extends SlidingFragmentActivity implements View.OnCli
 
     @Override
     protected void onResume() {
-        /*IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectorManager.ACTION_MESSAGE_RECEIVED);
-        intentFilter.addAction(ConnectorManager.ACTION_SENT_FAILED);
-        intentFilter.addAction(ConnectorManager.ACTION_SENT_SUCCESS);
-        intentFilter.addAction(ConnectorManager.ACTION_MESSAGE_FAILED);
-        intentFilter.addAction(ConnectorManager.ACTION_MESSAGE_SUCCESS);
-        intentFilter.addAction(ConnectorManager.ACTION_REPLY_FAILED);
-        intentFilter.addAction(ConnectorManager.ACTION_REPLY_SUCCESS);
-        intentFilter.addAction(ConnectorManager.ACTION_SYSTEM_RECEIVED);
-        intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_CLOSED);
-        intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_FAILED);
-        intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_SUCCESS);
-        intentFilter.addAction(ConnectorManager.ACTION_REPLY_RECEIVED);
-        intentFilter.addAction(ConnectorManager.ACTION_NETWORK_CHANGED);
-        intentFilter.addAction(ConnectorManager.ACTION_UNCAUGHT_EXCEPTION);
-        intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_STATUS);
-        intentFilter.addAction(ConnectorManager.ACTION_CONNECTION_RECOVERY);
-        this.registerReceiver(receiver, intentFilter);*/
         serviceIntent.setAction(PushManager.ACTION_CREATE_IM_CONNECTION);
         startService(serviceIntent);
         super.onResume();
 
     }
-        @Override
-        protected void onStop() {
-            /*this.unregisterReceiver(receiver);*/
-            super.onStop();
-        }
+    @Override
+    protected void onStop() {
+        /*this.unregisterReceiver(receiver);*/
+        super.onStop();
+    }
 
     @Override
     public void onClick(View view) {

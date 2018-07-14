@@ -17,9 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.syuct.imm.ui.R;
-import com.syuct.imm.ui.activity.UserDetailActivity;
 import com.syuct.imm.utils.CircleImageDrawable;
 
 import java.util.ArrayList;
@@ -29,10 +29,7 @@ public class LeftFragment extends Fragment {
 
     private View rootView;
     private ImageView headImage;
-    private Dialog dialog;
-    private Button dialogYes;
-    private Button dialogNo;
-    private View dialogview;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,23 +56,10 @@ public class LeftFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.headimage);
         bitmap = small(bitmap, 0.2f);
-        headImage = (ImageView) rootView.findViewById(R.id.myHead);
+        headImage =  rootView.findViewById(R.id.myHead);
         headImage.setImageDrawable(new CircleImageDrawable(bitmap));
-        final Intent IntentUserDetail = new Intent(getActivity(), UserDetailActivity.class);
-        headImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent UserDetailIntent=new Intent(getActivity().getApplication(),UserDetailActivity.class);
-                startActivity(IntentUserDetail);
-                //getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_fade_out);
-            }
-        });
-
-        /*
-        一下为左侧菜单的Adapter
-         */
-        ListView leftList = (ListView) rootView.findViewById(R.id.left_list);
-        leftList.setAlwaysDrawnWithCacheEnabled(true);
+        ListView leftList = rootView.findViewById(R.id.left_list);
+        leftList.setScrollingCacheEnabled(true);
         leftList.setBackgroundColor(Color.GRAY);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -91,7 +75,7 @@ public class LeftFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                //Do someThing
+                Toast.makeText(getActivity().getApplicationContext(), position+"", Toast.LENGTH_SHORT).show();
             }
         });
     }

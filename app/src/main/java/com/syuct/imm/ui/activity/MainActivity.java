@@ -21,11 +21,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        welcomeImg = (ImageView) this.findViewById(R.id.welcome_img);
-        AlphaAnimation anima = new AlphaAnimation(0.3f, 1.0f);
-        anima.setDuration(1000);// 设置动画显示时间
-        welcomeImg.startAnimation(anima);
-        anima.setAnimationListener(new AnimationImpl());
+        welcomeImg =  this.findViewById(R.id.welcome_img);
+        AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
+        animation.setDuration(1000);// 设置动画显示时间
+        welcomeImg.startAnimation(animation);
+        animation.setAnimationListener(new AnimationImpl());
 
     }
 

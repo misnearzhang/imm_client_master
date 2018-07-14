@@ -1,11 +1,9 @@
 package com.syuct.imm.ui.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,25 +15,23 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import com.google.gson.Gson;
-import com.syuct.imm.adapter.FriendlistAdapter;
-import com.syuct.imm.application.ApplicationInit;
-import com.syuct.imm.core.io.CacheToolkit;
+import com.syuct.imm.adapter.FriendListAdapter;
 import com.syuct.imm.db.entity.Friends;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.ui.activity.ChattingActivity;
-import com.syuct.imm.ui.activity.FriendDetailActivity;
 import com.syuct.imm.utils.ConstData;
 import com.syuct.imm.utils.GlobalData;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class FriendlistFragment extends Fragment {
+public class FriendListFragment extends Fragment {
     private ListView friendlist;
     private Fragment sendmessagefragment;
     private View friendView;
-    private FriendlistAdapter adapter;
+    private FriendListAdapter adapter;
     private Button addFriend;
     private Gson gson = new Gson();
     //private static FriendsDao friendsDao = ApplicationInit.getInstances().getDaoSession().getFriendsDao();
@@ -43,10 +39,10 @@ public class FriendlistFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
     }
-    public static FriendlistFragment newInstance() {
+    public static FriendListFragment newInstance() {
         //friendsDao.insert(new Friends((long) 1002, "1039075891", "xcnana", new Date(),new Date()));
         //friendsDao.insert(new Friends((long) 1003, "123456", "zhanglong", new Date(),new Date()));
-        FriendlistFragment fragment = new FriendlistFragment();
+        FriendListFragment fragment = new FriendListFragment();
         return fragment;
     }
     @Override
@@ -65,8 +61,8 @@ public class FriendlistFragment extends Fragment {
     }
 
     private void initAdapter() {
-        adapter = new FriendlistAdapter(getList(),getActivity());
-        friendlist = (ListView)friendView.findViewById(R.id.friendlist);
+        adapter = new FriendListAdapter(getList(),getActivity());
+        friendlist = friendView.findViewById(R.id.friendlist);
         friendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,
@@ -101,10 +97,15 @@ public class FriendlistFragment extends Fragment {
     }
 
     private List<Friends> getList() {
-        String account = CacheToolkit.getInstance(getActivity()).getString(CacheToolkit.KEY_ACCOUNT);
-        Log.v("account",account);
-        //return friendsDao.loadAll();
-        return null;
+        List list  = new ArrayList();
+        Friends friends = new Friends();
+        friends.setAddTime(new Date());
+        friends.setFriendName("zhanglong");
+        friends.setFriendAccount("10");
+        friends.setUpdateTime(new Date());
+        list.add(friends);
+
+        return list;
     }
 
     @Override
@@ -126,21 +127,13 @@ public class FriendlistFragment extends Fragment {
             case R.id.detail:
                 Map<String,Object> map=ConstData.getList().get((int)adapterContextMenuInfo.id);
                 String friendAccount=map.get("friendAccount").toString();//去除好友的账号
-                Intent friendDetailIntent = new Intent(getActivity().getApplicationContext(), FriendDetailActivity.class);
-                friendDetailIntent.putExtra("friendAccount", friendAccount);
-                startActivity(friendDetailIntent);
+
                 //getActivity().overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top);
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        activity.getFragmentManager().findFragmentByTag("FriendlistFragment");
-
-    }
 
     @Override
     public void onPause() {

@@ -1,6 +1,5 @@
 package com.syuct.imm.ui.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,12 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.syuct.imm.asynctask.LoginAsyncTask;
-import com.syuct.imm.core.io.CacheToolkit;
 import com.syuct.imm.ui.R;
 import com.syuct.imm.utils.GlobalData;
-import com.syuct.imm.bean.Login;
-import com.syuct.imm.utils.okhttp.https.HttpsUtils;
 
 
 public class LoginActivity extends SuperActivity {
@@ -39,10 +34,7 @@ public class LoginActivity extends SuperActivity {
                 case R.id.lblDisPass:
                     break;
                 case R.id.btnRegister:
-                    Intent intentRegister = new Intent(LoginActivity.this, RegisterActivity.class);
-                    startActivityForResult(intentRegister, 0);
-                    //overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom);
-//                    startActivity(intentRegister);
+
                     break;
                 case R.id.btnLogin:
                     String UserAccountOrPhoneNumber = txtUserName.getText().toString();
@@ -67,11 +59,14 @@ public class LoginActivity extends SuperActivity {
                     }
 
                     if (GlobalData.isOnline(LoginActivity.this) == true) {
-                        Login login = new Login();
+                        Intent login = new Intent(LoginActivity.this, IndexActivity.class);
+                        startActivityForResult(login, 0);
+                        /*Login login = new Login();
                         login.setUserAccount(UserAccountOrPhoneNumber);
                         login.setPassword(Password);
                         LoginAsyncTask task=new LoginAsyncTask(getApplicationContext());
-                        task.execute(login);
+                        task.execute(login);*/
+
                     } else {
                         GlobalData.showToast(LoginActivity.this, "断网了!");
                     }

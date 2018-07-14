@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -41,16 +42,15 @@ public class MessageFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-        progress=(ProgressBar)view.findViewById(R.id.pb);
+        progress = view.findViewById(R.id.pb);
         progress.setMax(100);
-        reload = (Button) view.findViewById(R.id.reload);
+        reload = view.findViewById(R.id.reload);
 
 
 
-        webView =(WebView)view.findViewById(R.id.web);
+        webView = view.findViewById(R.id.web);
         webView.setEnabled(true);
         webView.setNetworkAvailable(true);
-        webView.setAlwaysDrawnWithCacheEnabled(true);
 
         webView.getSettings().setJavaScriptEnabled(true);
 
@@ -83,11 +83,9 @@ public class MessageFragment extends Fragment {
     }
     private class myWebview extends WebViewClient{
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
         }
-
     }
 }
 

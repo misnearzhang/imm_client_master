@@ -10,9 +10,8 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.syuct.imm.ui.fragment.AssistantFragment;
-import com.syuct.imm.ui.fragment.FriendlistFragment;
+import com.syuct.imm.ui.fragment.FriendListFragment;
 import com.syuct.imm.ui.fragment.MessageFragment;
 import com.syuct.imm.ui.fragment.SettingFragment;
 import com.syuct.imm.ui.fragment.UsercenterFragment;
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class GlobalData
 {
-    public static FriendlistFragment friend=new FriendlistFragment();
+    public static FriendListFragment friend=new FriendListFragment();
     public static AssistantFragment assistant=new AssistantFragment();
     public static MessageFragment message=new MessageFragment();
     public static SettingFragment setting=new SettingFragment();
